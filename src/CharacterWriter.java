@@ -85,6 +85,7 @@ public class CharacterWriter implements CharacterROM
         map.put('y', getImage(0x8c8));
         map.put('z', getImage(0x8d0));
 
+        map.put('@', getImage(0x000));
         map.put('A', getImage(0x008));
         map.put('B', getImage(0x010));
         map.put('C', getImage(0x018));

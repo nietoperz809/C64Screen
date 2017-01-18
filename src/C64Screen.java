@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static com.sun.glass.events.KeyEvent.VK_BACKSPACE;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 /**
@@ -52,7 +53,18 @@ public class C64Screen
                 @Override
                 public void keyTyped (KeyEvent e)
                 {
-                    matrix.putChar(e.getKeyChar());
+                    char c = e.getKeyChar();
+                    if (c == VK_BACKSPACE)
+                        return;
+                    if (c>='a' && c <='z')
+                    {
+                        c = (char) (c-'a'+1);
+                    }
+                    else if (c =='@')
+                    {
+                        c = 0;
+                    }
+                    matrix.putChar(c);
                 }
 
                 @Override
@@ -61,6 +73,10 @@ public class C64Screen
                     //System.out.println(e.getKeyCode());
                     switch (e.getKeyCode())
                     {
+                        case KeyEvent.VK_BACK_SPACE:
+                            matrix.backspace();
+                            break;
+
                         case KeyEvent.VK_LEFT:
                             matrix.left();
                             break;

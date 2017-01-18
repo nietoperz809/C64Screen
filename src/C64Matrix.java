@@ -97,6 +97,13 @@ public class C64Matrix extends ArrayList<char[]>
             cursorPos.x++;
     }
 
+    public void backspace()
+    {
+        left();
+        putChar(' ');
+        left();
+    }
+
     void putString (CharSequence str)
     {
         for (int s=0; s<str.length(); s++)

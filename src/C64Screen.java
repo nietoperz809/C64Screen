@@ -60,15 +60,8 @@ public class C64Screen
                         char[] arr = matrix.getCurrentLine();
                         for (int s=0; s<arr.length; s++)
                         {
-                            char d = arr[s];
-                            if (d>=1 && d<=26)
-                            {
-                                arr[s] +=('a'-1);
-                            }
-                            else if (d==0)
-                            {
-                                arr[s] = '@';
-                            }
+                            Character c1 = writer.reverseKeyMap.get(arr[s]);
+                            arr[s] = c1 == null ? arr[s] : c1;
                         }
                         System.out.println(Arrays.toString(arr));
                     }
@@ -76,15 +69,8 @@ public class C64Screen
                     {
                         return;
                     }
-                    if (c>='a' && c <='z')
-                    {
-                        c = (char) (c-'a'+1);
-                        System.out.println((int)c);
-                    }
-                    else if (c =='@')
-                    {
-                        c = 0;
-                    }
+                    Character c1 = writer.keyMap.get(c);
+                    c = c1 == null ? c : c1;
                     matrix.putChar(c, e.getKeyCode(), e.isActionKey());
                 }
 

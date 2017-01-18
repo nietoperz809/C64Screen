@@ -54,7 +54,7 @@ public class C64Matrix extends ArrayList<char[]>
 
     public void putChar (char c, int keyCode, boolean action)
     {
-        if (action)
+        if (action || c == '\uFFFF')
         {
             return;
         }

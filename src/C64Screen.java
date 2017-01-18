@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -50,6 +49,9 @@ public class C64Screen
         {
             setFocusable(true);
             requestFocusInWindow();
+            setPreferredSize(new Dimension(
+                    C64Matrix.CHARS_PER_LINE*SCALE,
+                    C64Matrix.LINES_ON_SCREEN*SCALE));
             addKeyListener(new KeyAdapter()
             {
                 void handleKey (KeyEvent e)
@@ -63,7 +65,7 @@ public class C64Screen
                             Character c1 = writer.reverseKeyMap.get(arr[s]);
                             arr[s] = c1 == null ? arr[s] : c1;
                         }
-                        System.out.println(Arrays.toString(arr));
+                        System.out.println(new String(arr));
                     }
                     else if (c == VK_BACKSPACE)
                     {
@@ -163,9 +165,10 @@ public class C64Screen
         //matrix.putString("hallo");
         //matrixToCanvas();
         JFrame f = new JFrame();
+        f.setLayout(new FlowLayout());
         f.add (new MyPanel());
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(600, 600);
+        f.setSize(42*8*2, 28*8*2);
         f.setVisible(true);
     }
 

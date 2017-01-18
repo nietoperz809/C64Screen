@@ -2,6 +2,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static java.awt.event.KeyEvent.VK_ENTER;
+
 /**
  * Created
  */
@@ -35,7 +37,7 @@ public class C64Matrix extends ArrayList<char[]>
         return c;
     }
 
-    public void NextLine()
+    public void nextLine ()
     {
         cursorPos.x = 0;
         cursorPos.y++;
@@ -50,17 +52,21 @@ public class C64Matrix extends ArrayList<char[]>
         }
     }
 
-    public void putChar (char c)
+    public void putChar (char c, int keyCode, boolean action)
     {
-        if (c == '\n')
+        if (action)
         {
-            NextLine();
+            return;
+        }
+        if (keyCode == VK_ENTER)
+        {
+            nextLine();
         }
         else
         {
             if (cursorPos.x == CHARS_PER_LINE)
             {
-                NextLine();
+                nextLine();
             }
             char[] line = get(cursorPos.y);
             line[cursorPos.x] = c;
@@ -71,6 +77,11 @@ public class C64Matrix extends ArrayList<char[]>
     public Point getCursor()
     {
         return (Point) cursorPos.clone();
+    }
+
+    public char[] getCurrentLine()
+    {
+        return get(cursorPos.y).clone();
     }
 
     public void up()
@@ -100,7 +111,7 @@ public class C64Matrix extends ArrayList<char[]>
     public void backspace()
     {
         left();
-        putChar(' ');
+        putChar(' ', 0, false);
         left();
     }
 
@@ -108,7 +119,7 @@ public class C64Matrix extends ArrayList<char[]>
     {
         for (int s=0; s<str.length(); s++)
         {
-            putChar(str.charAt(s));
+            putChar(str.charAt(s), 0, false);
         }
     }
 
@@ -159,26 +170,5 @@ public class C64Matrix extends ArrayList<char[]>
     {
         Point p = fromAddress (offset);
         get(p.y)[p.x] = val;
-    }
-
-
-
-    public static void main (String[] args) throws Exception
-    {
-        C64Matrix m = new C64Matrix();
-//        m.putString("\n\n\n\nHallo");
-//        for (int s=0; s<24; s++)
-//            m.putString("0123456789012345678901234567890123456789");
-//        m.putString("\n\nCharsequence");
-//        m.putString("\n\n          Charsequence");
-        m.gotoXY(0,0);
-        m.putChar('*');
-
-        m.gotoXY(39,24);
-        m.putChar('*');
-        m.putString("hallo");
-        m.poke (1024, 'X');
-        m.poke (2023, 'X');
-        System.out.println(m);
     }
 }

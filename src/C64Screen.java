@@ -3,11 +3,13 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static com.sun.glass.events.KeyEvent.VK_BACKSPACE;
+import static java.awt.event.KeyEvent.VK_ENTER;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 /**
@@ -50,27 +52,44 @@ public class C64Screen
             requestFocusInWindow();
             addKeyListener(new KeyAdapter()
             {
-                @Override
-                public void keyTyped (KeyEvent e)
+                void handleKey (KeyEvent e)
                 {
                     char c = e.getKeyChar();
-                    if (c == VK_BACKSPACE)
+                    if (c == VK_ENTER)
+                    {
+                        char[] arr = matrix.getCurrentLine();
+                        for (int s=0; s<arr.length; s++)
+                        {
+                            char d = arr[s];
+                            if (d>=1 && d<=26)
+                            {
+                                arr[s] +=('a'-1);
+                            }
+                            else if (d==0)
+                            {
+                                arr[s] = '@';
+                            }
+                        }
+                        System.out.println(Arrays.toString(arr));
+                    }
+                    else if (c == VK_BACKSPACE)
+                    {
                         return;
+                    }
                     if (c>='a' && c <='z')
                     {
                         c = (char) (c-'a'+1);
+                        System.out.println((int)c);
                     }
                     else if (c =='@')
                     {
                         c = 0;
                     }
-                    matrix.putChar(c);
+                    matrix.putChar(c, e.getKeyCode(), e.isActionKey());
                 }
 
-                @Override
-                public void keyPressed (KeyEvent e)
+                void handleSpecialKeys (KeyEvent e)
                 {
-                    //System.out.println(e.getKeyCode());
                     switch (e.getKeyCode())
                     {
                         case KeyEvent.VK_BACK_SPACE:
@@ -92,8 +111,14 @@ public class C64Screen
                         case KeyEvent.VK_DOWN:
                             matrix.down();
                             break;
-
                     }
+                }
+
+                @Override
+                public void keyPressed (KeyEvent e)
+                {
+                    handleKey(e);
+                    handleSpecialKeys(e);
                     repaint();
                 }
             });

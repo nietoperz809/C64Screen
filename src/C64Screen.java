@@ -150,7 +150,7 @@ public class C64Screen
                 int xpos = 0;
                 for (int x = 0; x<C64Matrix.CHARS_PER_LINE; x++)
                 {
-                    g.drawImage(writer.map.get(matrix.getVal(x,y)),
+                    g.drawImage(writer.imageMap.get(matrix.getVal(x,y)),
                             xpos, ypos, SCALE, SCALE, this);
                     xpos += SCALE;
                 }

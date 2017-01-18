@@ -17,7 +17,9 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
  */
 public class CharacterWriter implements CharacterROM
 {
-    public final HashMap<Character, Image> map = new HashMap<>();
+    public final HashMap<Character, Image> imageMap = new HashMap<>();
+    public final HashMap<Character, Character> keyMap = new HashMap<>();
+    public final HashMap<Character, Character> reverseKeyMap = new HashMap<>();
     private static final int setbit = WHITE.getRGB();
     private static final int clrbit = BLACK.getRGB();
 
@@ -30,133 +32,25 @@ public class CharacterWriter implements CharacterROM
         return instance;
     }
 
-//    /**
-//     * Constructor that sets character as pixel
-//     *
-//     * @param pix
-//     */
-//    public Chargen(char pix)
-//    {
-//        this();
-//        pixel = pix;
-//    }
-
     /**
-     * Constructor, fills the char map
+     * Constructor, fills the char imageMap
      */
     private CharacterWriter()
     {
         for (int s=0; s<256; s++)
         {
-            map.put((char)s, getImage(s*8));
+            imageMap.put((char)s, getImage(s*8));
         }
-//        map.put('0', getImage(0x980));
-//        map.put('1', getImage(0x988));
-//        map.put('2', getImage(0x990));
-//        map.put('3', getImage(0x998));
-//        map.put('4', getImage(0x9a0));
-//        map.put('5', getImage(0x9a8));
-//        map.put('6', getImage(0x9b0));
-//        map.put('7', getImage(0x9b8));
-//        map.put('8', getImage(0x9c0));
-//        map.put('9', getImage(0x9c8));
-//
-//        map.put('a', getImage(0x808));
-//        map.put('b', getImage(0x810));
-//        map.put('c', getImage(0x818));
-//        map.put('d', getImage(0x820));
-//        map.put('e', getImage(0x828));
-//        map.put('f', getImage(0x830));
-//        map.put('g', getImage(0x838));
-//        map.put('h', getImage(0x840));
-//        map.put('i', getImage(0x848));
-//        map.put('j', getImage(0x850));
-//        map.put('k', getImage(0x858));
-//        map.put('l', getImage(0x860));
-//        map.put('m', getImage(0x868));
-//        map.put('n', getImage(0x870));
-//        map.put('o', getImage(0x878));
-//        map.put('p', getImage(0x880));
-//        map.put('q', getImage(0x888));
-//        map.put('r', getImage(0x890));
-//        map.put('s', getImage(0x898));
-//        map.put('t', getImage(0x8a0));
-//        map.put('u', getImage(0x8a8));
-//        map.put('v', getImage(0x8b0));
-//        map.put('w', getImage(0x8b8));
-//        map.put('x', getImage(0x8c0));
-//        map.put('y', getImage(0x8c8));
-//        map.put('z', getImage(0x8d0));
-//
-//        map.put('@', getImage(0x000));
-//        map.put('A', getImage(0x008));
-//        map.put('B', getImage(0x010));
-//        map.put('C', getImage(0x018));
-//        map.put('D', getImage(0x020));
-//        map.put('E', getImage(0x028));
-//        map.put('F', getImage(0x030));
-//        map.put('G', getImage(0x038));
-//        map.put('H', getImage(0x040));
-//        map.put('I', getImage(0x048));
-//        map.put('J', getImage(0x050));
-//        map.put('K', getImage(0x058));
-//        map.put('L', getImage(0x060));
-//        map.put('M', getImage(0x068));
-//        map.put('N', getImage(0x070));
-//        map.put('O', getImage(0x078));
-//        map.put('P', getImage(0x080));
-//        map.put('Q', getImage(0x088));
-//        map.put('R', getImage(0x090));
-//        map.put('S', getImage(0x098));
-//        map.put('T', getImage(0x0a0));
-//        map.put('U', getImage(0x0a8));
-//        map.put('V', getImage(0x0b0));
-//        map.put('W', getImage(0x0b8));
-//        map.put('X', getImage(0x0c0));
-//        map.put('Y', getImage(0x0c8));
-//        map.put('Z', getImage(0x0d0));
-//
-//        map.put('[', getImage(0x8d8));
-//        //map.put ()); // Pound
-//        map.put(']', getImage(0x8e8));
-//        map.put('^', getImage(0x8f0));
-//        map.put(' ', getImage(0x900));
-//        map.put('!', getImage(0x908));
-//        map.put('"', getImage(0x910));
-//        map.put('#', getImage(0x918));
-//        map.put('$', getImage(0x920));
-//        map.put('%', getImage(0x928));
-//        map.put('&', getImage(0x930));
-//        map.put('\'', getImage(0x938));
-//        map.put('(', getImage(0x940));
-//        map.put(')', getImage(0x948));
-//        map.put('*', getImage(0x950));
-//        map.put('+', getImage(0x958));
-//        map.put(',', getImage(0x960));
-//        map.put('-', getImage(0x968));
-//        map.put('.', getImage(0x970));
-//        map.put('/', getImage(0x978));
-//
-//        map.put('’', getImage(39 * 8));
-//        map.put('‘', getImage(39 * 8));
-//        map.put('”', getImage(34 * 8));
-//        map.put('“', getImage(34 * 8));
-//        map.put('–', getImage(0x968));
-//        map.put(':', getImage(58 * 8));
-//        map.put(';', getImage(59 * 8));
-//
-//        map.put((char)256, getImage(0x298)); // dummy heart
+
+        for (char s = 'a'; s<='z'; s++)
+        {
+            char t = (char) (s-'a'+1);
+            keyMap.put (s, t);
+            reverseKeyMap.put (t,s);
+        }
+        keyMap.put ('@', (char)0);
+        reverseKeyMap.put ((char)0, '@');
     }
-
-//    private int getIndex(char c)
-//    {
-//        if (map.containsKey(c))
-//        {
-//            return map.get(c);
-//        }
-//        return 0x298;  // dummy heart
-//    }
-
 
     /**
      * Prints string array to bitmap
@@ -204,9 +98,9 @@ public class CharacterWriter implements CharacterROM
 
     public void printImg (BufferedImage img, char c, int x, int y)
     {
-        Image i = map.get(c);
+        Image i = imageMap.get(c);
         if (i == null)
-            i = map.get((char)256);
+            i = imageMap.get((char)256);
         Graphics g = img.getGraphics();
         g.drawImage(i, x, y, null);
     }

@@ -16,6 +16,7 @@ import java.awt.*;
  */
 public class C64Colors
 {
+
     private static final Color[] COLORS = {
             new Color(0),
             new Color(0xffffff),
@@ -35,7 +36,12 @@ public class C64Colors
             new Color(0xbbbbbb),
     };
 
-    public static Color get(int idx)
+    /**
+     * Get Color from index
+     * @param idx only lower 4 bits are used
+     * @return the color
+     */
+    public static Color getC64Color (int idx)
     {
         try
         {

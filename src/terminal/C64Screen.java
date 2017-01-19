@@ -66,7 +66,7 @@ public class C64Screen
                     char c = e.getKeyChar();
                     if (c == VK_ENTER)
                     {
-                        char[] arr = matrix.getLastLine();
+                        C64Character[] arr = matrix.getLastLine();
                         if (arr == null)
                             return;
                         try
@@ -158,9 +158,10 @@ public class C64Screen
                 int xpos = 0;
                 for (int x = 0; x<C64Matrix.CHARS_PER_LINE; x++)
                 {
-                    g.setColor (Color.RED);
+                    C64Character c64c = matrix.getVal(x,y);
+                    g.setColor (C64Colors.getC64Color(c64c.color));
                     g.fillRect(xpos, ypos, SCALE, SCALE);
-                    g.drawImage(writer.imageMap.get(matrix.getVal(x,y)),
+                    g.drawImage(writer.imageMap.get((char)c64c.face),
                             xpos, ypos, SCALE, SCALE, this);
                     xpos += SCALE;
 

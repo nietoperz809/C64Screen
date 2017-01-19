@@ -9,8 +9,10 @@ public class PeekPokeHandler extends NullMemoryListener
 {
     public static final int SID_FIRST = 0xd400;
     public static final int SID_LAST = SID_FIRST + 0x1c;
-    public static final int SCREEN_FIRST = 1024;
-    public static final int SCREEN_LAST = SCREEN_FIRST+25*40;
+    public static final int SCREEN_FIRST = 0x400;
+    public static final int SCREEN_LAST = SCREEN_FIRST+0x3ff;
+    public static final int COLRAM_FIRST = 0xd800;
+    public static final int COLRAM_LAST = COLRAM_FIRST+0x3ff;
     private C64Screen shell;
 
     public PeekPokeHandler (C64Screen f)
@@ -21,15 +23,19 @@ public class PeekPokeHandler extends NullMemoryListener
     @Override
     public void poke (int addr, int value)
     {
-        //System.out.println("poke "+addr);
         if (addr == 53281)
         {
             CharacterWriter.getInstance().setBackgroundColor(value);
             shell.panel.repaint();
         }
+        else if (addr >= COLRAM_FIRST && addr <= COLRAM_LAST)
+        {
+            shell.matrix.pokeColor(addr, (char)value);
+            shell.panel.repaint();
+        }
         else if (addr >= SCREEN_FIRST && addr <= SCREEN_LAST)
         {
-            shell.matrix.poke(addr, (char)value);
+            shell.matrix.pokeFace(addr, (char)value);
             shell.panel.repaint();
         }
         else if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
@@ -45,9 +51,13 @@ public class PeekPokeHandler extends NullMemoryListener
         {
             return SidRunner.read(addr-0xd400);
         }
+        else if (addr >= COLRAM_FIRST && addr <= COLRAM_LAST)
+        {
+            return (int)shell.matrix.peekColor(addr);
+        }
         else if (addr >= SCREEN_FIRST && addr <= SCREEN_LAST)
         {
-            return (int)shell.matrix.peek(addr);
+            return (int)shell.matrix.peekFace(addr);
         }
         return 0;
     }

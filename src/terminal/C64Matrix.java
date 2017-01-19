@@ -2,14 +2,13 @@ package terminal;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
 
 /**
  * Created
  */
-public class C64Matrix extends ArrayList<char[]>
+public class C64Matrix extends ArrayList<C64Character[]>
 {
     public static final int LINES_ON_SCREEN = 25;
     public static final int CHARS_PER_LINE = 40;
@@ -42,12 +41,12 @@ public class C64Matrix extends ArrayList<char[]>
      * Make a line of blanks
      * @return The line
      */
-    private char[] createEmptyLine ()
+    private C64Character[] createEmptyLine ()
     {
-        char[] c = new char[CHARS_PER_LINE];
+        C64Character[] c = new C64Character[CHARS_PER_LINE];
         for (int s = 0; s< CHARS_PER_LINE; s++)
         {
-            c[s] = ' ';
+            c[s] = new C64Character();
         }
         return c;
     }
@@ -95,8 +94,8 @@ public class C64Matrix extends ArrayList<char[]>
             {
                 nextLine();
             }
-            char[] line = get(currentCursorPos.y);
-            line[currentCursorPos.x] = c;
+            C64Character[] line = get(currentCursorPos.y);
+            line[currentCursorPos.x].face = (byte)c;
             currentCursorPos.x++;
         }
     }
@@ -114,7 +113,7 @@ public class C64Matrix extends ArrayList<char[]>
      * Get last line
      * @return a char array clone of the line
      */
-    synchronized public char[] getLastLine ()
+    synchronized public C64Character[] getLastLine ()
     {
         return get(currentCursorPos.y);
     }
@@ -212,16 +211,16 @@ public class C64Matrix extends ArrayList<char[]>
      * The matrix as string representation
      * @return see line above :)
      */
-    @Override
-    public String toString ()
-    {
-        StringBuilder sb = new StringBuilder();
-        for (char[] arr : this)
-        {
-            sb.append(Arrays.toString(arr)).append('\n');
-        }
-        return sb.toString();
-    }
+//    @Override
+//    public String toString ()
+//    {
+//        StringBuilder sb = new StringBuilder();
+//        for (char[] arr : this)
+//        {
+//            sb.append(Arrays.toString(arr)).append('\n');
+//        }
+//        return sb.toString();
+//    }
 
     /**
      * Get element at specified position
@@ -229,7 +228,7 @@ public class C64Matrix extends ArrayList<char[]>
      * @param y y pos.
      * @return the element
      */
-    synchronized public char getVal (int x, int y)
+    synchronized public C64Character getVal (int x, int y)
     {
         try
         {
@@ -237,7 +236,7 @@ public class C64Matrix extends ArrayList<char[]>
         }
         catch (Exception ex)
         {
-            return ' ';
+            return new C64Character();
         }
     }
 
@@ -249,7 +248,7 @@ public class C64Matrix extends ArrayList<char[]>
      */
     synchronized public void setVal (int x, int y, char val)
     {
-        get(y)[x] = val;
+        get(y)[x].face = (byte)val;
     }
 
     /**
@@ -257,9 +256,9 @@ public class C64Matrix extends ArrayList<char[]>
      * @param addr memory address, must be >= 1024 and <= 1024+25*40
      * @return a point givin the x/y coordinates
      */
-    private Point fromAddress (int addr)
+    private Point fromAddress (int addr, int offset)
     {
-        addr -= 1024;
+        addr -= offset;
         return new Point (addr % CHARS_PER_LINE, addr / CHARS_PER_LINE);
     }
 
@@ -268,10 +267,16 @@ public class C64Matrix extends ArrayList<char[]>
      * @param offset screen memory address
      * @return the value
      */
-    synchronized public char peek (int offset)
+    synchronized public byte peekFace (int offset)
     {
-        Point p = fromAddress (offset);
-        return get(p.y)[p.x];
+        Point p = fromAddress (offset, 1024);
+        return get(p.y)[p.x].face;
+    }
+
+    synchronized public byte peekColor (int offset)
+    {
+        Point p = fromAddress (offset, 0xd800);
+        return get(p.y)[p.x].color;
     }
 
     /**
@@ -279,9 +284,15 @@ public class C64Matrix extends ArrayList<char[]>
      * @param offset screen memory address
      * @param val the new value
      */
-    synchronized public void poke (int offset, char val)
+    synchronized public void pokeFace (int offset, int val)
     {
-        Point p = fromAddress (offset);
-        get(p.y)[p.x] = val;
+        Point p = fromAddress (offset, 1024);
+        get(p.y)[p.x].face = (byte)val;
+    }
+
+    synchronized public void pokeColor (int offset, int val)
+    {
+        Point p = fromAddress (offset, 0xd800);
+        get(p.y)[p.x].color = (byte)val;
     }
 }

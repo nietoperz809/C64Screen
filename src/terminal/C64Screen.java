@@ -147,6 +147,8 @@ public class C64Screen
                     TimeUnit.MILLISECONDS);
         }
 
+
+
         @Override
         protected void paintComponent (Graphics g)
         {
@@ -156,9 +158,17 @@ public class C64Screen
                 int xpos = 0;
                 for (int x = 0; x<C64Matrix.CHARS_PER_LINE; x++)
                 {
+                    g.setColor (Color.RED);
+                    g.fillRect(xpos, ypos, SCALE, SCALE);
                     g.drawImage(writer.imageMap.get(matrix.getVal(x,y)),
                             xpos, ypos, SCALE, SCALE, this);
                     xpos += SCALE;
+
+//                        char imgIndex = matrix.getVal(x,y);
+//                        Image img = writer.getImage(imgIndex*8);
+//                        g.drawImage(img,
+//                                xpos, ypos, SCALE, SCALE, this);
+//                        xpos += SCALE;
                 }
                 ypos += SCALE;
             }

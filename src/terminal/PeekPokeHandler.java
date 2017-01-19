@@ -19,25 +19,25 @@ public class PeekPokeHandler extends NullMemoryListener
     @Override
     public void poke (int addr, int value)
     {
-//        if (addr == 53281)
-//        {
-//            shell.setBkColor(C64Colors.get(value));
-//        }
-//        else if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
-//        {
-//            //System.out.println("write "+addr+"/"+value);
-//            SidRunner.write(addr-SID_FIRST, value);
-//        }
+        if (addr == 53281)
+        {
+            //shell.setBkColor(C64Colors.get(value));
+        }
+        else if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
+        {
+            //System.out.println("write "+addr+"/"+value);
+            SidRunner.write(addr-SID_FIRST, value);
+        }
     }
 
     @Override
     public Integer peek (int addr)
     {
-//        if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
-//        {
-//            //System.out.println("read "+addr);
-//            return SidRunner.read(addr-0xd400);
-//        }
+        if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
+        {
+            //System.out.println("read "+addr);
+            return SidRunner.read(addr-0xd400);
+        }
         return 0;
     }
 }

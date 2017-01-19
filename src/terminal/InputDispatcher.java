@@ -9,7 +9,7 @@ public class InputDispatcher
 {
     private final C64Screen m_screen;
     private final ProgramStore store = new ProgramStore();
-    private BasicRunner basicRunner;
+    BasicRunner basicRunner;
 
     public InputDispatcher (C64Screen screen)
     {
@@ -46,7 +46,7 @@ public class InputDispatcher
 
     private void run (boolean sync)
     {
-        basicRunner = new BasicRunner(store.toArray(), false, m_screen);
+        basicRunner = new BasicRunner(store.toArray(), true, m_screen);
         basicRunner.start(sync);
     }
     

@@ -94,6 +94,20 @@ public class C64Screen
                 {
                     switch (e.getKeyCode())
                     {
+                        case KeyEvent.VK_C:
+                            if (e.isControlDown())
+                            {
+                                try
+                                {
+                                    dispatcher.basicRunner.getOlsenBasic().runStop();
+                                }
+                                catch (Exception ex)
+                                {
+                                    
+                                }
+                            }
+                            break;
+
                         case KeyEvent.VK_BACK_SPACE:
                             matrix.backspace();
                             break;
@@ -179,5 +193,6 @@ public class C64Screen
     public static void main (String[] args)
     {
         new C64Screen();
+        SidRunner.start();
     }
 }

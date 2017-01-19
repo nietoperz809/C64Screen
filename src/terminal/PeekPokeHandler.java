@@ -28,6 +28,10 @@ public class PeekPokeHandler extends NullMemoryListener
             CharacterWriter.getInstance().setBackgroundColor(value);
             shell.panel.repaint();
         }
+        else if (addr == 646)
+        {
+            shell.matrix.setDefaultColorIndex((byte) value);
+        }
         else if (addr >= COLRAM_FIRST && addr <= COLRAM_LAST)
         {
             shell.matrix.pokeColor(addr, (char)value);
@@ -50,6 +54,10 @@ public class PeekPokeHandler extends NullMemoryListener
         if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
         {
             return SidRunner.read(addr-0xd400);
+        }
+        else if (addr == 646)
+        {
+            return (int)shell.matrix.getDefaultColorIndex();
         }
         else if (addr >= COLRAM_FIRST && addr <= COLRAM_LAST)
         {

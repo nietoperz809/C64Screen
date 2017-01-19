@@ -17,6 +17,10 @@ public class C64Matrix extends ArrayList<C64Character[]>
      * Last typed character before return was hit
      */
     private char lastChar = '\uFFFF';
+    /**
+     * Color used for new chars on screen
+     */
+    private byte defaultColorIndex = 3;
 
     public C64Matrix()
     {
@@ -96,8 +100,19 @@ public class C64Matrix extends ArrayList<C64Character[]>
             }
             C64Character[] line = get(currentCursorPos.y);
             line[currentCursorPos.x].face = (byte)c;
+            line[currentCursorPos.x].color = defaultColorIndex;
             currentCursorPos.x++;
         }
+    }
+
+    public void setDefaultColorIndex (byte b)
+    {
+        defaultColorIndex = (byte)(b & 0x0f);
+    }
+
+    public byte getDefaultColorIndex ()
+    {
+        return defaultColorIndex;
     }
 
     /**

@@ -7,8 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-import static java.awt.Color.BLACK;
-import static java.awt.Color.YELLOW;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 /**
@@ -20,8 +18,8 @@ public class CharacterWriter implements CharacterROM
     public final HashMap<Character, Image> imageMap = new HashMap<>();
     public final HashMap<Character, Character> keyMap = new HashMap<>();
     public final HashMap<Character, Character> reverseKeyMap = new HashMap<>();
-    private static final int setbit = YELLOW.getRGB();
-    private static final int clrbit = BLACK.getRGB();
+    private static final int setbit = C64Colors.get(3).getRGB();
+    private int backgroundColor = C64Colors.get(6).getRGB();
 
     private static CharacterWriter instance = null;
 
@@ -37,10 +35,7 @@ public class CharacterWriter implements CharacterROM
      */
     private CharacterWriter()
     {
-        for (int s=0; s<256; s++)
-        {
-            imageMap.put((char)s, getImage(s*8));
-        }
+        fillImageMap();
 
         for (char s = 'a'; s<='z'; s++)
         {
@@ -50,6 +45,21 @@ public class CharacterWriter implements CharacterROM
         }
         keyMap.put ('@', (char)0);
         reverseKeyMap.put ((char)0, '@');
+    }
+
+    void setBackgroundColor (int idx)
+    {
+        backgroundColor = C64Colors.get(idx).getRGB();
+        fillImageMap();
+    }
+
+    private void fillImageMap()
+    {
+        imageMap.clear();
+        for (int s=0; s<256; s++)
+        {
+            imageMap.put((char)s, getImage(s*8));
+        }
     }
 
     public char[] mapCBMtoPC (char[] in)
@@ -147,7 +157,7 @@ public class CharacterWriter implements CharacterROM
                 }
                 else
                 {
-                    img.setRGB(lines, rows, clrbit);
+                    img.setRGB(lines, rows, backgroundColor);
                 }
                 i >>>= 1;
             }

@@ -16,6 +16,14 @@ public class InputDispatcher
         m_screen = screen;
         new Thread(() ->
         {
+            try
+            {
+                Thread.sleep (100);
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
             while(true)
             {
                 try

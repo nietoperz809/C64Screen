@@ -22,7 +22,7 @@ public class BasicRunner implements Runnable
         olsenBasic = new Basic(program);
         if (slow)
         {
-            DelayTracer t = new DelayTracer(100);
+            DelayTracer t = new DelayTracer(1000);
             olsenBasic.setTracer(t);
         }
         olsenBasic.getMachine().setMemoryListener(new PeekPokeHandler(shellFrame));

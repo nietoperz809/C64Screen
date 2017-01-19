@@ -30,7 +30,7 @@ public class C64Screen
     final InputDispatcher dispatcher = new InputDispatcher(this);
     final ArrayBlockingQueue<char[]> fromTextArea = new ArrayBlockingQueue<>(20);
     final RingBuffer<Character> ringBuff = new RingBuffer<>(40);
-
+    final MyPanel panel = new MyPanel();
 //    void matrixToCanvas()
 //    {
 //        int ypos = 0;
@@ -184,7 +184,7 @@ public class C64Screen
         //matrixToCanvas();
         JFrame f = new JFrame();
         f.setLayout(new FlowLayout());
-        f.add (new MyPanel());
+        f.add (panel);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(42*8*2, 28*8*2);
         f.setVisible(true);

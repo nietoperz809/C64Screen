@@ -21,12 +21,13 @@ public class ShellOutputChannel extends ConsoleOutputChannel
     public void print (int id, String txt)
     {
         shellFrame.matrix.putString(txt);
+        shellFrame.panel.repaint();
     }
 
     @Override
     public void println (int id, String txt)
     {
-        shellFrame.matrix.putString(txt+'\n');
+        print (id, txt+'\n');
     }
 
     @Override

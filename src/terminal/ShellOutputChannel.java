@@ -20,7 +20,65 @@ public class ShellOutputChannel extends ConsoleOutputChannel
     @Override
     public void print (int id, String txt)
     {
-        shellFrame.matrix.putString(txt);
+        StringBuilder sb = new StringBuilder();
+        for (int s=0; s<txt.length(); s++)
+        {
+            char c = txt.charAt(s);
+            switch (c)  // handle control chars (colors only)
+            {
+                case 0x05:
+                    shellFrame.matrix.setDefaultColorIndex((byte)1);
+                    break;
+                case 0x1c:
+                    shellFrame.matrix.setDefaultColorIndex((byte)2);
+                    break;
+                case 0x1e:
+                    shellFrame.matrix.setDefaultColorIndex((byte)5);
+                    break;
+                case 0x1f:
+                    shellFrame.matrix.setDefaultColorIndex((byte)6);
+                    break;
+                case 0x81:
+                    shellFrame.matrix.setDefaultColorIndex((byte)8);
+                    break;
+                case 0x90:
+                    shellFrame.matrix.setDefaultColorIndex((byte)0);
+                    break;
+                case 0x95:
+                    shellFrame.matrix.setDefaultColorIndex((byte)8);
+                    break;
+                case 0x96:
+                    shellFrame.matrix.setDefaultColorIndex((byte)10);
+                    break;
+                case 0x97:
+                    shellFrame.matrix.setDefaultColorIndex((byte)11);
+                    break;
+                case 0x98:
+                    shellFrame.matrix.setDefaultColorIndex((byte)12);
+                    break;
+                case 0x99:
+                    shellFrame.matrix.setDefaultColorIndex((byte)13);
+                    break;
+                case 0x9a:
+                    shellFrame.matrix.setDefaultColorIndex((byte)14);
+                    break;
+                case 0x9b:
+                    shellFrame.matrix.setDefaultColorIndex((byte)15);
+                    break;
+                case 0x9c:
+                    shellFrame.matrix.setDefaultColorIndex((byte)4);
+                    break;
+                case 0x9e:
+                    shellFrame.matrix.setDefaultColorIndex((byte)7);
+                    break;
+                case 0x9f:
+                    shellFrame.matrix.setDefaultColorIndex((byte)3);
+                    break;
+                default:
+                    sb.append(c);
+            }
+        }
+        shellFrame.matrix.putString(sb.toString());
         shellFrame.panel.repaint();
     }
 

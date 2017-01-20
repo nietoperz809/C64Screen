@@ -9,7 +9,7 @@ import resid.SID;
  * Run the sound chip emulation
  */
 @SuppressWarnings("InfiniteLoopStatement")
-public class SidRunner
+class SidRunner
 {
     private static AudioDriverSE audioDriver = null;
     private static SID sid = null;
@@ -20,10 +20,12 @@ public class SidRunner
     private static int pos = 0;
     private static volatile boolean reset = false;
 
-    public static void reset()
-    {
-        reset = true;
-    }
+// --Commented out by Inspection START (1/20/2017 5:31 AM):
+//    public static void reset()
+//    {
+//        reset = true;
+//    }
+// --Commented out by Inspection STOP (1/20/2017 5:31 AM)
 
     private static synchronized void setupSID()
     {

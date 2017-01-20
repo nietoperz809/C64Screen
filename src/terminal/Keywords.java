@@ -3,9 +3,9 @@ package terminal;
 /**
  * Created by Administrator on 1/14/2017.
  */
-public class Keywords
+class Keywords
 {
-    private static  String[] kw = {"ABS", "AND", "ASC", "ATN",
+    private static final String[] kw = {"ABS", "AND", "ASC", "ATN",
             "CHR$", "CLOSE", "CLR", "CMD",
             "CONT", "COS", "DATA", "DEF", "DIM",
             "END", "EXP", "FN", "FOR", "FRE", "GET",

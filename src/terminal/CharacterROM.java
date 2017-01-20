@@ -8,7 +8,7 @@ package terminal;/*
  *
  * @author Administrator
  */
-public interface CharacterROM
+interface CharacterROM
 {
     /**
      * The character bitmap

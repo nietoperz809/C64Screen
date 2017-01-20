@@ -5,15 +5,15 @@ import com.sixtyfour.plugins.impl.NullMemoryListener;
 /**
  * Created by Administrator on 1/8/2017.
  */
-public class PeekPokeHandler extends NullMemoryListener
+class PeekPokeHandler extends NullMemoryListener
 {
-    public static final int SID_FIRST = 0xd400;
-    public static final int SID_LAST = SID_FIRST + 0x1c;
-    public static final int SCREEN_FIRST = 0x400;
-    public static final int SCREEN_LAST = SCREEN_FIRST+0x3ff;
-    public static final int COLRAM_FIRST = 0xd800;
-    public static final int COLRAM_LAST = COLRAM_FIRST+0x3ff;
-    private C64Screen shell;
+    private static final int SID_FIRST = 0xd400;
+    private static final int SID_LAST = SID_FIRST + 0x1c;
+    private static final int SCREEN_FIRST = 0x400;
+    private static final int SCREEN_LAST = SCREEN_FIRST+0x3ff;
+    private static final int COLRAM_FIRST = 0xd800;
+    private static final int COLRAM_LAST = COLRAM_FIRST+0x3ff;
+    private final C64Screen shell;
 
     public PeekPokeHandler (C64Screen f)
     {
@@ -61,11 +61,11 @@ public class PeekPokeHandler extends NullMemoryListener
         }
         else if (addr >= COLRAM_FIRST && addr <= COLRAM_LAST)
         {
-            return (int)shell.matrix.peekColor(addr);
+            return shell.matrix.peekColor(addr);
         }
         else if (addr >= SCREEN_FIRST && addr <= SCREEN_LAST)
         {
-            return (int)shell.matrix.peekFace(addr);
+            return shell.matrix.peekFace(addr);
         }
         return 0;
     }

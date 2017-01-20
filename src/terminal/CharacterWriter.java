@@ -17,8 +17,8 @@ public class CharacterWriter implements CharacterROM
     private static final Color TRANSPARENT = new Color (1,2,3);
     private static CharacterWriter instance = null;
     public final HashMap<Character, Image> imageMap = new HashMap<>();
-    public final HashMap<Character, Character> keyMap = new HashMap<>();
-    public final HashMap<Character, Character> reverseKeyMap = new HashMap<>();
+    private final HashMap<Character, Character> keyMap = new HashMap<>();
+    private final HashMap<Character, Character> reverseKeyMap = new HashMap<>();
     private int backgroundColor = C64Colors.getC64Color(6).getRGB();
 
     /**
@@ -47,7 +47,7 @@ public class CharacterWriter implements CharacterROM
         }
     }
 
-    public Image getImage (int idx)
+    private Image getImage (int idx)
     {
         BufferedImage img = new BufferedImage(8, 8, TYPE_INT_ARGB);
         for (int rows = 0; rows < 8; rows++)
@@ -80,12 +80,12 @@ public class CharacterWriter implements CharacterROM
     }
 
     //Just copy-paste this method
-    public static Image makeColorTransparent (BufferedImage im, final Color color)
+    private static Image makeColorTransparent (BufferedImage im, final Color color)
     {
         ImageFilter filter = new RGBImageFilter()
         {
             // the color we are looking for... Alpha bits are set to opaque
-            public int markerRGB = color.getRGB() | 0xFF000000;
+            public final int markerRGB = color.getRGB() | 0xFF000000;
 
             public final int filterRGB (int x, int y, int rgb)
             {
@@ -128,15 +128,17 @@ public class CharacterWriter implements CharacterROM
         return out;
     }
 
-    public String mapPCtoCBM (String in)
-    {
-        StringBuilder sb = new StringBuilder();
-        for (int s = 0; s < in.length(); s++)
-        {
-            sb.append(mapPCtoCBM(in.charAt(s)));
-        }
-        return sb.toString();
-    }
+// --Commented out by Inspection START (1/20/2017 5:28 AM):
+//    public String mapPCtoCBM (String in)
+//    {
+//        StringBuilder sb = new StringBuilder();
+//        for (int s = 0; s < in.length(); s++)
+//        {
+//            sb.append(mapPCtoCBM(in.charAt(s)));
+//        }
+//        return sb.toString();
+//    }
+// --Commented out by Inspection STOP (1/20/2017 5:28 AM)
 
     public char mapPCtoCBM (char in)
     {
@@ -144,51 +146,55 @@ public class CharacterWriter implements CharacterROM
         return c1 == null ? in : c1;
     }
 
-    /**
-     * Prints string array to bitmap
-     *
-     * @param img
-     * @param arr
-     * @param x
-     * @param y
-     */
-    public void printImg (BufferedImage img, String[] arr, int x, int y)
-    {
-        for (String str : arr)
-        {
-            printImg(img, str, x, y);
-            y += 8;
-        }
-    }
+// --Commented out by Inspection START (1/20/2017 5:28 AM):
+//    /**
+//     * Prints string array to bitmap
+//     *
+//     * @param img
+//     * @param arr
+//     * @param x
+//     * @param y
+//     */
+//    public void printImg (BufferedImage img, String[] arr, int x, int y)
+//    {
+//        for (String str : arr)
+//        {
+//            printImg(img, str, x, y);
+//            y += 8;
+//        }
+//    }
+// --Commented out by Inspection STOP (1/20/2017 5:28 AM)
 
-    /**
-     * Prints String into bitmap
-     *
-     * @param img Destination bitmap
-     * @param s   String to print
-     * @param x   start position x
-     * @param y   start position y
-     */
-    public void printImg (BufferedImage img, CharSequence s, int x, int y)
-    {
-        int xstart = x;
-        for (int i = 0; i < s.length(); i++)
-        {
-            char c = s.charAt(i);
-            if (c == '\n')
-            {
-                y += 8;
-                x = xstart;
-            }
-            else
-            {
-                printImg(img, c, x, y);
-                x += 8;
-            }
-        }
-    }
+// --Commented out by Inspection START (1/20/2017 5:31 AM):
+//    /**
+//     * Prints String into bitmap
+//     *
+//     * @param img Destination bitmap
+//     * @param s   String to print
+//     * @param x   start position x
+//     * @param y   start position y
+//     */
+//    private void printImg (BufferedImage img, CharSequence s, int x, int y)
+//    {
+//        int xstart = x;
+//        for (int i = 0; i < s.length(); i++)
+//        {
+//            char c = s.charAt(i);
+//            if (c == '\n')
+//            {
+//                y += 8;
+//                x = xstart;
+//            }
+//            else
+//            {
+//                printImg(img, c, x, y);
+//                x += 8;
+//            }
+//        }
+//    }
+// --Commented out by Inspection STOP (1/20/2017 5:31 AM)
 
-    public void printImg (BufferedImage img, char c, int x, int y)
+    private void printImg (BufferedImage img, char c, int x, int y)
     {
         Image i = imageMap.get(c);
         if (i == null)

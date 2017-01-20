@@ -14,7 +14,7 @@ import java.awt.*;
  For example, to change the color of a character located at the upper
  left-hand corner of the screen to red, type: POKE 55296,2.
  */
-public class C64Colors
+class C64Colors
 {
     private static final Color[] COLORS = {
             new Color(0),

@@ -97,6 +97,7 @@ public class C64Screen
                         case KeyEvent.VK_C:
                             if (e.isControlDown())
                             {
+                                //noinspection EmptyCatchBlock
                                 try
                                 {
                                     dispatcher.basicRunner.getOlsenBasic().runStop();

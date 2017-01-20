@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Created by Administrator on 1/18/2017.
  */
-public class InputDispatcher
+class InputDispatcher
 {
     private final C64Screen m_screen;
     private final ProgramStore store = new ProgramStore();
@@ -24,6 +24,7 @@ public class InputDispatcher
             {
                 e.printStackTrace();
             }
+            //noinspection InfiniteLoopStatement
             while(true)
             {
                 try
@@ -58,7 +59,7 @@ public class InputDispatcher
         basicRunner.start(sync);
     }
     
-    void handleInput (char[] in)
+    private void handleInput (char[] in)
     {
         System.gc();
         System.runFinalization();

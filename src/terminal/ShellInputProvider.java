@@ -5,9 +5,9 @@ import com.sixtyfour.plugins.InputProvider;
 /**
  * Created by Administrator on 1/4/2017.
  */
-public class ShellInputProvider implements InputProvider
+class ShellInputProvider implements InputProvider
 {
-    private C64Screen shellFrame;
+    private final C64Screen shellFrame;
 
     public ShellInputProvider (C64Screen shellFrame)
     {

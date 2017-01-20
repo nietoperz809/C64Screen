@@ -8,7 +8,7 @@ import static java.awt.event.KeyEvent.VK_ENTER;
 /**
  * Created
  */
-public class C64Matrix extends ArrayList<C64Character[]>
+class C64Matrix extends ArrayList<C64Character[]>
 {
     public static final int LINES_ON_SCREEN = 25;
     public static final int CHARS_PER_LINE = 40;
@@ -133,16 +133,18 @@ public class C64Matrix extends ArrayList<C64Character[]>
         return get(currentCursorPos.y);
     }
 
-    /**
-     * Get last chararacter typed by the user
-     * @return the char or 0xffff if there is none
-     */
-    synchronized public char getLastChar()
-    {
-        char c = lastChar;
-        lastChar = '\uffff';
-        return c;
-    }
+// --Commented out by Inspection START (1/20/2017 5:31 AM):
+//    /**
+//     * Get last chararacter typed by the user
+//     * @return the char or 0xffff if there is none
+//     */
+//    synchronized public char getLastChar()
+//    {
+//        char c = lastChar;
+//        lastChar = '\uffff';
+//        return c;
+//    }
+// --Commented out by Inspection STOP (1/20/2017 5:31 AM)
 
     /**
      * Move cursor up
@@ -206,21 +208,23 @@ public class C64Matrix extends ArrayList<C64Character[]>
         }
     }
 
-    /**
-     * Move cursor to new position
-     * @param x new X pos.
-     * @param y new y pos.
-     * @throws Exception on bogus input arguments
-     */
-    synchronized public void gotoXY (int x, int y) throws Exception
-    {
-        if (x<0 || y<0)
-            throw new Exception ("Negative values not allowed");
-        if (x >= CHARS_PER_LINE || y >= LINES_ON_SCREEN)
-            throw new Exception("Out of Range");
-        currentCursorPos.x = x;
-        currentCursorPos.y = y;
-    }
+// --Commented out by Inspection START (1/20/2017 5:31 AM):
+//    /**
+//     * Move cursor to new position
+//     * @param x new X pos.
+//     * @param y new y pos.
+//     * @throws Exception on bogus input arguments
+//     */
+//    synchronized public void gotoXY (int x, int y) throws Exception
+//    {
+//        if (x<0 || y<0)
+//            throw new Exception ("Negative values not allowed");
+//        if (x >= CHARS_PER_LINE || y >= LINES_ON_SCREEN)
+//            throw new Exception("Out of Range");
+//        currentCursorPos.x = x;
+//        currentCursorPos.y = y;
+//    }
+// --Commented out by Inspection STOP (1/20/2017 5:31 AM)
 
     //    @Override
 //    public String toString ()
@@ -251,16 +255,18 @@ public class C64Matrix extends ArrayList<C64Character[]>
         }
     }
 
-    /**
-     * Set element at specified position
-     * @param x x pos.
-     * @param y y pos.
-     * @param val new element
-     */
-    synchronized public void setVal (int x, int y, char val)
-    {
-        get(y)[x].face = (byte)val;
-    }
+// --Commented out by Inspection START (1/20/2017 5:31 AM):
+//    /**
+//     * Set element at specified position
+//     * @param x x pos.
+//     * @param y y pos.
+//     * @param val new element
+//     */
+//    synchronized public void setVal (int x, int y, char val)
+//    {
+//        get(y)[x].face = (byte)val;
+//    }
+// --Commented out by Inspection STOP (1/20/2017 5:31 AM)
 
     /**
      * Convert screen memory address to coordinates

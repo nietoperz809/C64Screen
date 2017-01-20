@@ -9,13 +9,13 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 1/4/2017.
  */
-public class ShellOutputChannel extends ConsoleOutputChannel
+class ShellOutputChannel extends ConsoleOutputChannel
 {
-    private C64Screen shellFrame;
+    private final C64Screen shellFrame;
     /**
      * control char to color mapping
      */
-    private HashMap<Integer, Integer> colorMap = new HashMap<>();
+    private final HashMap<Integer, Integer> colorMap = new HashMap<>();
 
     public ShellOutputChannel (C64Screen sf)
     {

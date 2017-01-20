@@ -6,11 +6,10 @@ import com.sixtyfour.DelayTracer;
 /**
  * Proxy class to instantiate an run the BASIC system
  */
-public class BasicRunner implements Runnable
+class BasicRunner implements Runnable
 {
     private static volatile boolean running = false;
     private Basic olsenBasic;
-    private C64Screen shellFrame;
 
     public BasicRunner (String[] program, boolean slow, C64Screen shellFrame)
     {
@@ -18,7 +17,6 @@ public class BasicRunner implements Runnable
         {
             return;
         }
-        this.shellFrame = shellFrame;
         olsenBasic = new Basic(program);
         if (slow)
         {
@@ -83,10 +81,12 @@ public class BasicRunner implements Runnable
         }
     }
 
-    public boolean isRunning ()
-    {
-        return running;
-    }
+// --Commented out by Inspection START (1/20/2017 5:31 AM):
+//    public boolean isRunning ()
+//    {
+//        return running;
+//    }
+// --Commented out by Inspection STOP (1/20/2017 5:31 AM)
 
     public Basic getOlsenBasic ()
     {

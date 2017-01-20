@@ -15,12 +15,13 @@ import java.util.stream.Stream;
  */
 class ProgramStore
 {
-    public static final String ERROR = "ERROR.\n";
+    private static final String ERROR = "ERROR.\n";
     public static final String OK = "READY.\n";
     private final TreeSet<String> store = new TreeSet<>(new LineComparator());
 
     public String[] toArray ()
     {
+        //noinspection unchecked
         TreeSet<String> clone = (TreeSet<String>) store.clone();  // avoid java.util.ConcurrentModificationException
         String[] arr = new String[clone.size()];
         int n = 0;
@@ -61,6 +62,7 @@ class ProgramStore
 
     private void removeLine (int num)
     {
+        //noinspection unchecked
         TreeSet<String> clone = (TreeSet<String>) store.clone();  // avoid java.util.ConcurrentModificationException
         for (String s : clone)
         {
@@ -117,14 +119,9 @@ class ProgramStore
         }
         try
         {
-            PrintWriter out1 = new PrintWriter(outFile);
-            try
+            try (PrintWriter out1 = new PrintWriter(outFile))
             {
                 out1.append(txt);
-            }
-            finally
-            {
-                out1.close();
             }
         }
         finally
@@ -145,6 +142,7 @@ class ProgramStore
     @Override
     public String toString ()
     {
+        //noinspection unchecked
         TreeSet<String> clone = (TreeSet<String>) store.clone();  // avoid java.util.ConcurrentModificationException
         StringBuilder sb = new StringBuilder();
         for (String s : clone)
@@ -159,9 +157,8 @@ class ProgramStore
         @Override
         public int compare (String s1, String s2)
         {
-            int ret = getLineNumber(s1) - getLineNumber(s2);
             //System.out.println(s1+"-"+s2+"="+ret);
-            return ret;
+            return getLineNumber(s1) - getLineNumber(s2);
         }
     }
 }

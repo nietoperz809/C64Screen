@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * Created by Administrator on 1/11/2017.
  */
-public class Prettifier
+class Prettifier
 {
     private final ProgramStore theStore;
     private final HashMap<String, String> theMap = new HashMap<>();
@@ -112,6 +112,7 @@ public class Prettifier
                 sb.append(charPresent);
                 continue;
             }
+            //noinspection StatementWithEmptyBody
             if (charBefore == 0)
             {
 
@@ -189,7 +190,7 @@ public class Prettifier
         doRenumber(10,10);
     }
 
-    public void doRenumber(int start, int stepWidth)
+    private void doRenumber (int start, int stepWidth)
     {
         // Pass #1: renumber line numbers
         String[] prog = theStore.toArray();

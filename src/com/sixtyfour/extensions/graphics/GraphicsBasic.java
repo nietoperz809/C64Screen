@@ -1,23 +1,16 @@
 package com.sixtyfour.extensions.graphics;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.sixtyfour.elements.commands.Command;
 import com.sixtyfour.elements.functions.Function;
 import com.sixtyfour.extensions.BasicExtension;
-import com.sixtyfour.extensions.graphics.commands.Circle;
-import com.sixtyfour.extensions.graphics.commands.Clear;
-import com.sixtyfour.extensions.graphics.commands.Color;
-import com.sixtyfour.extensions.graphics.commands.Fill;
-import com.sixtyfour.extensions.graphics.commands.FillMode;
-import com.sixtyfour.extensions.graphics.commands.Groff;
-import com.sixtyfour.extensions.graphics.commands.Gron;
-import com.sixtyfour.extensions.graphics.commands.Gsave;
-import com.sixtyfour.extensions.graphics.commands.Line;
-import com.sixtyfour.extensions.graphics.commands.Plot;
-import com.sixtyfour.extensions.graphics.commands.Rect;
+import com.sixtyfour.extensions.graphics.commands.*;
+import com.sixtyfour.extensions.graphics.functions.GetShape;
+import com.sixtyfour.extensions.graphics.functions.LoadShape;
+import com.sixtyfour.system.Machine;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A basic BASIC extension, that adds some simple graphics commands. Note that
@@ -43,6 +36,24 @@ public class GraphicsBasic implements BasicExtension {
 			this.add(new Clear());
 			this.add(new Fill());
 			this.add(new Gsave());
+			this.add(new DrawShape());
+			this.add(new RotateShape());
+			this.add(new Flip());
+			this.add(new BufferMode());
+			this.add(new Limit());
+			this.add(new Gprint());
+			this.add(new Font());
+			this.add(new AAMode());
+			this.add(new Gget());
+			this.add(new Copy());
+		}
+	});
+
+	private final static List<Function> FUNCTIONS = Collections.unmodifiableList(new ArrayList<Function>() {
+		private static final long serialVersionUID = 1L;
+		{
+			this.add(new LoadShape());
+			this.add(new GetShape());
 		}
 	});
 
@@ -53,7 +64,16 @@ public class GraphicsBasic implements BasicExtension {
 
 	@Override
 	public List<Function> getFunctions() {
-		return null;
+		return FUNCTIONS;
+	}
+
+	@Override
+	public void reset(Machine machine) {
+		GraphicsDevice window = GraphicsDevice.getDevice(machine);
+		if (window != null) {
+			window.dispose();
+		}
+
 	}
 
 }

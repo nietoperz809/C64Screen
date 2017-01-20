@@ -15,7 +15,8 @@ import com.sixtyfour.util.VarUtils;
 public class On extends AbstractCommand {
 
 	/** The pc. */
-	private BasicProgramCounter pc = new BasicProgramCounter(0, 0); // Recycle instance
+	private BasicProgramCounter pc = new BasicProgramCounter(0, 0); // Recycle
+																	// instance
 
 	/** The line numbers. */
 	private List<Integer> lineNumbers = new ArrayList<Integer>();
@@ -43,12 +44,12 @@ public class On extends AbstractCommand {
 		String uPart = VarUtils.toUpper(linePart);
 		int pos = uPart.lastIndexOf("GO");
 		if (pos == -1) {
-			throw new RuntimeException("Syntax error: " + this);
+		  syntaxError(this);
 		}
 		term = Parser.getTerm(linePart.substring(0, pos), machine, false, true);
 
 		if (term.getType().equals(Type.STRING)) {
-			throw new RuntimeException("Type mismatch error: " + this);
+		  typeMismatch(linePart);
 		}
 
 		gosub = uPart.indexOf("GOSUB") != -1;
@@ -63,7 +64,7 @@ public class On extends AbstractCommand {
 			}
 		}
 		if (numPos == -1) {
-			throw new RuntimeException("Syntax error: " + this);
+		  syntaxError(this);
 		}
 		String[] parts = lines.substring(numPos).split(",");
 		for (String part : parts) {
@@ -75,7 +76,7 @@ public class On extends AbstractCommand {
 					lineNumbers.add(li);
 				}
 			} catch (Exception e) {
-				throw new RuntimeException("Syntax error: " + this);
+			  syntaxError(this);
 			}
 		}
 		return null;

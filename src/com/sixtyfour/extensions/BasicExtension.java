@@ -1,9 +1,10 @@
 package com.sixtyfour.extensions;
 
-import java.util.List;
-
 import com.sixtyfour.elements.commands.Command;
 import com.sixtyfour.elements.functions.Function;
+import com.sixtyfour.system.Machine;
+
+import java.util.List;
 
 /**
  * Interface for implementing BASIC extensions
@@ -27,5 +28,13 @@ public interface BasicExtension {
 	 * @return the new functions or null
 	 */
 	List<Function> getFunctions();
-	
+
+	/**
+	 * Called when a machine instance gets reset.
+	 * 
+	 * @param machine
+	 *            the machine instance
+	 */
+	void reset(Machine machine);
+
 }

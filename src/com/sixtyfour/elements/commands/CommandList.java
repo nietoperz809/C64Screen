@@ -18,7 +18,6 @@ public class CommandList {
 			add(new If());
 			add(new Goto());
 			add(new Gosub());
-			add(new For());
 			add(new Next());
 			add(new Read());
 			add(new Data());
@@ -43,8 +42,6 @@ public class CommandList {
 			add(new Cont());
 			add(new InputFile());
 			add(new Input());
-			add(new Data());
-			add(new Read());
 			add(new Restore());
 			add(new Clr());
 			add(new Open());
@@ -56,11 +53,22 @@ public class CommandList {
 		}
 	});
 
+	private final static Command LET = COMMANDS.get(0);
+
 	public static void registerNewCommands(List<Command> commands) {
 		if (commands != null && !commands.isEmpty()) {
-			COMMANDS = new ArrayList<Command>(COMMANDS);
-			COMMANDS.addAll(commands);
-			COMMANDS = Collections.unmodifiableList(COMMANDS);
+			commands = new ArrayList<Command>(commands);
+			commands.addAll(COMMANDS);
+			COMMANDS = Collections.unmodifiableList(commands);
+			List<String> names=new ArrayList<String>();
+			for (Command command:COMMANDS) {
+			  for (String name:names) {
+			    if (command.getName().startsWith(name)) {
+			      throw new RuntimeException("Naming conflict: "+command.getName() + " is hidden by "+name);
+			    }
+			  }
+			  names.add(command.getName());
+			}
 		}
 	}
 
@@ -79,6 +87,6 @@ public class CommandList {
 	 * @return the let command
 	 */
 	public static Command getLetCommand() {
-		return COMMANDS.get(0);
+		return LET;
 	}
 }

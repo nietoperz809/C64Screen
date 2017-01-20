@@ -15,12 +15,12 @@ class ShellOutputChannel extends ConsoleOutputChannel
     /**
      * control char to color mapping
      */
-    private final HashMap<Integer, Integer> colorMap = new HashMap<>();
+    private final HashMap<Character, Integer> colorMap = new HashMap<>();
 
     public ShellOutputChannel (C64Screen sf)
     {
         this.shellFrame = sf;
-        int[] codes = {144, 5, 28, 159, 156, 30, 31, 158, 129, 149,
+        char[] codes = {144, 5, 28, 159, 156, 30, 31, 158, 129, 149,
                         150, 151, 152, 153, 154, 155};
         for (int s=0; s<16; s++)
         {
@@ -34,7 +34,7 @@ class ShellOutputChannel extends ConsoleOutputChannel
         StringBuilder sb = new StringBuilder();
         for (int s=0; s<txt.length(); s++)
         {
-            int c = txt.charAt(s);
+            char c = txt.charAt(s);
             if (c == 147)
             {
                 shellFrame.matrix.clearScreen();
@@ -42,7 +42,7 @@ class ShellOutputChannel extends ConsoleOutputChannel
             }
             Integer col = colorMap.get(c);
             if (col == null)
-                sb.append((char)c);
+                sb.append(c);
             else
                 shellFrame.matrix.setDefaultColorIndex(col);
         }

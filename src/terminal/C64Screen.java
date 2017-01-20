@@ -26,8 +26,8 @@ public class C64Screen
 //                    8*C64Matrix.LINES_ON_SCREEN,
 //                            TYPE_INT_ARGB);
     final C64Matrix matrix = new C64Matrix();
-    final CharacterWriter writer = CharacterWriter.getInstance();
-    final InputDispatcher dispatcher = new InputDispatcher(this);
+    private final CharacterWriter writer = CharacterWriter.getInstance();
+    private final InputDispatcher dispatcher = new InputDispatcher(this);
     final ArrayBlockingQueue<char[]> fromTextArea = new ArrayBlockingQueue<>(20);
     final RingBuffer<Character> ringBuff = new RingBuffer<>(40);
     final MyPanel panel = new MyPanel();
@@ -141,7 +141,7 @@ public class C64Screen
 
             ScheduledExecutorService scheduler =
                     Executors.newScheduledThreadPool(1);
-            scheduler.scheduleAtFixedRate(() -> repaint(),
+            scheduler.scheduleAtFixedRate(this::repaint,
                     100,
                     500,
                     TimeUnit.MILLISECONDS);
@@ -159,7 +159,7 @@ public class C64Screen
                 for (int x = 0; x<C64Matrix.CHARS_PER_LINE; x++)
                 {
                     C64Character c64c = matrix.getVal(x,y);
-                    g.setColor (C64Colors.getC64Color(c64c.color));
+                    g.setColor (C64Colors.getC64Color(c64c.colorIndex));
                     g.fillRect(xpos, ypos, SCALE, SCALE);
                     g.drawImage(writer.imageMap.get((char)c64c.face),
                             xpos, ypos, SCALE, SCALE, this);
@@ -189,14 +189,14 @@ public class C64Screen
         }
     }
 
-    public C64Screen ()
+    private C64Screen ()
     {
         //matrix.putString("hallo");
         //matrixToCanvas();
         JFrame f = new JFrame();
         f.setLayout(new FlowLayout());
         f.add (panel);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setSize(42*8*2, 28*8*2);
         f.setVisible(true);
     }

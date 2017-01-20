@@ -5,12 +5,12 @@ package terminal;
  */
 public class C64Character
 {
-    public byte face;
-    public byte color;
+    public int face;
+    public int colorIndex;
 
-    public C64Character ()
+    public C64Character (int face, int col)
     {
-        this.face = (byte)' ';
-        this.color = 3;
+        this.face = face;
+        this.colorIndex = col;
     }
 }

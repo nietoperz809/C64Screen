@@ -3,6 +3,7 @@ package terminal;
 import com.sixtyfour.plugins.impl.ConsoleOutputChannel;
 
 import java.awt.*;
+import java.util.HashMap;
 
 
 /**
@@ -11,10 +12,20 @@ import java.awt.*;
 public class ShellOutputChannel extends ConsoleOutputChannel
 {
     private C64Screen shellFrame;
+    /**
+     * control char to color mapping
+     */
+    private HashMap<Integer, Integer> colorMap = new HashMap<>();
 
     public ShellOutputChannel (C64Screen sf)
     {
         this.shellFrame = sf;
+        int[] codes = {144, 5, 28, 159, 156, 30, 31, 158, 129, 149,
+                        150, 151, 152, 153, 154, 155};
+        for (int s=0; s<16; s++)
+        {
+            colorMap.put (codes[s],s);
+        }
     }
 
     @Override
@@ -23,60 +34,17 @@ public class ShellOutputChannel extends ConsoleOutputChannel
         StringBuilder sb = new StringBuilder();
         for (int s=0; s<txt.length(); s++)
         {
-            char c = txt.charAt(s);
-            switch (c)  // handle control chars (colors only)
+            int c = txt.charAt(s);
+            if (c == 147)
             {
-                case 0x05:
-                    shellFrame.matrix.setDefaultColorIndex((byte)1);
-                    break;
-                case 0x1c:
-                    shellFrame.matrix.setDefaultColorIndex((byte)2);
-                    break;
-                case 0x1e:
-                    shellFrame.matrix.setDefaultColorIndex((byte)5);
-                    break;
-                case 0x1f:
-                    shellFrame.matrix.setDefaultColorIndex((byte)6);
-                    break;
-                case 0x81:
-                    shellFrame.matrix.setDefaultColorIndex((byte)8);
-                    break;
-                case 0x90:
-                    shellFrame.matrix.setDefaultColorIndex((byte)0);
-                    break;
-                case 0x95:
-                    shellFrame.matrix.setDefaultColorIndex((byte)8);
-                    break;
-                case 0x96:
-                    shellFrame.matrix.setDefaultColorIndex((byte)10);
-                    break;
-                case 0x97:
-                    shellFrame.matrix.setDefaultColorIndex((byte)11);
-                    break;
-                case 0x98:
-                    shellFrame.matrix.setDefaultColorIndex((byte)12);
-                    break;
-                case 0x99:
-                    shellFrame.matrix.setDefaultColorIndex((byte)13);
-                    break;
-                case 0x9a:
-                    shellFrame.matrix.setDefaultColorIndex((byte)14);
-                    break;
-                case 0x9b:
-                    shellFrame.matrix.setDefaultColorIndex((byte)15);
-                    break;
-                case 0x9c:
-                    shellFrame.matrix.setDefaultColorIndex((byte)4);
-                    break;
-                case 0x9e:
-                    shellFrame.matrix.setDefaultColorIndex((byte)7);
-                    break;
-                case 0x9f:
-                    shellFrame.matrix.setDefaultColorIndex((byte)3);
-                    break;
-                default:
-                    sb.append(c);
+                shellFrame.matrix.clearScreen();
+                continue;
             }
+            Integer col = colorMap.get(c);
+            if (col == null)
+                sb.append(c);
+            else
+                shellFrame.matrix.setDefaultColorIndex(col);
         }
         shellFrame.matrix.putString(sb.toString());
         shellFrame.panel.repaint();

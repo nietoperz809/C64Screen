@@ -16,7 +16,6 @@ import java.awt.*;
  */
 public class C64Colors
 {
-
     private static final Color[] COLORS = {
             new Color(0),
             new Color(0xffffff),

@@ -12,7 +12,7 @@ public class C64Matrix extends ArrayList<C64Character[]>
 {
     public static final int LINES_ON_SCREEN = 25;
     public static final int CHARS_PER_LINE = 40;
-    private Point currentCursorPos = new Point(0,0);
+    private final Point currentCursorPos = new Point(0,0);
     /**
      * Last typed character before return was hit
      */
@@ -50,7 +50,7 @@ public class C64Matrix extends ArrayList<C64Character[]>
         C64Character[] c = new C64Character[CHARS_PER_LINE];
         for (int s = 0; s< CHARS_PER_LINE; s++)
         {
-            c[s] = new C64Character();
+            c[s] = new C64Character(' ', defaultColorIndex);
         }
         return c;
     }
@@ -60,7 +60,7 @@ public class C64Matrix extends ArrayList<C64Character[]>
      * Shifts lines up and creates a new one at the end
      * if cursor moves behind last line.
      */
-    synchronized public void nextLine ()
+    private synchronized void nextLine ()
     {
         currentCursorPos.x = 0;
         currentCursorPos.y++;
@@ -99,13 +99,13 @@ public class C64Matrix extends ArrayList<C64Character[]>
                 nextLine();
             }
             C64Character[] line = get(currentCursorPos.y);
-            line[currentCursorPos.x].face = (byte)c;
-            line[currentCursorPos.x].color = defaultColorIndex;
+            line[currentCursorPos.x].face = c;
+            line[currentCursorPos.x].colorIndex = defaultColorIndex;
             currentCursorPos.x++;
         }
     }
 
-    public void setDefaultColorIndex (byte b)
+    public void setDefaultColorIndex (int b)
     {
         defaultColorIndex = (byte)(b & 0x0f);
     }
@@ -222,11 +222,7 @@ public class C64Matrix extends ArrayList<C64Character[]>
         currentCursorPos.y = y;
     }
 
-    /**
-     * The matrix as string representation
-     * @return see line above :)
-     */
-//    @Override
+    //    @Override
 //    public String toString ()
 //    {
 //        StringBuilder sb = new StringBuilder();
@@ -251,7 +247,7 @@ public class C64Matrix extends ArrayList<C64Character[]>
         }
         catch (Exception ex)
         {
-            return new C64Character();
+            return new C64Character('?', 2);   // red '?'
         }
     }
 
@@ -282,16 +278,16 @@ public class C64Matrix extends ArrayList<C64Character[]>
      * @param offset screen memory address
      * @return the value
      */
-    synchronized public byte peekFace (int offset)
+    synchronized public int peekFace (int offset)
     {
         Point p = fromAddress (offset, 1024);
         return get(p.y)[p.x].face;
     }
 
-    synchronized public byte peekColor (int offset)
+    synchronized public int peekColor (int offset)
     {
         Point p = fromAddress (offset, 0xd800);
-        return get(p.y)[p.x].color;
+        return get(p.y)[p.x].colorIndex;
     }
 
     /**
@@ -302,12 +298,12 @@ public class C64Matrix extends ArrayList<C64Character[]>
     synchronized public void pokeFace (int offset, int val)
     {
         Point p = fromAddress (offset, 1024);
-        get(p.y)[p.x].face = (byte)val;
+        get(p.y)[p.x].face = val;
     }
 
     synchronized public void pokeColor (int offset, int val)
     {
         Point p = fromAddress (offset, 0xd800);
-        get(p.y)[p.x].color = (byte)val;
+        get(p.y)[p.x].colorIndex = val;
     }
 }

@@ -42,7 +42,7 @@ class ShellOutputChannel extends ConsoleOutputChannel
             }
             Integer col = colorMap.get(c);
             if (col == null)
-                sb.append(c);
+                sb.append((char)c);
             else
                 shellFrame.matrix.setDefaultColorIndex(col);
         }

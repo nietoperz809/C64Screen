@@ -58,7 +58,11 @@ class InputDispatcher
         basicRunner = new BasicRunner(store.toArray(), true, m_screen);
         basicRunner.start(sync);
     }
-    
+
+    /**
+     * Main function. Runs in a separate thread
+     * @param in
+     */
     private void handleInput (char[] in)
     {
         System.gc();

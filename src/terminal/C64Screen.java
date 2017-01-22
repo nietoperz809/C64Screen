@@ -20,32 +20,12 @@ import static java.awt.event.KeyEvent.VK_ENTER;
  */
 public class C64Screen
 {
-//    BufferedImage canvas =
-//            new BufferedImage(
-//                    8*C64Matrix.CHARS_PER_LINE,
-//                    8*C64Matrix.LINES_ON_SCREEN,
-//                            TYPE_INT_ARGB);
     final C64Matrix matrix = new C64Matrix();
     private final CharacterWriter writer = CharacterWriter.getInstance();
     private final InputDispatcher dispatcher = new InputDispatcher(this);
     final ArrayBlockingQueue<char[]> fromTextArea = new ArrayBlockingQueue<>(20);
     final RingBuffer<Character> ringBuff = new RingBuffer<>(40);
     final MyPanel panel = new MyPanel();
-//    void matrixToCanvas()
-//    {
-//        int ypos = 0;
-//        for (int y=0; y<terminal.C64Matrix.LINES_ON_SCREEN; y++)
-//        {
-//            char[] row = matrix.get(y);
-//            int xpos = 0;
-//            for (int x=0; x<terminal.C64Matrix.CHARS_PER_LINE; x++)
-//            {
-//                writer.printImg (canvas, matrix.getVal(x,y), xpos, ypos);
-//                xpos += 8;
-//            }
-//            ypos += 8;
-//        }
-//    }
 
     class MyPanel extends JPanel
     {
@@ -66,7 +46,7 @@ public class C64Screen
                     char c = e.getKeyChar();
                     if (c == VK_ENTER)
                     {
-                        C64Character[] arr = matrix.getLastLine();
+                        Character[] arr = matrix.readLine();
                         if (arr == null)
                             return;
                         try
@@ -160,17 +140,12 @@ public class C64Screen
                 for (int x = 0; x<C64Matrix.CHARS_PER_LINE; x++)
                 {
                     C64Character c64c = matrix.getVal(x,y);
+                    int face = c64c.face & 0x00ff;
                     g.setColor (C64Colors.getC64Color(c64c.colorIndex));
                     g.fillRect(xpos, ypos, SCALE, SCALE);
-                    g.drawImage(writer.imageMap.get((char)c64c.face),
+                    g.drawImage(writer.imageMap.get((char)face),
                             xpos, ypos, SCALE, SCALE, this);
                     xpos += SCALE;
-
-//                        char imgIndex = matrix.getVal(x,y);
-//                        Image img = writer.getImage(imgIndex*8);
-//                        g.drawImage(img,
-//                                xpos, ypos, SCALE, SCALE, this);
-//                        xpos += SCALE;
                 }
                 ypos += SCALE;
             }

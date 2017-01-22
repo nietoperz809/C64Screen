@@ -117,13 +117,13 @@ public class CharacterWriter implements CharacterROM
         fillImageMap();
     }
 
-    public char[] mapCBMtoPC (C64Character[] in)
+    public char[] mapCBMtoPC (Character[] in)
     {
         char[] out = new char[in.length];
         for (int s = 0; s < in.length; s++)
         {
-            Character c1 = reverseKeyMap.get((char)in[s].face);
-            out[s] = c1 == null ? (char)in[s].face : c1;
+            Character c1 = reverseKeyMap.get(in[s]);
+            out[s] = c1 == null ? in[s] : c1;
         }
         return out;
     }

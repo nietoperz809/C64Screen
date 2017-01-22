@@ -10,8 +10,10 @@ import static java.awt.event.KeyEvent.VK_ENTER;
  */
 class C64Matrix extends ArrayList<C64Character[]>
 {
-    public static final int LINES_ON_SCREEN = 25;
-    public static final int CHARS_PER_LINE = 40;
+    static final int LINES_ON_SCREEN = 25;
+    static final int CHARS_PER_LINE = 40;
+    static final int NO_CHARACTER = 0x100 + ' ';
+
     private final Point currentCursorPos = new Point(0,0);
     /**
      * Last typed character before return was hit
@@ -21,6 +23,10 @@ class C64Matrix extends ArrayList<C64Character[]>
      * Color used for new chars on screen
      */
     private byte defaultColorIndex = 3;
+    /**
+     * counts up if line length exceeds CHARS_PER_LINE
+     */
+    private int overLength = 0;
 
     public C64Matrix()
     {
@@ -50,7 +56,7 @@ class C64Matrix extends ArrayList<C64Character[]>
         C64Character[] c = new C64Character[CHARS_PER_LINE];
         for (int s = 0; s< CHARS_PER_LINE; s++)
         {
-            c[s] = new C64Character(' ', defaultColorIndex);
+            c[s] = new C64Character(NO_CHARACTER, defaultColorIndex);
         }
         return c;
     }
@@ -90,6 +96,7 @@ class C64Matrix extends ArrayList<C64Character[]>
         if (keyCode == VK_ENTER)
         {
             nextLine();
+            overLength = 0;
         }
         else
         {
@@ -97,6 +104,7 @@ class C64Matrix extends ArrayList<C64Character[]>
             if (currentCursorPos.x == CHARS_PER_LINE)
             {
                 nextLine();
+                overLength++;
             }
             C64Character[] line = get(currentCursorPos.y);
             line[currentCursorPos.x].face = c;
@@ -125,12 +133,30 @@ class C64Matrix extends ArrayList<C64Character[]>
     }
 
     /**
-     * Get last line
-     * @return a char array clone of the line
+     * Gets input line as char array only
+     * input can be concatenation of multiple lines
+     * 
+     * @return a char array
      */
-    synchronized public C64Character[] getLastLine ()
+    synchronized public Character[] readLine ()
     {
-        return get(currentCursorPos.y);
+        ArrayList<Character> arr = new ArrayList<>();
+        int ypos = currentCursorPos.y - overLength;
+        for(;;)
+        {
+            C64Character c64[] = get(ypos);
+            for (int s = 0; s < c64.length; s++)
+            {
+                if (c64[s].face == NO_CHARACTER)
+                {
+                    Character[] ret = new Character[arr.size()];
+                    arr.toArray(ret);
+                    return ret; //get(currentCursorPos.y);
+                }
+                arr.add((char) c64[s].face);
+            }
+            ypos++;
+        }
     }
 
 // --Commented out by Inspection START (1/20/2017 5:31 AM):

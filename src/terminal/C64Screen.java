@@ -29,7 +29,7 @@ public class C64Screen
 {
     final C64Matrix matrix = new C64Matrix();
     private final CharacterWriter writer = CharacterWriter.getInstance();
-    private final InputDispatcher dispatcher = new InputDispatcher(this);
+    private final CommandLineDispatcher dispatcher = new CommandLineDispatcher(this);
     final ArrayBlockingQueue<char[]> fromTextArea = new ArrayBlockingQueue<>(20);
     final RingBuffer<Character> ringBuff = new RingBuffer<>(40);
     final MyPanel panel = new MyPanel();

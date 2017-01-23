@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Created by Administrator on 1/18/2017.
  */
-class InputDispatcher
+class CommandLineDispatcher
 {
     private final C64Screen m_screen;
     public final ProgramStore store = new ProgramStore();
@@ -13,7 +13,7 @@ class InputDispatcher
 
     private int speed = 10000;
 
-    public InputDispatcher (C64Screen screen)
+    public CommandLineDispatcher (C64Screen screen)
     {
         m_screen = screen;
         new Thread(() ->
@@ -60,6 +60,34 @@ class InputDispatcher
     {
         basicRunner = new BasicRunner(store.toArray(), speed, m_screen);
         basicRunner.start(sync);
+    }
+
+    private void renumber (String[] split)
+    {
+        try
+        {
+            Prettifier pf = new Prettifier(store);
+            switch (split.length)
+            {
+                case 1:
+                    pf.doRenumber();
+                    break;
+                case 2:
+                    int v1 = Integer.parseInt(split[1]);
+                    pf.doRenumber(v1, v1);
+                    break;
+                case 3:
+                    int va = Integer.parseInt(split[1]);
+                    int vb = Integer.parseInt(split[2]);
+                    pf.doRenumber(va, vb);
+                    break;
+            }
+            m_screen.matrix.putString(ProgramStore.OK);
+        }
+        catch (Exception ex)
+        {
+            m_screen.matrix.putString(ProgramStore.ERROR);
+        }
     }
 
     private void list (String[] split)
@@ -131,10 +159,9 @@ class InputDispatcher
             new Prettifier(store).doPrettify();
             m_screen.matrix.putString(ProgramStore.OK);
         }
-        else if (s.equals ("renumber"))
+        else if (split[0].toLowerCase().equals("renumber"))
         {
-            new Prettifier(store).doRenumber();
-            m_screen.matrix.putString(ProgramStore.OK);
+            renumber (split);
         }
         else if (s.equals("cls"))
         {

@@ -190,7 +190,7 @@ class Prettifier
         doRenumber(10,10);
     }
 
-    private void doRenumber (int start, int stepWidth)
+    public void doRenumber (int start, int stepWidth)
     {
         // Pass #1: renumber line numbers
         String[] prog = theStore.toArray();

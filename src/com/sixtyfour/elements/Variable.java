@@ -21,8 +21,8 @@ public class Variable implements Atom {
 	private String name;
 
 	/**
-   * 
-   */
+	 * 
+	 */
 	private String upperCaseName;
 
 	/** The type. */
@@ -36,6 +36,8 @@ public class Variable implements Atom {
 
 	/** The dimensions. */
 	private int[] dimensions;
+
+	private boolean persistent = false;
 
 	/**
 	 * Instantiates a new array variable.
@@ -307,6 +309,9 @@ public class Variable implements Atom {
 		if (array) {
 			throw new RuntimeException("Not a simple type: " + this);
 		}
+		if (value.equals(this.value)) {
+			return;
+		}
 		// Convert into proper format
 		if (VarUtils.isFloat(value) && type.equals(Type.INTEGER)) {
 			value = VarUtils.getInt(value);
@@ -401,13 +406,19 @@ public class Variable implements Atom {
 	 * 
 	 * @param value
 	 *            the value to add
+	 * @return the new value
 	 */
-	public void inc(float value) {
-		if (type.equals(Type.INTEGER) || type.equals(Type.REAL)) {
-			this.value = VarUtils.getFloat(this.value) + value;
-		} else {
-			throw new RuntimeException("Type mismatch error: " + this);
+	public float inc(float value) {
+		if (type.equals(Type.INTEGER)) {
+			int ret = (int) (VarUtils.getInt(this.value) + value);
+			this.value = ret;
+			return ret;
+		} else if (type.equals(Type.REAL)) {
+			float ret = VarUtils.getFloat(this.value) + value;
+			this.value = ret;
+			return ret;
 		}
+		throw new RuntimeException("Type mismatch error: " + this);
 	}
 
 	/*
@@ -418,6 +429,26 @@ public class Variable implements Atom {
 	@Override
 	public boolean isTerm() {
 		return false;
+	}
+
+	/**
+	 * Returns true, if the variable is persistent in a machine's context.
+	 * 
+	 * @return is it?
+	 */
+	public boolean isPersistent() {
+		return persistent;
+	}
+
+	/**
+	 * Marks the variable as persistent in a machines context, i.e. it "belongs"
+	 * to that machine.
+	 * 
+	 * @param persistent
+	 *            is it persistent
+	 */
+	public void setPersistent(boolean persistent) {
+		this.persistent = persistent;
 	}
 
 	/**

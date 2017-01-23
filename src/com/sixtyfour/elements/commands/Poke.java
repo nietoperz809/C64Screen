@@ -1,13 +1,13 @@
 package com.sixtyfour.elements.commands;
 
-import java.util.List;
-
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.parser.Atom;
 import com.sixtyfour.parser.Parser;
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.List;
 
 /**
  * The POKE command.
@@ -37,9 +37,9 @@ public class Poke extends AbstractCommand {
 		pars = Parser.getParameters(term);
 
 		if (pars.size() != 2) {
-		  syntaxError(this);
+			syntaxError(this);
 		}
-		
+
 		checkTypes(pars, linePart, Type.STRING, Type.STRING);
 
 		return null;

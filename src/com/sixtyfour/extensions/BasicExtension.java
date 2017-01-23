@@ -1,10 +1,10 @@
 package com.sixtyfour.extensions;
 
+import java.util.List;
+
 import com.sixtyfour.elements.commands.Command;
 import com.sixtyfour.elements.functions.Function;
 import com.sixtyfour.system.Machine;
-
-import java.util.List;
 
 /**
  * Interface for implementing BASIC extensions

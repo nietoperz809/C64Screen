@@ -1,13 +1,13 @@
 package com.sixtyfour.elements.commands;
 
-import java.util.List;
-
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.parser.Atom;
 import com.sixtyfour.parser.Parser;
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.List;
 
 /**
  * The CMD command.
@@ -41,7 +41,7 @@ public class Cmd extends AbstractCommand {
 		linePart = pos != linePart.length() ? linePart.substring(pos + 1) : "";
 		List<Atom> pars = Parser.getParameters(term);
 		if (pars.size() != 1) {
-		  syntaxError(this);
+			syntaxError(this);
 		}
 		fileNumber = pars.get(0);
 		checkTypes(pars, linePart, Type.STRING);

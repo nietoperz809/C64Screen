@@ -1,16 +1,36 @@
 package com.sixtyfour.extensions.graphics;
 
-import com.sixtyfour.elements.commands.Command;
-import com.sixtyfour.elements.functions.Function;
-import com.sixtyfour.extensions.BasicExtension;
-import com.sixtyfour.extensions.graphics.commands.*;
-import com.sixtyfour.extensions.graphics.functions.GetShape;
-import com.sixtyfour.extensions.graphics.functions.LoadShape;
-import com.sixtyfour.system.Machine;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.sixtyfour.elements.commands.Command;
+import com.sixtyfour.elements.functions.Function;
+import com.sixtyfour.extensions.BasicExtension;
+import com.sixtyfour.extensions.graphics.commands.AAMode;
+import com.sixtyfour.extensions.graphics.commands.BufferMode;
+import com.sixtyfour.extensions.graphics.commands.Circle;
+import com.sixtyfour.extensions.graphics.commands.Clear;
+import com.sixtyfour.extensions.graphics.commands.Color;
+import com.sixtyfour.extensions.graphics.commands.Copy;
+import com.sixtyfour.extensions.graphics.commands.DrawShape;
+import com.sixtyfour.extensions.graphics.commands.Fill;
+import com.sixtyfour.extensions.graphics.commands.FillMode;
+import com.sixtyfour.extensions.graphics.commands.Flip;
+import com.sixtyfour.extensions.graphics.commands.Font;
+import com.sixtyfour.extensions.graphics.commands.Gget;
+import com.sixtyfour.extensions.graphics.commands.Gprint;
+import com.sixtyfour.extensions.graphics.commands.Groff;
+import com.sixtyfour.extensions.graphics.commands.Gron;
+import com.sixtyfour.extensions.graphics.commands.Gsave;
+import com.sixtyfour.extensions.graphics.commands.Limit;
+import com.sixtyfour.extensions.graphics.commands.Line;
+import com.sixtyfour.extensions.graphics.commands.Plot;
+import com.sixtyfour.extensions.graphics.commands.Rect;
+import com.sixtyfour.extensions.graphics.commands.RotateShape;
+import com.sixtyfour.extensions.graphics.functions.GetShape;
+import com.sixtyfour.extensions.graphics.functions.LoadShape;
+import com.sixtyfour.system.Machine;
 
 /**
  * A basic BASIC extension, that adds some simple graphics commands. Note that

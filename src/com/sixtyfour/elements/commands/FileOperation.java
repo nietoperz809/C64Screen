@@ -1,11 +1,11 @@
 package com.sixtyfour.elements.commands;
 
-import java.util.List;
-
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.parser.Atom;
 import com.sixtyfour.parser.Parser;
 import com.sixtyfour.system.Machine;
+
+import java.util.List;
 
 /**
  * A virtual command for file operations.
@@ -39,13 +39,13 @@ public abstract class FileOperation extends AbstractCommand {
 		term = Parser.getTerm(linePart, machine, false, true);
 		pars = Parser.getParameters(term);
 		if (pars.size() > 0 && !pars.get(0).getType().equals(Type.STRING)) {
-		  syntaxError(this);
+			syntaxError(this);
 		}
 		if (pars.size() > 1 && pars.get(1).getType().equals(Type.STRING)) {
-		  syntaxError(this);
+			syntaxError(this);
 		}
 		if (pars.size() > 2 && pars.get(2).getType().equals(Type.STRING)) {
-		  syntaxError(this);
+			syntaxError(this);
 		}
 		return null;
 	}

@@ -105,6 +105,10 @@ class InputDispatcher
                 m_screen.matrix.putString(ProgramStore.OK);
             }
         }
+        else if (s.equals("shift"))
+        {
+            CharacterWriter.getInstance().switchCharset();
+        }
         else if (s.equals("new"))
         {
             store.clear();

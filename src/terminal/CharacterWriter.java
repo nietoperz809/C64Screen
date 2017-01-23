@@ -16,10 +16,10 @@ public class CharacterWriter implements CharacterROM
 {
     private static final Color TRANSPARENT = new Color (1,2,3);
     private static CharacterWriter instance = null;
-    public final HashMap<Character, Image> imageMap = new HashMap<>();
+    final HashMap<Character, Image> imageMap = new HashMap<>();
     private final HashMap<Character, Character> keyMap = new HashMap<>();
     private final HashMap<Character, Character> reverseKeyMap = new HashMap<>();
-    private int backgroundColor = C64Colors.getC64Color(6).getRGB();
+    private int backgroundColor = C64Colors.BLUE.getRGB();
     private boolean shifted = true;
     /**
      * Constructor, fills the char imageMap
@@ -31,11 +31,17 @@ public class CharacterWriter implements CharacterROM
         for (char s = 'a'; s <= 'z'; s++)
         {
             char t = (char) (s - 'a' + 1);
-            keyMap.put(s, t);
-            reverseKeyMap.put(t, s);
+            setMaps(s, t);
         }
-        keyMap.put('@', (char) 0);
-        reverseKeyMap.put((char) 0, '@');
+        setMaps('@', (char) 0);
+
+        setMaps ('^', (char)30);
+    }
+
+    private void setMaps (char a, char b)
+    {
+        keyMap.put(a, b);
+        reverseKeyMap.put(b, a);
     }
 
     private void fillImageMap ()
@@ -114,7 +120,7 @@ public class CharacterWriter implements CharacterROM
 
     void setBackgroundColor (int idx)
     {
-        backgroundColor = C64Colors.getC64Color(idx).getRGB();
+        backgroundColor = C64Colors.values()[idx].getRGB();
         fillImageMap();
     }
 
@@ -201,14 +207,16 @@ public class CharacterWriter implements CharacterROM
 //    }
 // --Commented out by Inspection STOP (1/20/2017 5:31 AM)
 
-    private void printImg (BufferedImage img, char c, int x, int y)
-    {
-        Image i = imageMap.get(c);
-        if (i == null)
-        {
-            i = imageMap.get((char) 256);
-        }
-        Graphics g = img.getGraphics();
-        g.drawImage(i, x, y, null);
-    }
+// --Commented out by Inspection START (1/23/2017 4:35 AM):
+//    private void printImg (BufferedImage img, char c, int x, int y)
+//    {
+//        Image i = imageMap.get(c);
+//        if (i == null)
+//        {
+//            i = imageMap.get((char) 256);
+//        }
+//        Graphics g = img.getGraphics();
+//        g.drawImage(i, x, y, null);
+//    }
+// --Commented out by Inspection STOP (1/23/2017 4:35 AM)
 }

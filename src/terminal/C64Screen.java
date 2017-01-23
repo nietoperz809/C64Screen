@@ -175,7 +175,7 @@ public class C64Screen
                 {
                     C64Character c64c = matrix.getVal(x,y);
                     int face = c64c.face & 0x00ff;
-                    g.setColor (C64Colors.getC64Color(c64c.colorIndex));
+                    g.setColor (C64Colors.values()[c64c.colorIndex].getColor());
                     g.fillRect(xpos, ypos, SCALE, SCALE);
                     g.drawImage(writer.imageMap.get((char)face),
                             xpos, ypos, SCALE, SCALE, this);

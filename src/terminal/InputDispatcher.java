@@ -49,8 +49,9 @@ class InputDispatcher
         {
             if (fileEntry.isFile())
             {
-                m_screen.matrix.putString("\n" + fileEntry.getName() +
-                        " -- " + fileEntry.length());
+                String formatted = String.format("\n%-15s = %d",
+                        fileEntry.getName(), fileEntry.length() );
+                m_screen.matrix.putString (formatted);
             }
         }
     }
@@ -59,6 +60,45 @@ class InputDispatcher
     {
         basicRunner = new BasicRunner(store.toArray(), speed, m_screen);
         basicRunner.start(sync);
+    }
+
+    private void list (String[] split)
+    {
+        if (split.length == 2)
+        {
+            try
+            {
+                int i1 = Integer.parseInt(split[1]);  // single number
+                if (i1>=0) // positive
+                {
+                    m_screen.matrix.putString(store.list(i1,i1));
+                }
+                else // negative
+                {
+                    m_screen.matrix.putString(store.list(0,-i1));
+                }
+            }
+            catch (NumberFormatException ex)
+            {
+                String[] args = split[1].split("-");
+                int i1 = Integer.parseInt(args[0]);
+                int i2;
+                try
+                {
+                    i2 = Integer.parseInt(args[1]);
+                }
+                catch (NumberFormatException ex2)
+                {
+                    i2 = Integer.MAX_VALUE;
+                }
+                m_screen.matrix.putString(store.list(i1, i2));
+            }
+        }
+        else  // no args
+        {
+            m_screen.matrix.putString(store.toString());
+        }
+        m_screen.matrix.putString(ProgramStore.OK);
     }
 
     /**
@@ -75,35 +115,7 @@ class InputDispatcher
         s = s.toLowerCase();
         if (split[0].toLowerCase().equals("list"))
         {
-            if (split.length == 2)
-            {
-                try
-                {
-                    int i1 = Integer.parseInt(split[1]);  // single number
-                    if (i1>=0) // positive
-                    {
-                        m_screen.matrix.putString(store.list(i1,i1));
-                    }
-                    else // negative
-                    {
-                        m_screen.matrix.putString(store.list(0,-i1));
-                    }
-                    m_screen.matrix.putString(ProgramStore.OK);
-                }
-                catch (NumberFormatException ex)
-                {
-                    String[] args = split[1].split("-");
-                    int i1 = Integer.parseInt(args[0]);
-                    int i2 = Integer.parseInt(args[1]);
-                    m_screen.matrix.putString(store.list(i1, i2));
-                    m_screen.matrix.putString(ProgramStore.OK);
-                }
-            }
-            else
-            {
-                m_screen.matrix.putString(store.toString());
-                m_screen.matrix.putString(ProgramStore.OK);
-            }
+            list (split);
         }
         else if (s.equals("shift"))
         {

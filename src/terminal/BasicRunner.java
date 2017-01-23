@@ -11,16 +11,16 @@ class BasicRunner implements Runnable
     private static volatile boolean running = false;
     private Basic olsenBasic;
 
-    public BasicRunner (String[] program, boolean slow, C64Screen shellFrame)
+    public BasicRunner (String[] program, int speed, C64Screen shellFrame)
     {
         if (running)
         {
             return;
         }
         olsenBasic = new Basic(program);
-        if (slow)
+        if (speed > 0)
         {
-            DelayTracer t = new DelayTracer(1000);
+            DelayTracer t = new DelayTracer(speed);
             olsenBasic.setTracer(t);
         }
         olsenBasic.getMachine().setMemoryListener(new PeekPokeHandler(shellFrame));

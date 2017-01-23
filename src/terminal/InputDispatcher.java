@@ -8,8 +8,10 @@ import java.io.File;
 class InputDispatcher
 {
     private final C64Screen m_screen;
-    private final ProgramStore store = new ProgramStore();
+    public final ProgramStore store = new ProgramStore();
     BasicRunner basicRunner;
+
+    private int speed = 10000;
 
     public InputDispatcher (C64Screen screen)
     {
@@ -32,7 +34,7 @@ class InputDispatcher
                     char[] in = m_screen.fromTextArea.take();
                     handleInput(in);
                 }
-                catch (InterruptedException e)
+                catch (Exception e)
                 {
                     e.printStackTrace();
                 }
@@ -55,7 +57,7 @@ class InputDispatcher
 
     private void run (boolean sync)
     {
-        basicRunner = new BasicRunner(store.toArray(), true, m_screen);
+        basicRunner = new BasicRunner(store.toArray(), speed, m_screen);
         basicRunner.start(sync);
     }
 
@@ -63,7 +65,7 @@ class InputDispatcher
      * Main function. Runs in a separate thread
      * @param in
      */
-    private void handleInput (char[] in)
+    private void handleInput (char[] in) throws Exception
     {
         System.gc();
         System.runFinalization();
@@ -71,10 +73,37 @@ class InputDispatcher
         String s = new String(in).trim();
         String[] split = s.split(" ");
         s = s.toLowerCase();
-        if (s.equals("list"))
+        if (split[0].toLowerCase().equals("list"))
         {
-            m_screen.matrix.putString(store.toString());
-            m_screen.matrix.putString(ProgramStore.OK);
+            if (split.length == 2)
+            {
+                try
+                {
+                    int i1 = Integer.parseInt(split[1]);  // single number
+                    if (i1>=0) // positive
+                    {
+                        m_screen.matrix.putString(store.list(i1,i1));
+                    }
+                    else // negative
+                    {
+                        m_screen.matrix.putString(store.list(0,-i1));
+                    }
+                    m_screen.matrix.putString(ProgramStore.OK);
+                }
+                catch (NumberFormatException ex)
+                {
+                    String[] args = split[1].split("-");
+                    int i1 = Integer.parseInt(args[0]);
+                    int i2 = Integer.parseInt(args[1]);
+                    m_screen.matrix.putString(store.list(i1, i2));
+                    m_screen.matrix.putString(ProgramStore.OK);
+                }
+            }
+            else
+            {
+                m_screen.matrix.putString(store.toString());
+                m_screen.matrix.putString(ProgramStore.OK);
+            }
         }
         else if (s.equals("new"))
         {
@@ -103,6 +132,18 @@ class InputDispatcher
         {
             dir();
             m_screen.matrix.putString("\n"+ProgramStore.OK);
+        }
+        else if (split[0].toLowerCase().equals("speed"))
+        {
+            try
+            {
+                speed = Integer.parseInt(split[1]);
+                m_screen.matrix.putString("\n"+ProgramStore.OK);
+            }
+            catch (NumberFormatException ex)
+            {
+                m_screen.matrix.putString("\n"+ProgramStore.ERROR);
+            }
         }
         else if (split[0].toLowerCase().equals("save"))
         {

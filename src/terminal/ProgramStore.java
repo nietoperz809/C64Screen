@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  */
 class ProgramStore
 {
-    private static final String ERROR = "ERROR.\n";
+    public static final String ERROR = "ERROR.\n";
     public static final String OK = "READY.\n";
     private final TreeSet<String> store = new TreeSet<>(new LineComparator());
 
@@ -137,6 +137,22 @@ class ProgramStore
             }
         }
         return ok ? OK : ERROR;
+    }
+
+    public String list (int min, int max)
+    {
+        //noinspection unchecked
+        TreeSet<String> clone = (TreeSet<String>) store.clone();  // avoid java.util.ConcurrentModificationException
+        StringBuilder sb = new StringBuilder();
+        for (String s : clone)
+        {
+            int num = getLineNumber(s);
+            if (num>=min && num<=max)
+            {
+                sb.append(s).append('\n');
+            }
+        }
+        return sb.toString();
     }
 
     @Override

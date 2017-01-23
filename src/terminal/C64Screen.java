@@ -5,8 +5,15 @@ import misc.RingBuffer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetAdapter;
+import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -126,9 +133,36 @@ public class C64Screen
                     100,
                     500,
                     TimeUnit.MILLISECONDS);
+
+            new DropTarget(this, new DropTargetAdapter()
+            {
+                @Override
+                public void drop (DropTargetDropEvent event)
+                {
+                    event.acceptDrop(DnDConstants.ACTION_COPY);
+                    Transferable transferable = event.getTransferable();
+                    DataFlavor[] flavors = transferable.getTransferDataFlavors();
+                    for (DataFlavor flavor : flavors)
+                    {
+                        try
+                        {
+                            if (flavor.isFlavorJavaFileListType())
+                            {
+                                java.util.List<File> files = (java.util.List<File>) transferable.getTransferData(flavor);
+                                File f = files.get(0);
+                                dispatcher.store.load(f.getPath());
+                                matrix.putString("Loaded: " + f.getName() + "\n" + ProgramStore.OK);
+                                return; // only one file
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            matrix.putString(ProgramStore.ERROR);
+                        }
+                    }
+                }
+            });
         }
-
-
 
         @Override
         protected void paintComponent (Graphics g)

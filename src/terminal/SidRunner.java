@@ -87,10 +87,10 @@ class SidRunner
             {
                 Thread.currentThread().setName("SIDRunner");
                 long cycles = 1;
-                while (true)
+                while (!Thread.interrupted())
                 {
                     execute (cycles);
-                    cycles += 33; //+= l1; //29; //add;
+                    cycles += 33; 
                     if (reset)
                     {
                         setupSID();
@@ -98,6 +98,7 @@ class SidRunner
                         System.out.println("SID ready");
                     }
                 }
+                System.out.println("SID died");
             }
         }).start();
     }

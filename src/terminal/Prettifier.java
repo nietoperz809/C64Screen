@@ -1,7 +1,6 @@
 package terminal;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -198,7 +197,7 @@ class Prettifier
         for (String line : prog)
         {
             StringList sl = tokenize(line);
-            System.out.println(Arrays.toString(sl.toArray()));
+            //System.out.println(Arrays.toString(sl.toArray()));
             theMap.put(sl.get(0), ""+start);
             sl.set(0, ""+start);
             start += stepWidth;

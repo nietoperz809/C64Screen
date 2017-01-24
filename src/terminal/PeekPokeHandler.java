@@ -9,10 +9,6 @@ class PeekPokeHandler extends NullMemoryListener
 {
     private static final int SID_FIRST = 0xd400;
     private static final int SID_LAST = SID_FIRST + 0x1c;
-    private static final int SCREEN_FIRST = 0x400;
-    private static final int SCREEN_LAST = SCREEN_FIRST+0x3ff;
-    private static final int COLRAM_FIRST = 0xd800;
-    private static final int COLRAM_LAST = COLRAM_FIRST+0x3ff;
     private final C64Screen shell;
 
     public PeekPokeHandler (C64Screen f)
@@ -28,23 +24,49 @@ class PeekPokeHandler extends NullMemoryListener
             CharacterWriter.getInstance().setBackgroundColor(value);
             shell.panel.repaint();
         }
+        else if (addr == 53272)
+        {
+            //shell.matrix.setBaseAddress(value);
+        }
         else if (addr == 646)
         {
             shell.matrix.setDefaultColorIndex((byte) value);
         }
-        else if (addr >= COLRAM_FIRST && addr <= COLRAM_LAST)
+        else if (addr >= 0xd800 && addr <= 0xdbe7)
         {
-            shell.matrix.pokeColor(addr, (char)value);
-            shell.panel.repaint();
-        }
-        else if (addr >= SCREEN_FIRST && addr <= SCREEN_LAST)
-        {
-            shell.matrix.pokeFace(addr, (char)value);
+            try
+            {
+                shell.matrix.pokeColor(addr, (char) value);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
             shell.panel.repaint();
         }
         else if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
         {
-            SidRunner.write(addr-SID_FIRST, value);
+            SidRunner.write(addr - SID_FIRST, value);
+        }
+        else if (addr < 0x4000) // possible screen RAM
+        {
+            C64VideoMatrix matrix = C64VideoMatrix.bufferFromAddress(addr);
+            try
+            {
+                matrix.pokeFace(addr, (char) value);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+            shell.panel.repaint();
+        }
+        else
+        {
+            System.out.println("Unknown Poke " +
+                    String.format("$%04x",addr) +
+                    " - " +
+                    String.format("$%02x",value));
         }
     }
 
@@ -53,20 +75,36 @@ class PeekPokeHandler extends NullMemoryListener
     {
         if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
         {
-            return SidRunner.read(addr-0xd400);
+            return SidRunner.read(addr - 0xd400);
         }
         else if (addr == 646)
         {
-            return (int)shell.matrix.getDefaultColorIndex();
+            return (int) shell.matrix.getDefaultColorIndex();
         }
-        else if (addr >= COLRAM_FIRST && addr <= COLRAM_LAST)
+        else if (addr >= 0xd800 && addr <= 0xdbe7)
         {
-            return shell.matrix.peekColor(addr);
+            try
+            {
+                return shell.matrix.peekColor(addr);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
-        else if (addr >= SCREEN_FIRST && addr <= SCREEN_LAST)
+        else if (addr < 0x4000)
         {
-            return shell.matrix.peekFace(addr);
+            C64VideoMatrix matrix = C64VideoMatrix.bufferFromAddress(addr);
+            try
+            {
+                return matrix.peekFace(addr);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
+        System.out.println("Unknown Peek @ "+String.format("$%04x",addr));
         return 0;
     }
 }

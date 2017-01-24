@@ -27,7 +27,7 @@ import static java.awt.event.KeyEvent.VK_ENTER;
  */
 public class C64Screen
 {
-    final C64Matrix matrix = new C64Matrix();
+    final C64VideoMatrix matrix = C64VideoMatrix.bufferFromAddress(1024);
     private final CharacterWriter writer = CharacterWriter.getInstance();
     private final CommandLineDispatcher dispatcher = new CommandLineDispatcher(this);
     final ArrayBlockingQueue<char[]> fromTextArea = new ArrayBlockingQueue<>(20);
@@ -44,8 +44,8 @@ public class C64Screen
             setFocusable(true);
             requestFocusInWindow();
             setPreferredSize(new Dimension(
-                    C64Matrix.CHARS_PER_LINE*SCALE,
-                    C64Matrix.LINES_ON_SCREEN*SCALE));
+                    C64VideoMatrix.CHARS_PER_LINE*SCALE,
+                    C64VideoMatrix.LINES_ON_SCREEN*SCALE));
             addKeyListener(new KeyAdapter()
             {
                 void handleKey (KeyEvent e)
@@ -64,9 +64,6 @@ public class C64Screen
                         {
                             e1.printStackTrace();
                         }
-                        //dispatcher.handleInput(writer.mapCBMtoPC(arr));
-                        //System.out.println(new String(writer.mapCBMtoPC(arr)));
-                        //System.out.println("LastChar: "+ (int)matrix.getLastChar());
                     }
                     else if (c == VK_BACKSPACE)
                     {
@@ -167,29 +164,7 @@ public class C64Screen
         @Override
         protected void paintComponent (Graphics g)
         {
-            int ypos = 0;
-            for (int y = 0; y<C64Matrix.LINES_ON_SCREEN; y++)
-            {
-                int xpos = 0;
-                for (int x = 0; x<C64Matrix.CHARS_PER_LINE; x++)
-                {
-                    C64Character c64c = matrix.getVal(x,y);
-                    int face = c64c.face & 0x00ff;
-                    g.setColor (C64Colors.values()[c64c.colorIndex].getColor());
-                    g.fillRect(xpos, ypos, SCALE, SCALE);
-                    g.drawImage(writer.imageMap.get((char)face),
-                            xpos, ypos, SCALE, SCALE, this);
-                    xpos += SCALE;
-                }
-                ypos += SCALE;
-            }
-            if (blinkflag)
-            {
-                Point p = matrix.getCursor();
-                g.setColor(Color.GREEN);
-                g.fillRect(p.x * SCALE, p.y * SCALE, SCALE, SCALE);
-            }
-            blinkflag = !blinkflag;
+            matrix.render(g);
         }
 
         @Override
@@ -201,8 +176,6 @@ public class C64Screen
 
     private C64Screen ()
     {
-        //matrix.putString("hallo");
-        //matrixToCanvas();
         JFrame f = new JFrame();
         f.setLayout(new FlowLayout());
         f.add (panel);

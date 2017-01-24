@@ -8,17 +8,18 @@ import static java.awt.event.KeyEvent.VK_ENTER;
 /**
  * Created
  */
-class C64Matrix extends ArrayList<C64Character[]>
+class C64VideoMatrix extends ArrayList<C64Character[]>
 {
     static final int LINES_ON_SCREEN = 25;
     static final int CHARS_PER_LINE = 40;
-    static final int NO_CHARACTER = 0x100 + ' ';
+    private static final int NO_CHARACTER = 0x100 + ' ';
+
+    private int charBaseAddress = 0x400;
+    static final int COLOR_BASE_ADDRESS = 0xd800;
+
+    static C64VideoMatrix[] buffers = new C64VideoMatrix[16];
 
     private final Point currentCursorPos = new Point(0,0);
-    /**
-     * Last typed character before return was hit
-     */
-    private char lastChar = '\uFFFF';
     /**
      * Color used for new chars on screen
      */
@@ -28,10 +29,33 @@ class C64Matrix extends ArrayList<C64Character[]>
      */
     private int overLength = 0;
 
-    public C64Matrix()
+    static
     {
+        for (int s=0; s<buffers.length; s++)
+        {
+            buffers[s] = new C64VideoMatrix(s*1024);
+        }
+    }
+
+    /**
+     * Private Constructor
+     * @param baseAddress Address of virtual memory segment
+     */
+    private C64VideoMatrix (int baseAddress)
+    {
+        charBaseAddress = baseAddress;
         clearScreen();
     }
+
+    public static C64VideoMatrix bufferFromAddress (int addr)
+    {
+        return buffers[addr/1024];
+    }
+
+//    synchronized public void setBaseAddress (int a)
+//    {
+//        charBaseAddress = (a >>> 4)*1024;
+//    }
 
     /**
      * Fill screen with blanks
@@ -39,7 +63,7 @@ class C64Matrix extends ArrayList<C64Character[]>
     synchronized public void clearScreen ()
     {
         this.clear();
-        for (int s = 0; s< LINES_ON_SCREEN; s++)
+        for (int s = 0; s< LINES_ON_SCREEN+1; s++)
         {
             add(createEmptyLine());
         }
@@ -100,7 +124,6 @@ class C64Matrix extends ArrayList<C64Character[]>
         }
         else
         {
-            lastChar = c;
             if (currentCursorPos.x == CHARS_PER_LINE)
             {
                 nextLine();
@@ -145,15 +168,15 @@ class C64Matrix extends ArrayList<C64Character[]>
         for(;;)
         {
             C64Character c64[] = get(ypos);
-            for (int s = 0; s < c64.length; s++)
+            for (C64Character aC64 : c64)
             {
-                if (c64[s].face == NO_CHARACTER)
+                if (aC64.face == NO_CHARACTER)
                 {
                     Character[] ret = new Character[arr.size()];
                     arr.toArray(ret);
                     return ret; //get(currentCursorPos.y);
                 }
-                arr.add((char) c64[s].face);
+                arr.add((char) aC64.face);
             }
             ypos++;
         }
@@ -263,23 +286,25 @@ class C64Matrix extends ArrayList<C64Character[]>
 //        return sb.toString();
 //    }
 
-    /**
-     * Get element at specified position
-     * @param x x pos.
-     * @param y y pos.
-     * @return the element
-     */
-    synchronized public C64Character getVal (int x, int y)
-    {
-        try
-        {
-            return get(y)[x];
-        }
-        catch (Exception ex)
-        {
-            return new C64Character('?', 2);   // red '?'
-        }
-    }
+// --Commented out by Inspection START (1/24/2017 7:50 AM):
+//    /**
+//     * Get element at specified position
+//     * @param x x pos.
+//     * @param y y pos.
+//     * @return the element
+//     */
+//    synchronized public C64Character getVal (int x, int y)
+//    {
+//        try
+//        {
+//            return get(y)[x];
+//        }
+//        catch (Exception ex)
+//        {
+//            return new C64Character('?', 2);   // red '?'
+//        }
+//    }
+// --Commented out by Inspection STOP (1/24/2017 7:50 AM)
 
 // --Commented out by Inspection START (1/20/2017 5:31 AM):
 //    /**
@@ -299,10 +324,12 @@ class C64Matrix extends ArrayList<C64Character[]>
      * @param addr memory address, must be >= 1024 and <= 1024+25*40
      * @return a point givin the x/y coordinates
      */
-    private Point fromAddress (int addr, int offset)
+    private Point elementfromAddress (int addr) throws Exception
     {
-        addr -= offset;
-        return new Point (addr % CHARS_PER_LINE, addr / CHARS_PER_LINE);
+        Point p = new Point (addr % CHARS_PER_LINE, addr / CHARS_PER_LINE);
+        if (p.y >= LINES_ON_SCREEN+1)
+            throw new Exception("Wrong screen address");
+        return p;
     }
 
     /**
@@ -310,15 +337,15 @@ class C64Matrix extends ArrayList<C64Character[]>
      * @param offset screen memory address
      * @return the value
      */
-    synchronized public int peekFace (int offset)
+    synchronized public int peekFace (int offset) throws Exception
     {
-        Point p = fromAddress (offset, 1024);
+        Point p = elementfromAddress(offset-charBaseAddress);
         return get(p.y)[p.x].face;
     }
 
-    synchronized public int peekColor (int offset)
+    synchronized public int peekColor (int offset) throws Exception
     {
-        Point p = fromAddress (offset, 0xd800);
+        Point p = elementfromAddress(offset- COLOR_BASE_ADDRESS);
         return get(p.y)[p.x].colorIndex;
     }
 
@@ -327,15 +354,45 @@ class C64Matrix extends ArrayList<C64Character[]>
      * @param offset screen memory address
      * @param val the new value
      */
-    synchronized public void pokeFace (int offset, int val)
+    synchronized public void pokeFace (int offset, int val) throws Exception
     {
-        Point p = fromAddress (offset, 1024);
+        Point p = elementfromAddress(offset-charBaseAddress);
         get(p.y)[p.x].face = val;
     }
 
-    synchronized public void pokeColor (int offset, int val)
+    synchronized public void pokeColor (int offset, int val) throws Exception
     {
-        Point p = fromAddress (offset, 0xd800);
+        Point p = elementfromAddress(offset- COLOR_BASE_ADDRESS);
         get(p.y)[p.x].colorIndex = val;
+    }
+
+    private final static int SCALE=16;
+    private boolean blinkflag = false;
+    public void render (Graphics g)
+    {
+        CharacterWriter writer = CharacterWriter.getInstance();
+        int ypos = 0;
+        for (int y = 0; y<LINES_ON_SCREEN; y++)
+        {
+            int xpos = 0;
+            for (int x = 0; x<CHARS_PER_LINE; x++)
+            {
+                C64Character c64c = get(y)[x];
+                int face = c64c.face & 0x00ff;
+                g.setColor (C64Colors.values()[c64c.colorIndex].getColor());
+                g.fillRect(xpos, ypos, SCALE, SCALE);
+                g.drawImage(writer.imageMap.get((char)face),
+                        xpos, ypos, SCALE, SCALE, null);
+                xpos += SCALE;
+            }
+            ypos += SCALE;
+        }
+        if (blinkflag)
+        {
+            g.setColor(Color.GREEN);
+            g.fillRect(currentCursorPos.x * SCALE,
+                    currentCursorPos.y * SCALE, SCALE, SCALE);
+        }
+        blinkflag = !blinkflag;
     }
 }

@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
-import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
@@ -57,7 +56,8 @@ class ProgramStore
      */
     private int getLineNumber (String in)
     {
-        return new Scanner(in).useDelimiter("\\D").nextInt();
+        String[] split = in.split(" ");
+        return Integer.parseInt(split[0]);
     }
 
     private void removeLine (int num)

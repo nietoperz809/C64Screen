@@ -8,10 +8,10 @@ import java.io.File;
 class CommandLineDispatcher
 {
     private final C64Screen m_screen;
-    public final ProgramStore store = new ProgramStore();
+    final ProgramStore store = new ProgramStore();
     BasicRunner basicRunner;
 
-    private int speed = 10000;
+    private int speed = 990;
 
     public CommandLineDispatcher (C64Screen screen)
     {
@@ -26,8 +26,7 @@ class CommandLineDispatcher
             {
                 e.printStackTrace();
             }
-            //noinspection InfiniteLoopStatement
-            while(true)
+            while(!Thread.interrupted())
             {
                 try
                 {

@@ -27,12 +27,12 @@ enum C64Colors
     YELLOW(new Color(0xeeee77)),
     ORANGE(new Color(0xdd8855)),
     BROWN(new Color(0x664400)),
-    LIGHTRED(new Color(0xff7777)),
-    GRAY1(new Color(0x333333)),
-    GRAY2(new Color(0x777777)),
-    LIGHTGREEN(new Color(0xaaff66)),
-    LIGHTBLUE(new Color(0x0088ff)),
-    GRAY3(new Color(0xbbbbbb));
+    LIGHT_RED(new Color(0xff7777)),
+    DARK_GRAY(new Color(0x333333)),
+    MEDIUM_GRAY(new Color(0x777777)),
+    LIGHT_GREEN(new Color(0xaaff66)),
+    LIGHT_BLUE(new Color(0x0088ff)),
+    LIGHT_GRAY(new Color(0xbbbbbb));
 
     private final Color c;
 

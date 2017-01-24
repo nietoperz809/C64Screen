@@ -15,9 +15,9 @@ class C64VideoMatrix extends ArrayList<C64Character[]>
     private static final int NO_CHARACTER = 0x100 + ' ';
 
     private int charBaseAddress = 0x400;
-    static final int COLOR_BASE_ADDRESS = 0xd800;
+    private static final int COLOR_BASE_ADDRESS = 0xd800;
 
-    static C64VideoMatrix[] buffers = new C64VideoMatrix[16];
+    private static final C64VideoMatrix[] buffers = new C64VideoMatrix[16];
 
     private final Point currentCursorPos = new Point(0,0);
     /**

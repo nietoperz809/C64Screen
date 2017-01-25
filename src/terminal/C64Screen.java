@@ -28,6 +28,8 @@ import static java.awt.event.KeyEvent.VK_ENTER;
 public class C64Screen
 {
     final C64VideoMatrix matrix = C64VideoMatrix.bufferFromAddress(1024);
+    final C64HiresMatrix hires = new C64HiresMatrix();
+    private boolean isHires = false;
     private final CharacterWriter writer = CharacterWriter.getInstance();
     private final CommandLineDispatcher dispatcher = new CommandLineDispatcher(this);
     final ArrayBlockingQueue<char[]> fromTextArea = new ArrayBlockingQueue<>(20);
@@ -164,7 +166,10 @@ public class C64Screen
         @Override
         protected void paintComponent (Graphics g)
         {
-            matrix.render(g);
+            if (isHires)
+                hires.render(g);
+            else
+                matrix.render(g);
         }
 
         @Override
@@ -172,6 +177,11 @@ public class C64Screen
         {
             //super.update(g);
         }
+    }
+
+    public void setHires (boolean b)
+    {
+        isHires = b;
     }
 
     private C64Screen ()

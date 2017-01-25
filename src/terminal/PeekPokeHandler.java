@@ -24,9 +24,9 @@ class PeekPokeHandler extends NullMemoryListener
             CharacterWriter.getInstance().setBackgroundColor(value);
             shell.panel.repaint();
         }
-        else if (addr == 53272)
+        else if (addr == 53265)
         {
-            //shell.matrix.setBaseAddress(value);
+            shell.setHires ((value & 32) == 32);
         }
         else if (addr == 646)
         {
@@ -41,7 +41,7 @@ class PeekPokeHandler extends NullMemoryListener
             catch (Exception e)
             {
                 e.printStackTrace();
-            }
+            }                                                       
             shell.panel.repaint();
         }
         else if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
@@ -50,6 +50,10 @@ class PeekPokeHandler extends NullMemoryListener
         }
         else if (addr < 0x4000) // possible screen RAM
         {
+            if (addr >= 8192 && addr <= 16383)
+            {
+                shell.hires.poke(addr, (byte)value);
+            }
             C64VideoMatrix matrix = C64VideoMatrix.bufferFromAddress(addr);
             try
             {

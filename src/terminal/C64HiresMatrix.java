@@ -10,13 +10,13 @@ import java.awt.image.WritableRaster;
  */
 public class C64HiresMatrix
 {
-    BufferedImage bwImage = new BufferedImage(
+    private final BufferedImage bwImage = new BufferedImage(
             320, 200,
             BufferedImage.TYPE_BYTE_BINARY);
-    WritableRaster wr = bwImage.getRaster();
-    DataBuffer db = wr.getDataBuffer();
-    byte[] rawbytes = new byte[25 * 40 * 8 * 8];
-    int offset = 8192;
+    private final WritableRaster wr = bwImage.getRaster();
+    private final DataBuffer db = wr.getDataBuffer();
+    private final byte[] rawbytes = new byte[25 * 40 * 8 * 8];
+    private final int offset = 8192;
 
     public byte peek (int addr)
     {
@@ -31,13 +31,13 @@ public class C64HiresMatrix
     public void render (Graphics g)
     {
         int counter = 0;
-        for (int row = 0; row < 200; row+=8)
+        for (int row = 0; row < 8000; row+=320)
         {
             for (int cc = 0; cc < 40; cc++)
             {
                 for (int s = 0; s < 320; s+=40)
                 {
-                    db.setElem(s + 40*row + cc, rawbytes[counter++]);
+                    db.setElem(s + row + cc, rawbytes[counter++]);
                 }
             }
         }

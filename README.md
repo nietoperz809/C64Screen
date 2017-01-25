@@ -10,3 +10,5 @@ To test it type:
 SPEED 0 <Return>
 LOAD fractal.bas <Return>
 RUN <Return>
+
+Please run the JAR to get a quick impression. :)

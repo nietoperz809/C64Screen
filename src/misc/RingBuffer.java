@@ -85,12 +85,18 @@ public final class RingBuffer<T>
      */
     public synchronized T peek()
     {
-        return elements[(offset + (capacity() - unconsumedElements)) % capacity()];
+        try
+        {
+            return elements[(offset + (capacity() - unconsumedElements)) % capacity()];
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 
     /**
-     * Removes and returns the next available element, blocking until data
-     * becomes available.
+     * Removes and returns the next available element, 
      *
      * @return The next available element
      * becomes available.

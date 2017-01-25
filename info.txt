@@ -1,0 +1,16 @@
+Ellipse.bas
+------------
+Unknown Peek @ $d011      read Control register 1
+Unknown Poke $d011 - $b0  write Control register 1: [1, 0, 1, 1, 0, 0, 0, 0]
+RST8 = 1 Raster
+BMM = 1  Bitmap Access
+DEN = 1  Display Enable
+
+
+Unknown Poke $d016 - $10
+MCM = 1  Multicolor mode
+
+Unknown Poke $d011 - $10
+DEN = 1
+
+Unknown Poke $d016 - $10

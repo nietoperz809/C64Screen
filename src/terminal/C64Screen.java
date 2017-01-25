@@ -43,6 +43,7 @@ public class C64Screen
 
         public MyPanel ()
         {
+            setDoubleBuffered(true);
             setFocusable(true);
             requestFocusInWindow();
             setPreferredSize(new Dimension(

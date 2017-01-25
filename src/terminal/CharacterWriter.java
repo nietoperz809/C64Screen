@@ -3,6 +3,8 @@ package terminal;/*
  * and open the template in the editor.
  */
 
+import misc.BitmapTools;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.util.HashMap;
@@ -74,7 +76,7 @@ public class CharacterWriter implements CharacterROM
                 i >>>= 1;
             }
         }
-        return makeColorTransparent(img, TRANSPARENT);
+        return BitmapTools.makeColorTransparent(img, TRANSPARENT);
     }
 
     public static CharacterWriter getInstance ()
@@ -86,32 +88,6 @@ public class CharacterWriter implements CharacterROM
         return instance;
     }
 
-    //Just copy-paste this method
-    private static Image makeColorTransparent (BufferedImage im, final Color color)
-    {
-        ImageFilter filter = new RGBImageFilter()
-        {
-            // the color we are looking for... Alpha bits are set to opaque
-            public final int markerRGB = color.getRGB() | 0xFF000000;
-
-            public final int filterRGB (int x, int y, int rgb)
-            {
-                if ((rgb | 0xFF000000) == markerRGB)
-                {
-                    // Mark the alpha bits as zero - transparent
-                    return 0x00FFFFFF & rgb;
-                }
-                else
-                {
-                    // nothing to do
-                    return rgb;
-                }
-            }
-        };
-
-        ImageProducer ip = new FilteredImageSource(im.getSource(), filter);
-        return Toolkit.getDefaultToolkit().createImage(ip);
-    }
 
     public static void main (String[] args)
     {

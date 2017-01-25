@@ -6,9 +6,10 @@ May be useful if s.o. wants to write his own C64 emulator. :)
 
 **New!**
 320*200 pts Hires Graphix. Monochrome
+
 To test it type: 
-SPEED 0 <Return>
-LOAD fractal.bas <Return>
-RUN <Return>
+- SPEED 0 \<Return>
+- LOAD fractal.bas \<Return>
+- RUN \<Return>
 
 Please run the JAR to get a quick impression. :)

@@ -18,13 +18,28 @@ public class C64HiresMatrix
     {
         bwImage = new BufferedImage (320, 200, BufferedImage.TYPE_INT_ARGB);
         db = bwImage.getRaster().getDataBuffer();
+        for (int s=0; s<rawints.length; s++)
+            rawints[s] = Color.BLACK.getRGB();
     }
+
+    int nullInt = 0x00ffffff;
+    C64VideoMatrix screenMatrix = C64VideoMatrix.bufferFromAddress(1024);
 
     public int peek (int addr)
     {
+        int out = 0;
         addr = (addr-offset)*8;
-        return 0; //rawints[addr-offset];
-        // TODO: fill this with usable code
+        int b = 128;
+        while(b != 0)
+        {
+            if (rawints[addr] != nullInt)
+            {
+                out = out | b;
+            }
+            addr++;
+            b>>>=1;
+        }
+        return out;
     }
 
     public void poke (int addr, int val)
@@ -34,9 +49,21 @@ public class C64HiresMatrix
         while(b != 0)
         {
             if ((val & b) == b)
-                rawints[addr] = Color.RED.getRGB();
+            {
+                try
+                {
+                    int colindex = screenMatrix.peekFace(addr/64+1024);
+                    rawints[addr] = C64Colors.values()[colindex&15].getRGB();
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
             else
-                rawints[addr] = 0;
+            {
+                rawints[addr] = nullInt;
+            }
             addr++;
             b>>>=1;
         }

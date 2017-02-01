@@ -27,6 +27,11 @@ class PeekPokeHandler extends NullMemoryListener
         else if (addr == 53265)
         {
             shell.setHires ((value & 32) == 32);
+            shell.setDisplayEnabled((value & 16) == 16);
+        }
+        else if (addr == 53272)
+        {
+            shell.hires.setAddress_8192((value & 8 ) == 8);
         }
         else if (addr == 646)
         {

@@ -17,7 +17,7 @@ public interface Tracer {
 	 * @param basic
 	 *            the Basic instance that has started the program
 	 */
-	void start(Basic basic);
+	void start (Basic basic);
 
 	/**
 	 * Called when a program stops.
@@ -25,7 +25,7 @@ public interface Tracer {
 	 * @param basic
 	 *            the Basic instance that has stoppepd the program
 	 */
-	void stop(Basic basic);
+	void stop (Basic basic);
 
 	/**
 	 * A command has been executed.
@@ -39,5 +39,5 @@ public interface Tracer {
 	 * @param count
 	 *            the position of the command in line (0-based)
 	 */
-	void commandExecuted(Basic basic, Command command, Integer lineNumber, int count);
+	void commandExecuted (Basic basic, Command command, Integer lineNumber, int count);
 }

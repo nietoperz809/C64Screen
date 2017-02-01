@@ -35,10 +35,10 @@ public class C64Screen
     final ArrayBlockingQueue<char[]> fromTextArea = new ArrayBlockingQueue<>(20);
     final RingBuffer<Character> ringBuff = new RingBuffer<>(40);
     final MyPanel panel = new MyPanel();
+    private boolean isEnabled = true;
 
     class MyPanel extends JPanel
     {
-        boolean blinkflag;
         final static int SCALE=16;
 
         public MyPanel ()
@@ -167,10 +167,13 @@ public class C64Screen
         @Override
         protected void paintComponent (Graphics g)
         {
-            if (isHires)
-                hires.render(g);
-            else
-                matrix.render(g);
+            if (isEnabled)
+            {
+                if (isHires)
+                    hires.render(g);
+                else
+                    matrix.render(g);
+            }
         }
 
         @Override
@@ -183,6 +186,11 @@ public class C64Screen
     public void setHires (boolean b)
     {
         isHires = b;
+    }
+
+    public void setDisplayEnabled (boolean b)
+    {
+        isEnabled = b;
     }
 
     private C64Screen ()

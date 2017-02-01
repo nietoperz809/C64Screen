@@ -1,37 +1,20 @@
 package com.sixtyfour.extensions.textmode;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import com.sixtyfour.plugins.*;
+import com.sixtyfour.system.Machine;
+import com.sixtyfour.util.Colors;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
-import java.util.Set;
-import java.util.WeakHashMap;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import com.sixtyfour.plugins.InputProvider;
-import com.sixtyfour.plugins.MemoryListener;
-import com.sixtyfour.plugins.OutputChannel;
-import com.sixtyfour.plugins.PrintConsumer;
-import com.sixtyfour.plugins.SystemCallListener;
-import com.sixtyfour.system.Machine;
-import com.sixtyfour.util.Colors;
 
 /**
  * The console device provides a PETSCII console with 40*25 characters.

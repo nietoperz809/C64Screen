@@ -170,4 +170,14 @@ public class Comparison implements LogicBlock {
 	public boolean isTerm() {
 		return false;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.sixtyfour.parser.Atom#toCode(com.sixtyfour.system.Machine)
+	 */
+	@Override
+	public String toCode(Machine machine) {
+		return null;
+	}
 }

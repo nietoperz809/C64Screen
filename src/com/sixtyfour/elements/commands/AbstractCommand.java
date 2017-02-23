@@ -187,6 +187,16 @@ public abstract class AbstractCommand implements Command {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.sixtyfour.parser.Atom#toCode(com.sixtyfour.system.Machine)
+	 */
+	@Override
+	public String toCode(Machine machine) {
+		return null;
+	}
+
 	/**
 	 * Throws a type mismatch error.
 	 * 

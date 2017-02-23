@@ -34,4 +34,12 @@ public interface Atom {
 	 */
 	boolean isTerm();
 
+	/**
+	 * Converts some Atoms into Java-Code. If that's not possible, null has to
+	 * be returned
+	 * 
+	 * @return the code or null
+	 */
+	String toCode(Machine machine);
+
 }

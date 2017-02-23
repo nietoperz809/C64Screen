@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.sixtyfour.Assembler;
 import com.sixtyfour.Basic;
 import com.sixtyfour.elements.Variable;
 import com.sixtyfour.parser.Line;
+import com.sixtyfour.parser.Preprocessor;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.Program;
 import com.sixtyfour.util.VarUtils;
@@ -37,7 +39,11 @@ public class Template {
 
 	/** The out. */
 	private TemplateOutputChannel out;
-
+	
+	private String basicCode;
+	
+	private String path;
+	
 	/**
 	 * Instantiates a new template.
 	 * 
@@ -47,7 +53,9 @@ public class Template {
 	 *            the variables to prefill the template with
 	 */
 	public Template(String template, Map<String, Object> variables) {
-		vars.putAll(variables);
+	  if (variables != null) {
+	    vars.putAll(variables);
+	  }
 		parseTemplate(template);
 	}
 
@@ -63,6 +71,52 @@ public class Template {
 		vars.put(name, value);
 	}
 
+	/**
+	 * Sets all variables to new values. Old variables will be cleared before this.
+	 * 
+	 * @param variables the new variables
+	 */
+	public void setVariables(Map<String, Object> variables) {
+	  vars.clear();
+	  vars.putAll(variables);
+	}
+	
+	/**
+	 * Similar to setVariables, but the names don't have to follow BASIC's naming conventions. 
+	 * This method will take care that they do, i.e. Floats will keeps their name, 
+	 * Integers will get a "%" added and Strings a "$".
+	 * 
+	 * @param variables the new variables
+	 */
+	public void setVariablesWithType(Map<String, Object> variables) {
+    vars.clear();
+    Map<String, Object> vars = new HashMap<String, Object>();
+    for (Entry<String, Object> entry:variables.entrySet()) {
+      String name=entry.getKey();
+      Object obj=entry.getValue();
+      
+      if (obj instanceof Double) {
+        obj=((Number) obj).floatValue();
+      }
+      
+      if (obj instanceof Integer) {
+        name+="%";
+      } else if (obj instanceof String) {
+        name+="$";
+      }
+      vars.put(name, obj);
+    }
+    setVariables(vars);
+  }
+	
+	/**
+	 * Returns the BASIC code that has been created by parsing the template. This is the code that will actually be compiled and executed.
+	 * @return the code
+	 */
+	public String getBasicCode() {
+	  return basicCode;
+	}
+	
 	/**
 	 * Gets a variable's value.
 	 * 
@@ -98,7 +152,59 @@ public class Template {
 		basic.start();
 		return out.getResult();
 	}
+	
+	
+	/**
+	 * Gets the path of the template in the file system, if one has been set.
+	 * 
+	 * @return the path or null, if none has been set
+	 */
+	public String getPath()
+  {
+    return path;
+  }
 
+  /**
+   * Sets the path of the template in the file system. The template itself doesn't do anything with this
+   * information, so it doesn't have to exist in all cases.
+   * 
+   * @param path the path
+   */
+  public void setPath(String path)
+  {
+    this.path = path;
+  }
+  
+  /**
+   * Gets the current machine instance of the internal Basic instance.
+   * 
+   * @param machine the machine
+   */
+  public Machine getMachine() {
+    return basic.getMachine();
+  }
+
+  /**
+   * Injects a new machine instance into the internal Basic instance.
+   * 
+   * @param machine the machine
+   */
+  public void setMachine(Machine machine) {
+    basic.setMachine(machine);
+  }
+  
+  /**
+   * Processes a part of a template.
+   * 
+   * @param out
+   * @return
+   */
+  String processPart() {
+      out.reset();
+      basic.start();
+      return out.getResult();
+  }
+  
 	/**
 	 * Parses the template.
 	 * 
@@ -106,7 +212,14 @@ public class Template {
 	 *            the template
 	 */
 	private void parseTemplate(String template) {
-		template += "<?cbm 9999999 REM end ?>";
+	  int pl=template.toLowerCase(Locale.ENGLISH).indexOf("<!labels>");
+		boolean labels = pl!=-1;
+		if (labels) {
+			template += "<?cbm REM end ?>";
+			template=template.substring(0,pl)+template.substring(pl+9);
+		} else {
+			template += "<?cbm 9999999 REM end ?>";
+		}
 		String utemp = VarUtils.toUpper(template);
 		int pos = 0;
 		int last = 0;
@@ -147,39 +260,50 @@ public class Template {
 				String[] lines = codePart.split("\n");
 
 				if (!asm) {
-					for (String line : lines) {
-						line = line.replace("\t", "").trim();
-						if (!line.isEmpty()) {
-							Line lo = Line.getLine(line);
-							firstLine = lo.getNumber();
-							break;
+					if (!labels) {
+						// Normal BASIC code with line numbers
+						for (String line : lines) {
+							line = line.replace("\t", "").trim();
+							if (!line.isEmpty()) {
+								Line lo = Line.getLine(line);
+								firstLine = lo.getNumber();
+								break;
+							}
 						}
-					}
 
-					for (int i = lines.length - 1; i >= 0; i--) {
-						String line = lines[i];
-						line = line.replace("\t", "").trim();
-						if (!line.isEmpty()) {
-							Line lo = Line.getLine(line);
-							endLine = lo.getNumber();
-							break;
+						for (int i = lines.length - 1; i >= 0; i--) {
+							String line = lines[i];
+							line = line.replace("\t", "").trim();
+							if (!line.isEmpty()) {
+								Line lo = Line.getLine(line);
+								endLine = lo.getNumber();
+								break;
+							}
 						}
-					}
 
-					if (firstLine <= lastLine) {
-						throw new RuntimeException("Line numbers (" + firstLine + "/" + lastLine + ") too close, can't insert static content into template!");
-					}
+						if (firstLine <= lastLine) {
+							throw new RuntimeException("Line numbers (" + firstLine + "/" + lastLine + ") too close, can't insert static content into template!");
+						}
 
-					if (!prior.isEmpty()) {
-						TemplatePart tp = new TemplatePart(prior);
-						tp.setFirstLine(lastLine);
-						tp.setLastLine(firstLine - 1);
-						lastLine++;
-						code.append(lastLine).append(" SYS1000,").append(lastLine).append('\n');
-						staticParts.put(lastLine, tp);
+						if (!prior.isEmpty()) {
+							TemplatePart tp = new TemplatePart(prior);
+							tp.setFirstLine(lastLine);
+							tp.setLastLine(firstLine - 1);
+							lastLine++;
+							code.append(lastLine).append(" SYS1000,").append(lastLine).append('\n');
+							staticParts.put(lastLine, tp);
+						}
+						lastLine = endLine;
+					} else {
+						// BASIC code with labels instead of line numbers
+						if (!prior.isEmpty()) {
+							TemplatePart tp = new TemplatePart(prior);
+							lastLine++;
+							code.append("SYS1000,").append(lastLine).append('\n');
+							staticParts.put(lastLine, tp);
+						}
 					}
 					code.append(codePart).append('\n');
-					lastLine = endLine;
 				} else {
 					Assembler assem = new Assembler(lines);
 					assem.compile();
@@ -190,12 +314,22 @@ public class Template {
 			}
 		} while (pos != -1);
 
+		if (labels) {
+			String[] lines = code.toString().split("\n");
+			lines = Preprocessor.convertToLineNumbers(lines);
+			code.setLength(0);
+			for (String line : lines) {
+				code.append(line).append('\n');
+			}
+		}
 		// System.out.println(code);
-		basic = new Basic(code.toString());
+		
+		basicCode=code.toString();
+		basic = new Basic(basicCode);
 		basic.compile();
 		out = new TemplateOutputChannel();
 		basic.setOutputChannel(out);
 		basic.getMachine().setSystemCallListener(new StaticTemplateCallListener(staticParts, out, basic.getMachine()));
+		basic.getMachine().setDeviceProvider(new TemplateDeviceProvider(basic, this));
 	}
-
 }

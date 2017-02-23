@@ -77,4 +77,17 @@ public class Constant<T> implements Atom {
 		return value.toString();
 	}
 
+	@Override
+	public String toCode(Machine machine) {
+		if (VarUtils.isInteger(value)) {
+			return String.valueOf(VarUtils.getInt(value));
+		} else if (VarUtils.isFloat(value)) {
+			return String.valueOf(VarUtils.getFloat(value));
+		} else if (VarUtils.isString(value)) {
+			return "\"" + value.toString() + "\"";
+		} else {
+			throw new RuntimeException("Type mismatch error: " + value);
+		}
+	}
+
 }

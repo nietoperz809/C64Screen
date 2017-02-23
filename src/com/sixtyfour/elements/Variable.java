@@ -233,6 +233,9 @@ public class Variable implements Atom {
 			return false;
 		}
 		if (o instanceof Variable) {
+		  if (o == this) {
+		    return true;
+		  }
 			return this.name.equalsIgnoreCase(((Variable) o).name);
 		}
 		return false;
@@ -287,6 +290,10 @@ public class Variable implements Atom {
 		return value;
 	}
 
+	public Object evalFromCode() {
+		return value;
+	}
+
 	/**
 	 * Gets the value of a non-array variable.
 	 * 
@@ -309,13 +316,13 @@ public class Variable implements Atom {
 		if (array) {
 			throw new RuntimeException("Not a simple type: " + this);
 		}
-		if (value.equals(this.value)) {
+		if (value == this.value || value.equals(this.value)) {
 			return;
 		}
 		// Convert into proper format
-		if (VarUtils.isFloat(value) && type.equals(Type.INTEGER)) {
+		if (type == Type.INTEGER && VarUtils.isFloat(value)) {
 			value = VarUtils.getInt(value);
-		} else if (VarUtils.isInteger(value) && type.equals(Type.REAL)) {
+		} else if (type == Type.REAL && VarUtils.isInteger(value)) {
 			value = VarUtils.getFloat(value);
 		}
 		this.value = value;
@@ -387,9 +394,9 @@ public class Variable implements Atom {
 			}
 		}
 
-		if (VarUtils.isFloat(val) && type.equals(Type.INTEGER)) {
+		if (type==Type.INTEGER && VarUtils.isFloat(val)) {
 			val = VarUtils.getInt(val);
-		} else if (VarUtils.isInteger(val) && type.equals(Type.REAL)) {
+		} else if (type==Type.REAL && VarUtils.isInteger(val)) {
 			val = VarUtils.getFloat(val);
 		}
 
@@ -409,11 +416,11 @@ public class Variable implements Atom {
 	 * @return the new value
 	 */
 	public float inc(float value) {
-		if (type.equals(Type.INTEGER)) {
+		if (type == Type.INTEGER) {
 			int ret = (int) (VarUtils.getInt(this.value) + value);
 			this.value = ret;
 			return ret;
-		} else if (type.equals(Type.REAL)) {
+		} else if (type == Type.REAL) {
 			float ret = VarUtils.getFloat(this.value) + value;
 			this.value = ret;
 			return ret;
@@ -449,6 +456,23 @@ public class Variable implements Atom {
 	 */
 	public void setPersistent(boolean persistent) {
 		this.persistent = persistent;
+	}
+
+	@Override
+	public String toCode(Machine machine) {
+		if (array) {
+			return null;
+		}
+
+		machine.getJit().addVariable(this);
+
+		String nam=VarUtils.relabel(name);
+		 if (type == Type.REAL) {
+	      return "((Number) "+nam+".evalFromCode()).floatValue()";
+	    } else if (type == Type.INTEGER) {
+	      return "((Number) "+nam+".evalFromCode()).intValue()";
+	    }
+	    return nam+".evalFromCode()";
 	}
 
 	/**

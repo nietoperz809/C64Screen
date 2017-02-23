@@ -1,14 +1,19 @@
 package com.sixtyfour.parser;
 
+import java.lang.reflect.Method;
+
 import com.sixtyfour.elements.Constant;
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.system.Machine;
+import com.sixtyfour.util.Jitted;
 
 /**
  * A Term is a (part of a) calculation or a logical operation. Terms have two
  * children (left and right) and an operator that connects the two.
  */
 public class Term implements Atom {
+
+	private static int termId;
 
 	/** The left child */
 	private Atom left;
@@ -27,6 +32,16 @@ public class Term implements Atom {
 
 	/** The type that the Term returns */
 	private Type type;
+
+	private int id = termId++;
+
+	private int callCount = 0;
+
+	private Method jittedMethod = null;
+	
+	private Jitted jittedInstance=null;
+
+	private boolean jitRun = false;
 
 	/**
 	 * Instantiates a new term based on the given expression.
@@ -216,7 +231,11 @@ public class Term implements Atom {
 	@Override
 	public Object eval(Machine machine) {
 		try {
+			callCount++;
 			machine.setCurrentOperator(operator);
+			if (jittedMethod != null) {
+				return machine.getJit().call(this);
+			}
 			if (operator.isNop()) {
 				if (left == null) {
 					throw new RuntimeException("Syntax error!");
@@ -261,6 +280,71 @@ public class Term implements Atom {
 			throw new RuntimeException("Unable to evaluate term: " + this.toString());
 		} finally {
 			machine.setCurrentOperator(null);
+			// TODO Make 20 dependent on something
+			if (!jitRun && callCount > 20 && machine.getJit() != null) {
+			  jitRun=machine.getJit().addMethod(this, machine);
+			}
+		}
+	}
+
+	@Override
+	public String toCode(Machine machine) {
+		try {
+			if (operator.isNop()) {
+				if (left == null) {
+					throw new RuntimeException("Syntax error!");
+				}
+				String ls = left.toCode(machine);
+				if (ls != null) {
+					return filterCode("(" + ls + ")");
+				} else {
+					return null;
+				}
+			}
+			Type type = getType();
+			if (type == Type.STRING) {
+				if (operator.isPlus()) {
+					String ls = left.toCode(machine);
+					String rs = right.toCode(machine);
+					if (ls == null || rs == null) {
+						return null;
+					}
+					return filterCode("(" + ls + "+" + rs + ")");
+				}
+			} else {
+				String n1 = left.toCode(machine);
+				String n2 = n1;
+				if (left != right) {
+					n2 = right.toCode(machine);
+				}
+
+				if (n1 == null || n2 == null) {
+					return null;
+				}
+
+				String v1 = "";
+				if (operator.isPlus()) {
+					v1 = n1 + "+" + n2;
+				} else if (operator.isMinus()) {
+					v1 = n1 + "-" + n2;
+				} else if (operator.isPower()) {
+					v1 = "(float) Math.pow(" + n1 + "," + n2 + ")";
+				} else if (operator.isMultiplication()) {
+					v1 = n1 + "*" + n2;
+				} else if (operator.isDivision()) {
+					v1 = n1 + "/" + n2;
+				} else if (operator.isOr()) {
+					v1 = "(int) ("+ n1 + ")|" + n2;
+				} else if (operator.isAnd()) {
+					v1 = "(int) ("+n1 + ")&" + n2;
+				} else if (operator.isNot()) {
+					v1 = "~(int) (" + n2+")";
+				}
+				return filterCode("(" + v1 + ")");
+			}
+			return null;
+		} finally {
+			//
 		}
 	}
 
@@ -274,4 +358,63 @@ public class Term implements Atom {
 		return true;
 	}
 
+	/**
+	 * Gets a unique ID for this term.
+	 * 
+	 * @return the ID
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Gets the number of calls for this term.
+	 * 
+	 * @return the count
+	 */
+	public int getCallCount() {
+		return callCount;
+	}
+
+	/**
+	 * If this term has been compiled by the JIT compiler, this will return the
+	 * Method instance in the compiled code.
+	 * 
+	 * @return the method instance of null
+	 */
+	public Method getJittedMethod() {
+		return jittedMethod;
+	}
+
+	/**
+	 * @return
+	 */
+	public Jitted getJittedInstance()
+  {
+    return jittedInstance;
+  }
+
+  /**
+   * @param jittedInstance
+   */
+  public void setJittedInstance(Jitted jittedInstance)
+  {
+    this.jittedInstance = jittedInstance;
+  }
+	
+	/**
+	 * Sets the Method instance, once this term has been compiled by the JIT
+	 * compiler
+	 * 
+	 * @param jitted
+	 *            the method
+	 */
+	public void setJittedMethod(Method jitted) {
+		this.jittedMethod = jitted;
+	}
+
+	private String filterCode(String code) {
+		// TODO stuff?
+		return code;
+	}
 }

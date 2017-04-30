@@ -1,5 +1,6 @@
 package com.sixtyfour.system;
 
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -83,6 +84,8 @@ public class Machine
 
   private List<StackEntry> toRemove = new ArrayList<StackEntry>();
 
+  private List<RomInfo> roms;
+
 
   /**
    * Instantiates a new machine.
@@ -96,6 +99,22 @@ public class Machine
     setSystemCallListener(new NullSystemCallListener());
     addDefaults();
     this.cpu = new Cpu(this);
+  }
+
+
+  /**
+   * Loads and adds a C64's KERNAL- and BASIC-ROMs to the machines memory. This might help to execute some assembler
+   * programs that call these functions. However, because no actual C64 is simulated here, not all of them might do
+   * something reasonable. Consider this to be an experimental feature for now.<br/>
+   * Keep in mind that you have to add some instance of SystemCallListener that actually supports calls to machine code
+   * like the RamSystemCallListener to call ROM routines from BASIC.
+   */
+  public void addRoms()
+  {
+    roms = new ArrayList<RomInfo>();
+    roms.add(loadRom("basic.$A000.bin", 0xa000));
+    roms.add(loadRom("kernal.$E000.bin", 0xe000));
+    copyRoms();
   }
 
 
@@ -310,7 +329,8 @@ public class Machine
 
 
   /**
-   * Resets the memory. This will clean the 64KB of main memory as well as all variables. It will not reset the cpu.
+   * Resets the memory. This will clean the 64KB of main memory as well as all variables. It will not reset the cpu. It
+   * will ensure what previously loaded ROM data has been restored.
    */
   public void resetMemory()
   {
@@ -323,6 +343,7 @@ public class Machine
     {
       ex.reset(this);
     }
+    copyRoms();
   }
 
 
@@ -405,13 +426,15 @@ public class Machine
     name = VarUtils.toUpper(name);
     return vars.get(name);
   }
-  
+
+
   /**
    * Returns a map that contains all known Variables with their names as keys.
    * 
    * @return the map
    */
-  public Map<String, Variable> getVariables() {
+  public Map<String, Variable> getVariables()
+  {
     return new HashMap<String, Variable>(vars);
   }
 
@@ -721,5 +744,123 @@ public class Machine
     add(new Time());
     add(new TimeDate());
     add(new Status());
+  }
+
+
+  private void copyRoms()
+  {
+    if (roms != null)
+    {
+      for (RomInfo rom : roms)
+      {
+        System.arraycopy(rom.data, 0, this.ram, rom.address, rom.data.length);
+      }
+    }
+    ram[53272] = 21;
+    ram[648] = 0x04;
+    ram[0x326] = 0xca;
+    ram[0x327] = 0xf1;
+    ram[0x324] = 0x57;
+    ram[0x325] = 0xf1;
+    ram[0x322] = 0x33;
+    ram[0x323] = 0xf3;
+    ram[0x320] = 0x50;
+    ram[0x321] = 0xf2;
+    ram[0x31e] = 0x0E;
+    ram[0x31f] = 0xf2;
+    ram[0x31C] = 0x91;
+    ram[0x31D] = 0xf2;
+    ram[0x31A] = 0x4A;
+    ram[0x31B] = 0xf3;
+    ram[0x328] = 0xED;
+    ram[0x329] = 0xf6;
+    ram[0x32A] = 0x3E;
+    ram[0x32B] = 0xf1;
+    ram[0x32C] = 0x2F;
+    ram[0x32D] = 0xf3;
+    int[] zeropage = new int[] { 47, 55, 0, 170, 177, 145, 179, 34, 34, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 25, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 8, 3, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 160, 0, 255, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 76, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 64, 0, 0, 0, 0, 0, 64, 1, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 132, 132, 132, 132, 132, 132, 132, 133, 133, 133, 133, 133, 133, 134, 134, 134,
+        134, 134, 134, 135, 135, 135, 135, 135,  0, 0, 0, 0, 129, 235, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    if (zeropage.length != 256)
+    {
+      throw new RuntimeException("Invalid zeo page definition: " + zeropage.length);
+    }
+    zeropage[209] = 0;
+    zeropage[210] = 4;
+    zeropage[243] = 0;
+    zeropage[244] = 216;
+    zeropage[153] = 0;
+    zeropage[154] = 3;
+    zeropage[213] = 40;
+
+    System.arraycopy(zeropage, 0, this.ram, 0, 256);
+    
+    int[] chrget = new int[] { 230, 122, 208, 2, 230, 123, 173, 0, 8, 201, 58, 176, 10, 201, 32, 240, 239, 56, 233, 48,
+        56, 233, 208, 96 };
+    System.arraycopy(chrget, 0, this.ram, 115, chrget.length);
+  }
+
+
+  private RomInfo loadRom(String rom, int address)
+  {
+    RomInfo ri = new RomInfo();
+    ri.address = address;
+    BufferedInputStream br = null;
+    byte[] buffer = new byte[8192];
+    int[] dest = new int[8192];
+    try
+    {
+      br = new BufferedInputStream(Thread.currentThread().getContextClassLoader().getResourceAsStream(rom));
+      int len = 0;
+      int cnt = 0;
+      do
+      {
+        len = br.read(buffer);
+        if (len > 0)
+        {
+          for (int i = 0; i < len; i++)
+          {
+            if (cnt + i >= dest.length)
+            {
+              throw new RuntimeException("ROM file too large!");
+            }
+            dest[cnt + i] = buffer[i] & 0xff;
+          }
+        }
+      }
+      while (len != -1);
+    }
+    catch (Exception e)
+    {
+      throw new RuntimeException("Failed to load ROM file: " + rom, e);
+    }
+    finally
+    {
+      try
+      {
+        if (br != null)
+        {
+          br.close();
+        }
+      }
+      catch (Exception e)
+      {
+        //
+      }
+    }
+    ri.data = dest;
+    return ri;
+  }
+
+
+  private static class RomInfo
+  {
+    int[] data;
+    int address;
   }
 }

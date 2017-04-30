@@ -1,10 +1,10 @@
 package com.sixtyfour.templating;
 
-import com.sixtyfour.Logger;
-
 import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.sixtyfour.Logger;
 
 /**
  * Manages templates bound to threads. For each thread, you'll get an individual

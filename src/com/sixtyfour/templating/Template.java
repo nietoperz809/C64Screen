@@ -12,6 +12,8 @@ import com.sixtyfour.Basic;
 import com.sixtyfour.elements.Variable;
 import com.sixtyfour.parser.Line;
 import com.sixtyfour.parser.Preprocessor;
+import com.sixtyfour.plugins.CpuCallListener;
+import com.sixtyfour.system.Cpu;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.Program;
 import com.sixtyfour.util.VarUtils;
@@ -99,9 +101,9 @@ public class Template {
         obj=((Number) obj).floatValue();
       }
       
-      if (obj instanceof Integer) {
+      if (obj instanceof Integer && !name.endsWith("%")) {
         name+="%";
-      } else if (obj instanceof String) {
+      } else if (obj instanceof String && !name.endsWith("$")) {
         name+="$";
       }
       vars.put(name, obj);
@@ -285,19 +287,14 @@ public class Template {
 							throw new RuntimeException("Line numbers (" + firstLine + "/" + lastLine + ") too close, can't insert static content into template!");
 						}
 
-						if (!prior.isEmpty()) {
-							TemplatePart tp = new TemplatePart(prior);
-							tp.setFirstLine(lastLine);
-							tp.setLastLine(firstLine - 1);
-							lastLine++;
-							code.append(lastLine).append(" SYS1000,").append(lastLine).append('\n');
-							staticParts.put(lastLine, tp);
-						}
+						lastLine=addStaticPart(lastLine, code, prior, firstLine, labels);
+						prior=null;
 						lastLine = endLine;
 					} else {
 						// BASIC code with labels instead of line numbers
 						if (!prior.isEmpty()) {
 							TemplatePart tp = new TemplatePart(prior);
+							prior=null;
 							lastLine++;
 							code.append("SYS1000,").append(lastLine).append('\n');
 							staticParts.put(lastLine, tp);
@@ -305,6 +302,8 @@ public class Template {
 					}
 					code.append(codePart).append('\n');
 				} else {
+				  lastLine=addStaticPart(lastLine, code, prior, firstLine, labels);
+				  prior=null;
 					Assembler assem = new Assembler(lines);
 					assem.compile();
 					prgs.add(assem.getProgram());
@@ -331,5 +330,31 @@ public class Template {
 		basic.setOutputChannel(out);
 		basic.getMachine().setSystemCallListener(new StaticTemplateCallListener(staticParts, out, basic.getMachine()));
 		basic.getMachine().setDeviceProvider(new TemplateDeviceProvider(basic, this));
+		basic.getMachine().getCpu().setCpuCallListener(new CpuCallListener() {
+      @Override
+      public boolean jsr(Cpu cpu, int addr)
+      {
+        if (addr==65490) {
+          if (cpu.getAcc()!=0) {
+            out.print(0, String.valueOf((char) (cpu.getAcc())));
+          }
+          return true;
+        }
+        return false;
+      }
+    });
 	}
+
+  private int addStaticPart(int lastLine, StringBuilder code, String prior, int firstLine, boolean labels)
+  {
+    if (!prior.isEmpty()) {
+      TemplatePart tp = new TemplatePart(prior);
+      tp.setFirstLine(lastLine);
+      tp.setLastLine(firstLine - 1);
+      lastLine++;
+      code.append(labels?"":lastLine).append(" SYS1000,").append(lastLine).append('\n');
+      staticParts.put(lastLine, tp);
+    }
+    return lastLine;
+  }
 }

@@ -158,6 +158,9 @@ public class Parser {
 	 * @return the array variable and its terms
 	 */
 	public static List<VariableAndTerms> getArrayVariables(String linePart, Machine machine) {
+		if (!linePart.contains("(") && !linePart.contains(")")) {
+			return null;
+		}
 		List<VariableAndTerms> vars = new ArrayList<VariableAndTerms>();
 		linePart = linePart.substring(3).trim();
 		StringBuilder sb = new StringBuilder();
@@ -356,7 +359,7 @@ public class Parser {
 
 	/**
 	 * Returns the term that represents the term in the text. The result will be
-	 * a binary tree formed out of term with the returned term being the root
+	 * a binary tree build out of terms with the returned term being the root
 	 * element.
 	 * 
 	 * @param term
@@ -375,7 +378,7 @@ public class Parser {
 
 	/**
 	 * Returns the term that represents the term in the text. The result will be
-	 * a binary tree formed out of term with the returned term being the root
+	 * a binary tree build out of terms with the returned term being the root
 	 * element.
 	 * 
 	 * @param term
@@ -406,7 +409,7 @@ public class Parser {
 
 	/**
 	 * Returns the term that represents the term in the text minus the command
-	 * at the start of it. The result will be a binary tree formed out of term
+	 * at the start of it. The result will be a binary tree build out of terms
 	 * with the returned term being the root element.
 	 * 
 	 * @param command
@@ -426,7 +429,11 @@ public class Parser {
 	}
 
 	/**
-	 * Adds the brackets.
+	 * Adds the brackets. This is used to simplify expression parsing later.
+	 * Actually, it might be better to convert the expression from infox to RPN
+	 * and use stack to evaluate them, but then again...I can't be bothered,
+	 * because this works as well and it's better suitable for JITting the
+	 * result.
 	 * 
 	 * @param term
 	 *            the term
@@ -712,6 +719,9 @@ public class Parser {
 	 * @return true, if its a parameter
 	 */
 	private static boolean toAdd(Atom atom) {
+		if (atom == null) {
+			throw new RuntimeException("Parameter missing!");
+		}
 		return (!atom.isTerm() || !((Term) atom).getOperator().isDelimiter());
 	}
 
@@ -761,7 +771,7 @@ public class Parser {
 		int brackets = 0;
 		for (int i = pos + 1; i < term.length(); i++) {
 			char c = term.charAt(i);
-			if (c == ',') {
+			if (c == ',' && brackets == 0) {
 				return i;
 			}
 
@@ -1181,6 +1191,12 @@ public class Parser {
 				Atom fl = new Constant<Float>(Float.valueOf(part));
 				return fl;
 			} else {
+				if (part.isEmpty()) {
+					// Actually, this isn't correct. We might as well throw a
+					// syntax error here, but it's handled on another location
+					// anyway with better error reporting, so...
+					part = "0";
+				}
 				Atom in = new Constant<Integer>(Integer.valueOf(part));
 				return in;
 			}

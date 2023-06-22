@@ -29,6 +29,7 @@ public class C64Screen
 {
     final C64VideoMatrix matrix = C64VideoMatrix.bufferFromAddress(1024);
     final C64HiresMatrix hires = new C64HiresMatrix();
+    public static JFrame frame;
     private boolean isHires = false;
     private final CharacterWriter writer = CharacterWriter.getInstance();
     private final CommandLineDispatcher dispatcher = new CommandLineDispatcher(this);
@@ -201,6 +202,7 @@ public class C64Screen
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setSize(42*8*2, 28*8*2);
         f.setVisible(true);
+        frame = f;
     }
 
     public static void main (String[] args)

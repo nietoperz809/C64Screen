@@ -2,8 +2,6 @@ package terminal;
 
 import com.sixtyfour.plugins.impl.NullMemoryListener;
 
-import java.awt.*;
-
 /**
  * Created by Administrator on 1/8/2017.
  */
@@ -18,7 +16,10 @@ class PeekPokeHandler extends NullMemoryListener {
 
     @Override
     public void poke(int addr, int value) {
-        if (addr == 53281) {
+        if (addr == 199) {
+            shell.matrix.setInverted(value != 0);
+        }
+        else if (addr == 53281) {
             CharacterWriter.getInstance().setBackgroundColor(value);
             shell.panel.repaint();
         } else if (addr == 53280) {

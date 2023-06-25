@@ -6,7 +6,7 @@ package terminal;/*
 import misc.BitmapTools;
 
 import java.awt.*;
-import java.awt.image.*;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
@@ -14,63 +14,61 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 /**
  * @author Administrator
  */
-public class CharacterWriter implements CharacterROM
-{
-    private static final Color TRANSPARENT = new Color (1,2,3);
+public class CharacterWriter implements CharacterROM {
+    private static final Color TRANSPARENT = new Color(1, 2, 3);
     private static CharacterWriter instance = null;
     final HashMap<Character, Image> imageMap = new HashMap<>();
     private final HashMap<Character, Character> keyMap = new HashMap<>();
     private final HashMap<Character, Character> reverseKeyMap = new HashMap<>();
     private int backgroundColor = C64Colors.BLUE.getRGB();
     private boolean shifted = true;
+
     /**
      * Constructor, fills the char imageMap
      */
-    private CharacterWriter ()
-    {
+    private CharacterWriter() {
         fillImageMap();
-
-        for (char s = 'a'; s <= 'z'; s++)
-        {
+        for (char s = 'a'; s <= 'z'; s++) {
             char t = (char) (s - 'a' + 1);
             setMaps(s, t);
         }
         setMaps('@', (char) 0);
-
-        setMaps ('^', (char)30);
+        setMaps('^', (char) 30);
     }
 
-    private void setMaps (char a, char b)
-    {
+    public static CharacterWriter getInstance() {
+        if (instance == null) {
+            instance = new CharacterWriter();
+        }
+        return instance;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(CharacterROM.characterData.length / 8);
+    }
+
+    private void setMaps(char a, char b) {
         keyMap.put(a, b);
         reverseKeyMap.put(b, a);
     }
 
-    private void fillImageMap ()
-    {
+    private void fillImageMap() {
         imageMap.clear();
-        for (int s = 0; s < 256; s++)
-        {
-            int idx = shifted ? s*8 : (s+256) * 8;
+        for (int s = 0; s < 256; s++) {
+            int idx = shifted ? s * 8 : (s + 256) * 8;
             imageMap.put((char) s, getImage(idx));
         }
     }
 
-    private Image getImage (int idx)
-    {
+    private Image getImage(int idx) {
         BufferedImage img = new BufferedImage(8, 8, TYPE_INT_ARGB);
-        for (int rows = 0; rows < 8; rows++)
-        {
+        for (int rows = 0; rows < 8; rows++) {
             int c = characterData[idx++];
             int i = 128;
-            for (int lines = 0; lines < 8; lines++)
-            {
-                if ((c & i) == i)
-                {
+            for (int lines = 0; lines < 8; lines++) {
+                if ((c & i) == i) {
                     img.setRGB(lines, rows, TRANSPARENT.getRGB());
-                }
-                else
-                {
+                } else {
                     img.setRGB(lines, rows, backgroundColor);
                 }
                 i >>>= 1;
@@ -79,38 +77,19 @@ public class CharacterWriter implements CharacterROM
         return BitmapTools.makeColorTransparent(img, TRANSPARENT);
     }
 
-    public static CharacterWriter getInstance ()
-    {
-        if (instance == null)
-        {
-            instance = new CharacterWriter();
-        }
-        return instance;
-    }
-
-
-    public static void main (String[] args)
-    {
-        System.out.println(CharacterROM.characterData.length / 8);
-    }
-
-    void setBackgroundColor (int idx)
-    {
+    void setBackgroundColor(int idx) {
         backgroundColor = C64Colors.values()[idx].getRGB();
         fillImageMap();
     }
 
-    void switchCharset()
-    {
+    void switchCharset() {
         shifted = !shifted;
         fillImageMap();
     }
 
-    public char[] mapCBMtoPC (Character[] in)
-    {
+    public char[] mapCBMtoPC(Character[] in) {
         char[] out = new char[in.length];
-        for (int s = 0; s < in.length; s++)
-        {
+        for (int s = 0; s < in.length; s++) {
             Character c1 = reverseKeyMap.get(in[s]);
             out[s] = c1 == null ? in[s] : c1;
         }
@@ -129,8 +108,7 @@ public class CharacterWriter implements CharacterROM
 //    }
 // --Commented out by Inspection STOP (1/20/2017 5:28 AM)
 
-    public char mapPCtoCBM (char in)
-    {
+    public char mapPCtoCBM(char in) {
         Character c1 = keyMap.get(in);
         return c1 == null ? in : c1;
     }

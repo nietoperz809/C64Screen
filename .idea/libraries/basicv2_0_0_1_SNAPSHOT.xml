@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="main">
+  <library name="basicv2-0.0.1-SNAPSHOT">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/main.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/basicv2-0.0.1-SNAPSHOT.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

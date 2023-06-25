@@ -13,11 +13,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="added &quot;inverse print&quot;: poke 199,x">
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="chr$(14),chr$(142) now work as expected &#10;(hope so) &#10;- plus jar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/CharacterWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/CharacterWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/CommandLineDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/CommandLineDispatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/C64Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64Screen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -141,7 +139,23 @@
       <option name="project" value="LOCAL" />
       <updated>1687657398910</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="chr$(14),chr$(142) now work as expected &#10;(hope so)">
+      <option name="closed" value="true" />
+      <created>1687663046619</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1687663046619</updated>
+    </task>
+    <task id="LOCAL-00006" summary="chr$(14),chr$(142) now work as expected &#10;(hope so) &#10;- plus jar">
+      <option name="closed" value="true" />
+      <created>1687663166554</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1687663166554</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -150,15 +164,17 @@
     <MESSAGE value="enabled poke to address 53280" />
     <MESSAGE value="added jarfile" />
     <MESSAGE value="added &quot;inverse print&quot;: poke 199,x" />
-    <option name="LAST_COMMIT_MESSAGE" value="added &quot;inverse print&quot;: poke 199,x" />
+    <MESSAGE value="chr$(14),chr$(142) now work as expected &#10;(hope so)" />
+    <MESSAGE value="chr$(14),chr$(142) now work as expected &#10;(hope so) &#10;- plus jar" />
+    <option name="LAST_COMMIT_MESSAGE" value="chr$(14),chr$(142) now work as expected &#10;(hope so) &#10;- plus jar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/terminal/C64VideoMatrix.java</url>
-          <line>104</line>
-          <option name="timeStamp" value="5" />
+          <url>file://$PROJECT_DIR$/src/terminal/ShellOutputChannel.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

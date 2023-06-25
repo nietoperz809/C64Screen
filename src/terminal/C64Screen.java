@@ -11,6 +11,8 @@ import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -197,10 +199,30 @@ public class C64Screen
     private C64Screen ()
     {
         JFrame f = new JFrame();
+        JMenuBar menubar = new JMenuBar();
+        JMenu menu = new JMenu("menu ...");
+        JMenuItem helpmenu = new JMenuItem("help ,,,");
+        helpmenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String msg = "<html>"+"<u>Additional commands</u><br>shift/unshift - change font<br"+
+                        "prettify - reformat code<br>"+
+                        "renumber - adjust line numbers<br>"+
+                        "dir - show current directory<br>" +
+                        "cls - clear screen<br>"+
+                        "-----------------------<br>"+
+                        "drag/drop basic code into window then type run (try music.bas).<br>"
+                        +"</html>";
+                JOptionPane.showMessageDialog(null, msg, "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+        menu.add(helpmenu);
+        menubar.add(menu);
+        f.setJMenuBar(menubar);
         f.setLayout(new FlowLayout());
         f.add (panel);
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        f.setSize(42*8*2, 28*8*2);
+        f.setSize(43*8*2, 30*8*2);
         f.setVisible(true);
         frame = f;
     }

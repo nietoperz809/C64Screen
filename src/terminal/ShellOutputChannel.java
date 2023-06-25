@@ -40,6 +40,14 @@ class ShellOutputChannel extends ConsoleOutputChannel
                 shellFrame.matrix.clearScreen();
                 continue;
             }
+            if (c == 14) {
+                CharacterWriter.getInstance().switchCharset(false);
+                continue;
+            }
+            if (c == 142) {
+                CharacterWriter.getInstance().switchCharset(true);
+                continue;
+            }
             Integer col = colorMap.get(c);
             if (col == null)
                 sb.append(c);

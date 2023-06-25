@@ -13,28 +13,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="added jarfile">
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/basicv2_0_0_1_SNAPSHOT.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/basicv2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/carpoker.bas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test.bas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/C64Screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/C64Screen.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C64Screen.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/jar/C64Screen.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jar/C64Screen.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/BitmapTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/BitmapTools.java" afterDir="false" />
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="added &quot;inverse print&quot;: poke 199,x">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/CharacterWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/CharacterWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/PeekPokeHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/PeekPokeHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/ProgramStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ProgramStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/CommandLineDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/CommandLineDispatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -149,7 +133,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687420434408</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added &quot;inverse print&quot;: poke 199,x">
+      <option name="closed" value="true" />
+      <created>1687657398909</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1687657398910</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -157,6 +149,18 @@
     <MESSAGE value="added basic jar" />
     <MESSAGE value="enabled poke to address 53280" />
     <MESSAGE value="added jarfile" />
-    <option name="LAST_COMMIT_MESSAGE" value="added jarfile" />
+    <MESSAGE value="added &quot;inverse print&quot;: poke 199,x" />
+    <option name="LAST_COMMIT_MESSAGE" value="added &quot;inverse print&quot;: poke 199,x" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/terminal/C64VideoMatrix.java</url>
+          <line>104</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

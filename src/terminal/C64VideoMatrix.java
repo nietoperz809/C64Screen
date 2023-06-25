@@ -34,7 +34,9 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
     private int overLength = 0;
     private boolean blinkflag = false;
     private boolean inverted;
-    
+    private boolean lowcase;
+
+
 
     /**
      * Private Constructor
@@ -103,6 +105,14 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
         if (action || c == '\uFFFF') {
             return;
         }
+//        if (c == 14) {
+//            lowcase = true;
+//            return;
+//        }
+//        if (c == 142) {
+//            lowcase = false;
+//            return;
+//        }
         if (keyCode == VK_ENTER) {
             nextLine();
             overLength = 0;

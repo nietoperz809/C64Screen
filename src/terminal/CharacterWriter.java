@@ -82,8 +82,8 @@ public class CharacterWriter implements CharacterROM {
         fillImageMap();
     }
 
-    void switchCharset() {
-        shifted = !shifted;
+    void switchCharset (boolean shift) {
+        shifted = shift;
         fillImageMap();
     }
 

@@ -27,14 +27,10 @@ class ShellOutputChannel extends ConsoleOutputChannel {
 
     @Override
     public void print(int id, String txt) {
+        Integer col;
         StringBuilder sb = new StringBuilder();
         for (int s = 0; s < txt.length(); s++) {
             char c = txt.charAt(s);
-            if (c == '\t') {  // simulate tab
-                while (sb.length()%8 !=0)
-                    sb.append(' ');
-                continue;
-            }
             if (c == 147) {
                 shellFrame.matrix.clearScreen();
                 continue;
@@ -47,14 +43,19 @@ class ShellOutputChannel extends ConsoleOutputChannel {
                 CharacterWriter.getInstance().switchCharset(true);
                 continue;
             }
-            Integer col = colorMap.get(c);
-            if (col == null)
+            col = colorMap.get(c);
+            if (col != null) {
+                shellFrame.matrix.setCurrentColorIndex(col);
+            }
+            else if (c == '\t') {
+                sb.append ("          ");
+            } else {
                 sb.append(c);
-            else
-                shellFrame.matrix.setDefaultColorIndex(col);
+            }
+            shellFrame.matrix.putString(sb.toString());
+            shellFrame.panel.repaint();
+            sb.setLength(0);
         }
-        shellFrame.matrix.putString(sb.toString());
-        shellFrame.panel.repaint();
     }
 
     @Override

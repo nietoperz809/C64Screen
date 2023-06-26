@@ -27,7 +27,8 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
     /**
      * Color used for new chars on screen
      */
-    private byte defaultColorIndex = 3;
+    public static final int DEF_COL_IDX = 3;
+    private byte defaultColorIndex = DEF_COL_IDX;
     /**
      * counts up if line length exceeds CHARS_PER_LINE
      */
@@ -101,18 +102,10 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
      * @param keyCode keyCode from KeyEvent
      * @param action  action from KeyEvent
      */
-    synchronized public void putChar(char c, int keyCode, boolean action) {
+    synchronized public void putChar(char c, int keyCode, boolean action, int color) {
         if (action || c == '\uFFFF') {
             return;
         }
-//        if (c == 14) {
-//            lowcase = true;
-//            return;
-//        }
-//        if (c == 142) {
-//            lowcase = false;
-//            return;
-//        }
         if (keyCode == VK_ENTER) {
             nextLine();
             overLength = 0;
@@ -123,7 +116,10 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
             }
             C64Character[] line = get(currentCursorPos.y);
             line[currentCursorPos.x].face = c;
-            line[currentCursorPos.x].colorIndex = defaultColorIndex;
+            if (color == -1)
+                line[currentCursorPos.x].colorIndex = DEF_COL_IDX;
+            else
+                line[currentCursorPos.x].colorIndex = color;
             currentCursorPos.x++;
         }
     }
@@ -136,7 +132,8 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
         return defaultColorIndex;
     }
 
-    public void setDefaultColorIndex(int b) {
+    public void setCurrentColorIndex(int b) {
+        //System.out.println("new col:"+b);
         defaultColorIndex = (byte) (b & 0x0f);
     }
 
@@ -209,7 +206,7 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
      */
     synchronized public void backspace() {
         left();
-        putChar(' ', 0, false);
+        putChar(' ', 0, false, -1);
         left();
     }
 
@@ -220,6 +217,9 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
      * @param str string to print
      */
     synchronized void putString(String str) {
+        if (str.isEmpty())
+            return;
+        //System.out.println("putstr:"+str);
         str = str.toLowerCase();
         for (int s = 0; s < str.length(); s++) {
             char c = str.charAt(s);
@@ -227,7 +227,7 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
             c = CharacterWriter.getInstance().mapPCtoCBM(c);
             if (inverted && c <= 63)
                 c+= 128;
-            putChar(c, keycode, false);
+            putChar(c, keycode, false, defaultColorIndex);
         }
         inverted = false;
     }

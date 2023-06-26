@@ -77,7 +77,7 @@ public class C64Screen
                     }
                     ringBuff.add(c);
                     matrix.putChar(writer.mapPCtoCBM(c),
-                            e.getKeyCode(), e.isActionKey());
+                            e.getKeyCode(), e.isActionKey(), -1);
                 }
 
                 void handleSpecialKeys (KeyEvent e)

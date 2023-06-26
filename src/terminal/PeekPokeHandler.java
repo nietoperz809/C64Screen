@@ -32,7 +32,7 @@ class PeekPokeHandler extends NullMemoryListener {
         } else if (addr == 53272) {
             shell.hires.setAddress_8192((value & 8) == 8);
         } else if (addr == 646) {
-            shell.matrix.setDefaultColorIndex((byte) value);
+            shell.matrix.setCurrentColorIndex((byte) value);
         } else if (addr >= 0xd800 && addr <= 0xdbe7) {
             try {
                 shell.matrix.pokeColor(addr, (char) value);

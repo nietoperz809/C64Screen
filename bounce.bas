@@ -1,0 +1,11 @@
+10 PRINT chr$(147)
+30 X = 1 : Y = 1
+40 DX = 1 : DY = 1
+50 POKE 1024 + X + 40 * Y, 81
+60 FOR T = 1 TO 100 : NEXT
+70 POKE 1024 + X + 40 * Y, 32
+80 X = X + DX
+90 IF X <= 0 OR X >= 39 THEN DX = -DX
+100 Y = Y + DY
+110 IF Y <= 0 OR Y >= 24 THEN DY = -DY
+120 GOTO 50

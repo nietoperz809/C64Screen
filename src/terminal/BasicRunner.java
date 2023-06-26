@@ -6,20 +6,18 @@ import com.sixtyfour.DelayTracer;
 /**
  * Proxy class to instantiate an run the BASIC system
  */
-class BasicRunner implements Runnable
-{
+class BasicRunner implements Runnable {
     private static volatile boolean running = false;
     private Basic olsenBasic;
+    private C64Screen screen;
 
-    public BasicRunner (String[] program, int speed, C64Screen shellFrame)
-    {
-        if (running)
-        {
+    public BasicRunner(String[] program, int speed, C64Screen shellFrame) {
+        screen = shellFrame;
+        if (running) {
             return;
         }
         olsenBasic = new Basic(program);
-        if (speed > 0)
-        {
+        if (speed > 0) {
             DelayTracer t = new DelayTracer(speed);
             olsenBasic.setTracer(t);
         }
@@ -35,10 +33,8 @@ class BasicRunner implements Runnable
      * @param sf reference to shell main window
      * @return textual representation of success/error
      */
-    public static String runSingleLine (String in, C64Screen sf)
-    {
-        try
-        {
+    public static String runSingleLine(String in, C64Screen sf) {
+        try {
             Basic b = new Basic("0 " + in.toUpperCase());
             b.getMachine().setMemoryListener(new PeekPokeHandler(sf));
             b.compile();
@@ -46,10 +42,8 @@ class BasicRunner implements Runnable
             b.setInputProvider(new ShellInputProvider(sf));
             b.start();
             return "";
-        }
-        catch (Exception ex)
-        {
-            return ex.getMessage().toUpperCase()+"\n";
+        } catch (Exception ex) {
+            return ex.getMessage().toUpperCase() + "\n";
         }
     }
 
@@ -58,27 +52,23 @@ class BasicRunner implements Runnable
      *
      * @param synchronous if true the caller is blocked
      */
-    public void start (boolean synchronous)
-    {
-        if (running)
-        {
+    public void start(boolean synchronous) {
+        if (running) {
             System.out.println("already running ...");
             return;
         }
-        Thread t = new Thread (this);
+        Thread t = new Thread(this);
         t.start();
-        if (!synchronous)
-        {
+        screen.matrix.setCursorOnOff(false);
+        if (!synchronous) {
             return;
         }
-        try
-        {
+        try {
             t.join();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        screen.matrix.setCursorOnOff(true);
     }
 
 // --Commented out by Inspection START (1/20/2017 5:31 AM):
@@ -88,17 +78,14 @@ class BasicRunner implements Runnable
 //    }
 // --Commented out by Inspection STOP (1/20/2017 5:31 AM)
 
-    public Basic getOlsenBasic ()
-    {
+    public Basic getOlsenBasic() {
         return olsenBasic;
     }
 
     @Override
-    public void run ()
-    {
+    public void run() {
         running = true;
-        try
-        {
+        try {
 //            SidRunner.reset();
 //            SwingUtilities.invokeAndWait(() ->
 //                    shellFrame.runButton.setEnabled(false));
@@ -107,13 +94,9 @@ class BasicRunner implements Runnable
 //            SwingUtilities.invokeAndWait(() ->
 //                    shellFrame.runButton.setEnabled(true)
 //            );
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
-        }
-        finally
-        {
+        } finally {
             running = false;
         }
     }

@@ -1,6 +1,7 @@
 package terminal;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
@@ -33,7 +34,6 @@ class ProgramStore {
         codeLine = codeLine.toUpperCase();
         int num = getLineNumber(codeLine);
         try {
-            int num2 = Integer.parseInt(codeLine); // Number only?
             removeLine(num);
         } catch (NumberFormatException ex) {
             addLine(codeLine);
@@ -71,17 +71,15 @@ class ProgramStore {
     }
 
     public String load(String path) {
+        path = path.replaceAll("\"", "");
         store.clear();
         File file = new File(path);
-
         try (BufferedReader in = new BufferedReader(
-                new InputStreamReader(Files.newInputStream(file.toPath()), "UTF8"))) {
+                new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8))) {
             String str;
-
             while ((str = in.readLine()) != null) {
                 store.add(str);
             }
-
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ERROR;
@@ -101,6 +99,7 @@ class ProgramStore {
             ok = false;
         }
         try {
+            assert outFile != null;
             try (PrintWriter out1 = new PrintWriter(outFile)) {
                 out1.append(txt);
             }

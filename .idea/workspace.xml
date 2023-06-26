@@ -13,10 +13,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character">
-      <change afterPath="$PROJECT_DIR$/bounce.bas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stars.bas" afterDir="false" />
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character&#10;&#10;+bounce.bas">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/BasicRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/BasicRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/ProgramStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ProgramStore.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687817597713</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character&#10;&#10;+bounce.bas">
+      <option name="closed" value="true" />
+      <created>1687818492470</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1687818492470</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -226,6 +235,7 @@
     <MESSAGE value="/t generates 8 spaces&#10;-- new jarfile" />
     <MESSAGE value="fixed some bugs&#10;new program load method&#10;shift adds 128 to keycode&#10;+ new jarfile" />
     <MESSAGE value="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character" />
-    <option name="LAST_COMMIT_MESSAGE" value="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character" />
+    <MESSAGE value="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character&#10;&#10;+bounce.bas" />
+    <option name="LAST_COMMIT_MESSAGE" value="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character&#10;&#10;+bounce.bas" />
   </component>
 </project>

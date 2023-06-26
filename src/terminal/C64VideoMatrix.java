@@ -35,8 +35,8 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
     private int overLength = 0;
     private boolean blinkflag = false;
     private boolean inverted;
-    private boolean lowcase;
-
+    //private boolean lowcase;
+    private boolean cursor = true;
 
 
     /**
@@ -277,6 +277,10 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
         get(p.y)[p.x].colorIndex = val;
     }
 
+    public void setCursorOnOff (boolean b) {
+        cursor = b;
+    }
+
     public void render(Graphics g) {
         CharacterWriter writer = CharacterWriter.getInstance();
         int ypos = 0;
@@ -294,11 +298,13 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
             }
             ypos += SCALE;
         }
-        if (blinkflag) {
-            g.setColor(Color.GREEN);
-            g.fillRect(currentCursorPos.x * SCALE,
-                    currentCursorPos.y * SCALE, SCALE, SCALE);
+        if (cursor) {
+            if (blinkflag) {
+                g.setColor(Color.GREEN);
+                g.fillRect(currentCursorPos.x * SCALE,
+                        currentCursorPos.y * SCALE, SCALE, SCALE);
+            }
+            blinkflag = !blinkflag;
         }
-        blinkflag = !blinkflag;
     }
 }

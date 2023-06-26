@@ -35,6 +35,22 @@ class ShellOutputChannel extends ConsoleOutputChannel {
                 shellFrame.matrix.clearScreen();
                 continue;
             }
+            if (c == 29) {
+                shellFrame.matrix.right();
+                continue;
+            }
+            if (c == 157) {
+                shellFrame.matrix.left();
+                continue;
+            }
+            if (c == 17) {
+                shellFrame.matrix.down();
+                continue;
+            }
+            if (c == 145) {
+                shellFrame.matrix.up();
+                continue;
+            }
             if (c == 14) {
                 CharacterWriter.getInstance().switchCharset(false);
                 continue;

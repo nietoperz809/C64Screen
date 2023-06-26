@@ -32,6 +32,7 @@ class ProgramStore {
         codeLine = codeLine.toUpperCase();
         int num = getLineNumber(codeLine);
         try {
+            int unused = Integer.parseInt(codeLine); // Number only?
             removeLine(num);
         } catch (NumberFormatException ex) {
             addLine(codeLine);

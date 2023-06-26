@@ -3,10 +3,8 @@ package terminal;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Comparator;
 import java.util.TreeSet;
-import java.util.stream.Stream;
 
 /**
  * Created by Administrator on 1/4/2017.
@@ -106,7 +104,7 @@ class ProgramStore {
         } finally {
             try {
                 outFile.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 ok = false;
             }

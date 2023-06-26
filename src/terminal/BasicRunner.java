@@ -9,7 +9,7 @@ import com.sixtyfour.DelayTracer;
 class BasicRunner implements Runnable {
     private static volatile boolean running = false;
     private Basic olsenBasic;
-    private C64Screen screen;
+    private final C64Screen screen;
 
     public BasicRunner(String[] program, int speed, C64Screen shellFrame) {
         screen = shellFrame;

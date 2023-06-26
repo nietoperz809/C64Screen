@@ -13,10 +13,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character&#10;&#10;+bounce.bas">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="hide blinking cursor while running">
       <change beforePath="$PROJECT_DIR$/src/terminal/BasicRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/BasicRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/ProgramStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ProgramStore.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -209,7 +207,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687818492470</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="hide blinking cursor while running">
+      <option name="closed" value="true" />
+      <created>1687821918499</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1687821918499</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -236,6 +242,7 @@
     <MESSAGE value="fixed some bugs&#10;new program load method&#10;shift adds 128 to keycode&#10;+ new jarfile" />
     <MESSAGE value="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character" />
     <MESSAGE value="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character&#10;&#10;+bounce.bas" />
-    <option name="LAST_COMMIT_MESSAGE" value="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character&#10;&#10;+bounce.bas" />
+    <MESSAGE value="hide blinking cursor while running" />
+    <option name="LAST_COMMIT_MESSAGE" value="hide blinking cursor while running" />
   </component>
 </project>

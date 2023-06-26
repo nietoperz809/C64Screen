@@ -14,13 +14,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="/t generates 8 spaces&#10;-- new jarfile">
-      <change afterPath="$PROJECT_DIR$/ctrlcode.bas" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/inputbug.bas" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jar/C64Screen.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/jar/C64Screen.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jar/C64Screen.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/C64Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64Screen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/PeekPokeHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/PeekPokeHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/ProgramStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ProgramStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/ShellInputProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ShellInputProvider.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +89,10 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="C64Screen.jar" type="JarApplication" temporary="true">
+      <option name="JAR_PATH" value="$PROJECT_DIR$/jar/C64Screen.jar" />
+      <method v="2" />
+    </configuration>
     <configuration name="main.jar" type="JarApplication" temporary="true">
       <option name="JAR_PATH" value="$PROJECT_DIR$/lib/main.jar" />
       <method v="2" />
@@ -97,6 +100,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.C64Screen" />
+        <item itemvalue="JAR Application.C64Screen.jar" />
         <item itemvalue="Application.CharacterWriter" />
         <item itemvalue="JAR Application.main.jar" />
       </list>
@@ -175,8 +179,27 @@
       <option name="project" value="LOCAL" />
       <updated>1687671866797</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="/t generates 8 spaces&#10;-- new jarfile">
+      <option name="closed" value="true" />
+      <created>1687782720646</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1687782720646</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -189,5 +212,16 @@
     <MESSAGE value="/t generates 8 spaces" />
     <MESSAGE value="/t generates 8 spaces&#10;-- new jarfile" />
     <option name="LAST_COMMIT_MESSAGE" value="/t generates 8 spaces&#10;-- new jarfile" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/terminal/C64Screen.java</url>
+          <line>96</line>
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -1,8 +1,6 @@
 package terminal;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
@@ -74,14 +72,18 @@ class ProgramStore {
 
     public String load(String path) {
         store.clear();
-        path = path.replaceAll("\"", "");
-        try {
-            try (Stream<String> stream = Files.lines(Paths.get(path))) {
-                stream.forEach(this::insert);
+        File file = new File(path);
+
+        try (BufferedReader in = new BufferedReader(
+                new InputStreamReader(Files.newInputStream(file.toPath()), "UTF8"))) {
+            String str;
+
+            while ((str = in.readLine()) != null) {
+                store.add(str);
             }
-        } catch (IOException e) {
-            //e.printStackTrace();
-            System.out.println("load fail");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ERROR;
         }
         return OK;

@@ -307,4 +307,17 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
             blinkflag = !blinkflag;
         }
     }
+
+    public String getTxtCopy() {
+        StringBuilder sb = new StringBuilder();
+        for (int y = 0; y < LINES_ON_SCREEN; y++) {
+            for (int x = 0; x < CHARS_PER_LINE; x++) {
+                C64Character c64c = get(y)[x];
+                sb.append(CharacterWriter.getInstance().mapCBMtoPC((char)(c64c.face)));
+            }
+            sb.append('\n');
+        }
+        return sb.toString();
+    }
+
 }

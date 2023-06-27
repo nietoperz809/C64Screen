@@ -43,9 +43,9 @@ public class CharacterWriter implements CharacterROM {
         return instance;
     }
 
-    public static void main(String[] args) {
-        System.out.println(CharacterROM.characterData.length / 8);
-    }
+//    public static void main(String[] args) {
+//        System.out.println(CharacterROM.characterData.length / 8);
+//    }
 
     private void setMaps(char a, char b) {
         keyMap.put(a, b);
@@ -85,6 +85,14 @@ public class CharacterWriter implements CharacterROM {
     void switchCharset (boolean shift) {
         shifted = shift;
         fillImageMap();
+    }
+
+    public char mapCBMtoPC(Character in) {
+        Character c = reverseKeyMap.get(in);
+        c = c==null ? in : c;
+        if (c == 'Ġ')  // no char?
+            return ' ';
+        return c;
     }
 
     public char[] mapCBMtoPC(Character[] in) {

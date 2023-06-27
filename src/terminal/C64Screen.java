@@ -44,21 +44,31 @@ public class C64Screen {
         JMenuBar menubar = new JMenuBar();
         JMenu menu = new JMenu("menu ...");
         JMenuItem helpmenu = new JMenuItem("help ,,,");
-        helpmenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String msg = "<html>" + "<u>Additional commands</u><br>shift/unshift - change font<br" +
-                        "prettify - reformat code<br>" +
-                        "renumber - adjust line numbers<br>" +
-                        "dir - show current directory<br>" +
-                        "cls - clear screen<br>" +
-                        "-----------------------<br>" +
-                        "drag/drop basic code into window then type run (try music.bas).<br>"
-                        + "</html>";
-                JOptionPane.showMessageDialog(null, msg, "InfoBox", JOptionPane.INFORMATION_MESSAGE);
-            }
+        JCheckBoxMenuItem stopmenu = new JCheckBoxMenuItem("pause");
+        JMenuItem copymenu = new JMenuItem("copy");
+        copymenu.addActionListener(e -> {
+            String str = matrix.getTxtCopy();
+            System.out.println(str);
+        });
+        stopmenu.addActionListener(e -> {
+            stopmenu.setState(stopmenu.getState());
+            dispatcher.basicRunner.pause(stopmenu.getState());
+        });
+        helpmenu.addActionListener(e -> {
+            String msg = "<html>" + "<u>Additional commands</u><br>shift/unshift - change font<br" +
+                    "prettify - reformat code<br>" +
+                    "renumber - adjust line numbers<br>" +
+                    "dir - show current directory<br>" +
+                    "cls - clear screen<br>" +
+                    "speed n - set program execution speed" +
+                    "-----------------------<br>" +
+                    "drag/drop basic code into window then type run (try music.bas).<br>"
+                    + "</html>";
+            JOptionPane.showMessageDialog(null, msg, "InfoBox", JOptionPane.INFORMATION_MESSAGE);
         });
         menu.add(helpmenu);
+        menu.add(stopmenu);
+        menu.add(copymenu);
         menubar.add(menu);
         f.setJMenuBar(menubar);
         f.setLayout(new FlowLayout());

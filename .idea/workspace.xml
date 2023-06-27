@@ -13,10 +13,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="hide blinking cursor while running">
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="little bugfix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jar/C64Screen.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jar/C64Screen.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/ProgramStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ProgramStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/BasicRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/BasicRunner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/C64Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64Screen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/CharacterWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/CharacterWriter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,7 +226,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687822126427</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="little bugfix">
+      <option name="closed" value="true" />
+      <created>1687823821953</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1687823821953</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -252,7 +262,8 @@
     <MESSAGE value="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character" />
     <MESSAGE value="cursor movement with chr$ codes&#10;left,right,up,down&#10;see: https://www.c64-wiki.com/wiki/control_character&#10;&#10;+bounce.bas" />
     <MESSAGE value="hide blinking cursor while running" />
-    <option name="LAST_COMMIT_MESSAGE" value="hide blinking cursor while running" />
+    <MESSAGE value="little bugfix" />
+    <option name="LAST_COMMIT_MESSAGE" value="little bugfix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

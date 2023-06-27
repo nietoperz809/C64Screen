@@ -10,6 +10,11 @@ class BasicRunner implements Runnable {
     private static volatile boolean running = false;
     private Basic olsenBasic;
     private final C64Screen screen;
+    private Thread thread;
+
+    public void pause(boolean b) {
+        olsenBasic.setPause(b);
+    }
 
     public BasicRunner(String[] program, int speed, C64Screen shellFrame) {
         screen = shellFrame;
@@ -57,26 +62,20 @@ class BasicRunner implements Runnable {
             System.out.println("already running ...");
             return;
         }
-        Thread t = new Thread(this);
-        t.start();
+        thread = new Thread(this);
+        thread.start();
         screen.matrix.setCursorOnOff(false);
         if (!synchronous) {
             return;
         }
         try {
-            t.join();
+            thread.join();
         } catch (Exception e) {
             e.printStackTrace();
         }
         screen.matrix.setCursorOnOff(true);
     }
 
-// --Commented out by Inspection START (1/20/2017 5:31 AM):
-//    public boolean isRunning ()
-//    {
-//        return running;
-//    }
-// --Commented out by Inspection STOP (1/20/2017 5:31 AM)
 
     public Basic getOlsenBasic() {
         return olsenBasic;
@@ -86,14 +85,7 @@ class BasicRunner implements Runnable {
     public void run() {
         running = true;
         try {
-//            SidRunner.reset();
-//            SwingUtilities.invokeAndWait(() ->
-//                    shellFrame.runButton.setEnabled(false));
             olsenBasic.run();
-            //SidRunner.reset();
-//            SwingUtilities.invokeAndWait(() ->
-//                    shellFrame.runButton.setEnabled(true)
-//            );
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

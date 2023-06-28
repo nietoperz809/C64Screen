@@ -1,6 +1,8 @@
 package terminal;
 
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
@@ -318,6 +320,12 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
             sb.append('\n');
         }
         return sb.toString();
+    }
+
+    public void copyToClipboard() {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        StringSelection selection = new StringSelection(getTxtCopy());
+        clipboard.setContents(selection, null);
     }
 
 }

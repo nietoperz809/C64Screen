@@ -45,10 +45,9 @@ public class C64Screen {
         JMenu menu = new JMenu("menu ...");
         JMenuItem helpmenu = new JMenuItem("help ,,,");
         JCheckBoxMenuItem stopmenu = new JCheckBoxMenuItem("pause");
-        JMenuItem copymenu = new JMenuItem("copy");
+        JMenuItem copymenu = new JMenuItem("toClipboard");
         copymenu.addActionListener(e -> {
-            String str = matrix.getTxtCopy();
-            System.out.println(str);
+            matrix.copyToClipboard();
         });
         stopmenu.addActionListener(e -> {
             stopmenu.setState(stopmenu.getState());
@@ -58,7 +57,7 @@ public class C64Screen {
             String msg = "<html>" + "<u>Additional commands</u><br>shift/unshift - change font<br" +
                     "prettify - reformat code<br>" +
                     "renumber - adjust line numbers<br>" +
-                    "dir - show current directory<br>" +
+                    "dir [filter] - show current directory<br>" +
                     "cls - clear screen<br>" +
                     "speed n - set program execution speed" +
                     "-----------------------<br>" +

@@ -32,13 +32,14 @@ class CommandLineDispatcher {
         }).start();
     }
 
-    private void dir() {
+    private void dir (String filter) {
         File[] filesInFolder = new File(".").listFiles();
         for (final File fileEntry : filesInFolder) {
             if (fileEntry.isFile()) {
                 String formatted = String.format("\n%-15s = %d",
                         fileEntry.getName(), fileEntry.length());
-                m_screen.matrix.putString(formatted);
+                if (filter == null || formatted.contains(filter))
+                    m_screen.matrix.putString(formatted);
             }
         }
     }
@@ -128,8 +129,8 @@ class CommandLineDispatcher {
             m_screen.matrix.clearScreen();
         } else if (s.equals("run")) {
             run(true);
-        } else if (s.equals("dir")) {
-            dir();
+        } else if (split[0].equalsIgnoreCase("dir")) {
+            dir(split.length == 2 ? split[1] : null);
             m_screen.matrix.putString("\n" + ProgramStore.OK);
         } else if (split[0].equalsIgnoreCase("speed")) {
             try {

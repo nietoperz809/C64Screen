@@ -11,10 +11,10 @@ import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
@@ -59,7 +59,7 @@ public class C64Screen {
                     "renumber - adjust line numbers<br>" +
                     "dir [filter] - show current directory<br>" +
                     "cls - clear screen<br>" +
-                    "speed n - set program execution speed" +
+                    "speed n - set program execution speed<br>" +
                     "-----------------------<br>" +
                     "drag/drop basic code into window then type run (try music.bas).<br>"
                     + "</html>";
@@ -101,6 +101,22 @@ public class C64Screen {
             setPreferredSize(new Dimension(
                     C64VideoMatrix.CHARS_PER_LINE * SCALE,
                     C64VideoMatrix.LINES_ON_SCREEN * SCALE));
+
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {  // insert string from clipboard
+                    Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+                    try {
+                        if (t != null && t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                            String text = (String) t.getTransferData(DataFlavor.stringFlavor);
+                            matrix.putString(text.trim());
+                        }
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                }
+            });
+
             addKeyListener(new KeyAdapter() {
                 void handleKey(KeyEvent e) {
                     char c = e.getKeyChar();
@@ -187,7 +203,7 @@ public class C64Screen {
                             if (flavor.isFlavorJavaFileListType()) {
                                 java.util.List<File> files = (java.util.List<File>) transferable.getTransferData(flavor);
                                 File f = files.get(0);
-                                dispatcher.store.load(f.getPath());
+                                dispatcher.progStore.load(f.getPath());
                                 matrix.putString("Loaded: " + f.getName() + "\n" + ProgramStore.OK);
                                 return; // only one file
                             }

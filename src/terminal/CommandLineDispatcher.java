@@ -6,7 +6,7 @@ import java.io.File;
  * Created by Administrator on 1/18/2017.
  */
 class CommandLineDispatcher {
-    final ProgramStore store = new ProgramStore();
+    final ProgramStore progStore = new ProgramStore();
     private final C64Screen m_screen;
     BasicRunner basicRunner;
 
@@ -45,13 +45,13 @@ class CommandLineDispatcher {
     }
 
     private void run(boolean sync) {
-        basicRunner = new BasicRunner(store.toArray(), speed, m_screen);
+        basicRunner = new BasicRunner(progStore.toArray(), speed, m_screen);
         basicRunner.start(sync);
     }
 
     private void renumber(String[] split) {
         try {
-            Prettifier pf = new Prettifier(store);
+            Prettifier pf = new Prettifier(progStore);
             switch (split.length) {
                 case 1:
                     pf.doRenumber();
@@ -78,10 +78,10 @@ class CommandLineDispatcher {
                 int i1 = Integer.parseInt(split[1]);  // single number
                 if (i1 >= 0) // positive
                 {
-                    m_screen.matrix.putString(store.list(i1, i1));
+                    m_screen.matrix.putString(progStore.list(i1, i1));
                 } else // negative
                 {
-                    m_screen.matrix.putString(store.list(0, -i1));
+                    m_screen.matrix.putString(progStore.list(0, -i1));
                 }
             } catch (NumberFormatException ex) {
                 String[] args = split[1].split("-");
@@ -92,11 +92,11 @@ class CommandLineDispatcher {
                 } catch (NumberFormatException ex2) {
                     i2 = Integer.MAX_VALUE;
                 }
-                m_screen.matrix.putString(store.list(i1, i2));
+                m_screen.matrix.putString(progStore.list(i1, i2));
             }
         } else  // no args
         {
-            m_screen.matrix.putString(store.toString());
+            m_screen.matrix.putString(progStore.toString());
         }
         m_screen.matrix.putString(ProgramStore.OK);
     }
@@ -118,10 +118,10 @@ class CommandLineDispatcher {
         } else if (s.equals("unshift")) {
             CharacterWriter.getInstance().switchCharset(false);
         } else if (s.equals("new")) {
-            store.clear();
+            progStore.clear();
             m_screen.matrix.putString(ProgramStore.OK);
         } else if (s.equals("prettify")) {
-            new Prettifier(store).doPrettify();
+            new Prettifier(progStore).doPrettify();
             m_screen.matrix.putString(ProgramStore.OK);
         } else if (split[0].equalsIgnoreCase("renumber")) {
             renumber(split);
@@ -140,14 +140,14 @@ class CommandLineDispatcher {
                 m_screen.matrix.putString("\n" + ProgramStore.ERROR);
             }
         } else if (split[0].equalsIgnoreCase("save")) {
-            String msg = store.save(split[1]);
+            String msg = progStore.save(split[1]);
             m_screen.matrix.putString(msg);
         } else if (split[0].equalsIgnoreCase("load")) {
-            String msg = store.load(split[1]);
+            String msg = progStore.load(split[1]);
             m_screen.matrix.putString(msg);
         } else {
             try {
-                store.insert(s);
+                progStore.insert(s);
             } catch (Exception unused) {
                 m_screen.matrix.putString(BasicRunner.runSingleLine(s, m_screen));
             }

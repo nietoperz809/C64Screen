@@ -61,7 +61,8 @@ public class C64Screen {
                     "cls - clear screen<br>" +
                     "speed n - set program execution speed<br>" +
                     "-----------------------<br>" +
-                    "drag/drop basic code into window then type run (try music.bas).<br>"
+                    "* right mouse button inserts string from clipboard<br>"+
+                    "* drag/drop basic code into window then type run (try music.bas).<br>"
                     + "</html>";
             JOptionPane.showMessageDialog(null, msg, "InfoBox", JOptionPane.INFORMATION_MESSAGE);
         });

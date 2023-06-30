@@ -65,6 +65,8 @@ class ShellOutputChannel extends ConsoleOutputChannel {
             }
             else if (c == '\t') {
                 sb.append ("          ");
+            } else if (c == 160) {
+                sb.append (' ');
             } else {
                 sb.append(c);
             }

@@ -23,7 +23,7 @@ class ShellInputProvider implements InputProvider {
         while ((c = shellFrame.ringBuff.remove()) != null) {
             sb.append(c);
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     @Override

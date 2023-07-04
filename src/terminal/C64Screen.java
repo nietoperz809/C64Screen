@@ -23,6 +23,8 @@ import java.util.concurrent.TimeUnit;
 
 import static com.sun.glass.events.KeyEvent.VK_BACKSPACE;
 import static java.awt.event.KeyEvent.*;
+import static terminal.C64VideoMatrix.CHARS_PER_LINE;
+import static terminal.C64VideoMatrix.LINES_ON_SCREEN;
 
 /**
  *
@@ -100,20 +102,25 @@ public class C64Screen {
             setFocusable(true);
             requestFocusInWindow();
             setPreferredSize(new Dimension(
-                    C64VideoMatrix.CHARS_PER_LINE * SCALE,
-                    C64VideoMatrix.LINES_ON_SCREEN * SCALE));
+                    CHARS_PER_LINE * SCALE,
+                    LINES_ON_SCREEN * SCALE));
 
             addMouseListener(new MouseAdapter() {
                 @Override
-                public void mouseClicked(MouseEvent e) {  // insert string from clipboard
-                    Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
-                    try {
-                        if (t != null && t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-                            String text = (String) t.getTransferData(DataFlavor.stringFlavor);
-                            matrix.putString(text.trim());
+                public void mouseClicked(MouseEvent e) {  // left key
+                    if (e.getButton() == MouseEvent.BUTTON1) {
+                        matrix.setPos(e.getX()/SCALE, e.getY()/SCALE);
+                    }
+                    else if (e.getButton() == MouseEvent.BUTTON3) {    // right key: insert string from clipboard
+                        Transferable t = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+                        try {
+                            if (t != null && t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
+                                String text = (String) t.getTransferData(DataFlavor.stringFlavor);
+                                matrix.putString(text.trim());
+                            }
+                        } catch (Exception ex) {
+                            System.out.println(ex);
                         }
-                    } catch (Exception ex) {
-                        System.out.println(ex);
                     }
                 }
             });

@@ -55,6 +55,11 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
         return buffers[addr / 1024];
     }
 
+    synchronized public void setPos (int x, int y) {
+        currentCursorPos.x = x;
+        currentCursorPos.y = y;
+    }
+
     /**
      * Fill screen with blanks
      */

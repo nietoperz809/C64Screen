@@ -13,11 +13,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="chr$(160) now printed as 'normal' space">
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="vk_home, vk_end now implemented">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/C64Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64Screen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +264,15 @@
       <option name="project" value="LOCAL" />
       <updated>1688157068109</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="vk_home, vk_end now implemented">
+      <option name="closed" value="true" />
+      <created>1688458883421</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1688458883421</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -299,6 +306,7 @@
     <MESSAGE value="- dir command now has an &#10;optional filter e.g.'dir .bas'&#10;- menu 'toClipboard'" />
     <MESSAGE value="added clipboard support" />
     <MESSAGE value="chr$(160) now printed as 'normal' space" />
-    <option name="LAST_COMMIT_MESSAGE" value="chr$(160) now printed as 'normal' space" />
+    <MESSAGE value="vk_home, vk_end now implemented" />
+    <option name="LAST_COMMIT_MESSAGE" value="vk_home, vk_end now implemented" />
   </component>
 </project>

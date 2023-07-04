@@ -97,6 +97,16 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
         }
     }
 
+    synchronized public void toLastPos() {
+        int s = 0;
+        C64Character[] line = get(currentCursorPos.y);
+        for(;s<CHARS_PER_LINE-1; s++) {
+            if (line[s].face == NO_CHARACTER || line[s].face == ' ')
+                break;
+        }
+        currentCursorPos.x = s;
+    }
+
     /**
      * Injects new Char
      *
@@ -177,6 +187,10 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
     synchronized public void up() {
         if (currentCursorPos.y > 0)
             currentCursorPos.y--;
+    }
+
+    synchronized public void home() {
+        currentCursorPos.x = 0;
     }
 
     /**

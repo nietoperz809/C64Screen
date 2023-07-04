@@ -13,11 +13,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="added clipboard support">
-      <change afterPath="$PROJECT_DIR$/cursormov.bas" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/jar/C64Screen.jar" afterDir="false" />
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="chr$(160) now printed as 'normal' space">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/C64Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64Screen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ShellOutputChannel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -258,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1687935058176</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="chr$(160) now printed as 'normal' space">
+      <option name="closed" value="true" />
+      <created>1688157068109</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1688157068109</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -291,6 +298,7 @@
     <MESSAGE value="some improvements" />
     <MESSAGE value="- dir command now has an &#10;optional filter e.g.'dir .bas'&#10;- menu 'toClipboard'" />
     <MESSAGE value="added clipboard support" />
-    <option name="LAST_COMMIT_MESSAGE" value="added clipboard support" />
+    <MESSAGE value="chr$(160) now printed as 'normal' space" />
+    <option name="LAST_COMMIT_MESSAGE" value="chr$(160) now printed as 'normal' space" />
   </component>
 </project>

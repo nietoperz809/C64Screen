@@ -54,8 +54,7 @@ class ShellOutputChannel extends ConsoleOutputChannel {
             if (c == 14) {
                 CharacterWriter.getInstance().switchCharset(false);
                 continue;
-            }
-            if (c == 142) {
+            }  if (c == 142) {
                 CharacterWriter.getInstance().switchCharset(true);
                 continue;
             }

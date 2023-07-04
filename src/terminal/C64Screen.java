@@ -22,7 +22,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static com.sun.glass.events.KeyEvent.VK_BACKSPACE;
-import static java.awt.event.KeyEvent.VK_ENTER;
+import static java.awt.event.KeyEvent.*;
 
 /**
  *
@@ -117,11 +117,20 @@ public class C64Screen {
                     }
                 }
             });
-
+            /*****************************************************************/
             addKeyListener(new KeyAdapter() {
                 void handleKey(KeyEvent e) {
+                    int code = e.getKeyCode();
+                    if (code == VK_HOME) {
+                        matrix.home();
+                        return;
+                    }
+                    if (code == VK_END) {
+                        matrix.toLastPos();
+                        return;
+                    }
                     char c = e.getKeyChar();
-                    if (c == '\uFFFF')
+                    if (c == CHAR_UNDEFINED)
                         return;
                     if (c == VK_ENTER) {
                         Character[] arr = matrix.readLine();
@@ -133,6 +142,7 @@ public class C64Screen {
                             e1.printStackTrace();
                         }
                     } else if (c == VK_BACKSPACE) {
+                        //matrix.left();
                         return;
                     }
                     if (e.isShiftDown())

@@ -128,6 +128,14 @@ public class C64Screen {
             addKeyListener(new KeyAdapter() {
                 void handleKey(KeyEvent e) {
                     int code = e.getKeyCode();
+                    if (code == VK_INSERT) {
+                        matrix.insChar();
+                        return;
+                    }
+                    if (code == VK_DELETE) {
+                        matrix.delChar();
+                        return;
+                    }
                     if (code == VK_HOME) {
                         matrix.home();
                         return;

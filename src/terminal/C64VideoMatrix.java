@@ -102,17 +102,13 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
         }
     }
 
-    private synchronized void copyChar(C64Character from, C64Character to) {
-        to.face = from.face;
-        to.colorIndex = from.colorIndex;
-    }
-
     synchronized public void delChar() {
         int pos = currentCursorPos.x;
         C64Character[] line = get(currentCursorPos.y);
         while (pos < CHARS_PER_LINE) {
             if (pos < (CHARS_PER_LINE-1))
-                copyChar(line[pos + 1], line[pos]);
+                //copyChar(line[pos + 1], line[pos]);
+                line[pos].getFrom(line[pos+1]);
             else
                 line[pos].face = NO_CHARACTER;
             pos++;
@@ -123,7 +119,8 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
         int pos = CHARS_PER_LINE-2;
         C64Character[] line = get(currentCursorPos.y);
         while (pos >= currentCursorPos.x) {
-            copyChar(line[pos], line[pos+1]);
+            //copyChar(line[pos], line[pos+1]);
+            line[pos+1].getFrom(line[pos]);
             pos--;
         }
         line[currentCursorPos.x].face = ' ';

@@ -126,7 +126,7 @@ public class C64Screen {
                     }
                 }
             });
-            /*****************************************************************/
+            /*--------------------------------------------------*/
             addKeyListener(new KeyAdapter() {
                 void handleKey(KeyEvent e) {
                     int code = e.getKeyCode();

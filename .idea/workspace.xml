@@ -13,20 +13,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="bugfix">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/basicv2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/basicv2.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/C64Screen.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/C64Screen.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/basicv2_0_0_1_SNAPSHOT.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C64Screen.iml" beforeDir="false" afterPath="$PROJECT_DIR$/C64Screen.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/basicv2-0.0.1-SNAPSHOT.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/BuildInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/BuildInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/misc/build.number" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/build.number" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/BasicRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/BasicRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/C64Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64Screen.java" afterDir="false" />
-    </list>
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="updated to newest olsenbasic &amp; JDK17 (Graal)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -69,7 +56,7 @@
       <recent name="C:\peter.home\java\C64Screen\lib" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.C64Screen">
+  <component name="RunManager" selected="JAR Application.C64Screen.jar">
     <configuration name="C64Screen" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="terminal.C64Screen" />
       <module name="C64Screen" />
@@ -106,8 +93,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.C64Screen" />
         <item itemvalue="JAR Application.C64Screen.jar" />
+        <item itemvalue="Application.C64Screen" />
         <item itemvalue="Application.CharacterWriter" />
         <item itemvalue="JAR Application.main.jar" />
       </list>
@@ -354,7 +341,15 @@
       <option name="project" value="LOCAL" />
       <updated>1688582173548</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="updated to newest olsenbasic &amp; JDK17 (Graal)">
+      <option name="closed" value="true" />
+      <created>1688587814596</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1688587814596</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -371,7 +366,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added basic jar" />
     <MESSAGE value="enabled poke to address 53280" />
     <MESSAGE value="added jarfile" />
     <MESSAGE value="added &quot;inverse print&quot;: poke 199,x" />
@@ -396,7 +390,8 @@
     <MESSAGE value="new jar" />
     <MESSAGE value="little improvements" />
     <MESSAGE value="bugfix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bugfix" />
+    <MESSAGE value="updated to newest olsenbasic &amp; JDK17 (Graal)" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated to newest olsenbasic &amp; JDK17 (Graal)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

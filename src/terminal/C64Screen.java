@@ -41,6 +41,7 @@ public class C64Screen {
     private final CommandLineDispatcher dispatcher = new CommandLineDispatcher(this);
     private boolean isHires = false;
     private boolean isEnabled = true;
+    private ScheduledExecutorService scheduler;
 
     private C64Screen() {
         JFrame f = new JFrame();
@@ -94,6 +95,10 @@ public class C64Screen {
 
     public void setDisplayEnabled(boolean b) {
         isEnabled = b;
+    }
+
+    public void setFrameRate(int rate) {
+        panel.startScheduler(rate);
     }
 
     class MyPanel extends JPanel {
@@ -213,12 +218,7 @@ public class C64Screen {
                 }
             });
 
-            ScheduledExecutorService scheduler =
-                    Executors.newScheduledThreadPool(1);
-            scheduler.scheduleAtFixedRate(this::repaint,
-                    100,
-                    500,
-                    TimeUnit.MILLISECONDS);
+            startScheduler(500);
 
             new DropTarget(this, new DropTargetAdapter() {
                 @Override
@@ -241,6 +241,14 @@ public class C64Screen {
                     }
                 }
             });
+        }
+
+        public void startScheduler(int periodMS) {
+            scheduler = Executors.newScheduledThreadPool(1);
+            scheduler.scheduleAtFixedRate(this::repaint,
+                    100,
+                    periodMS,
+                    TimeUnit.MILLISECONDS);
         }
 
         @Override

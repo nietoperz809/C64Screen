@@ -37,8 +37,7 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
     private int overLength = 0;
     private boolean blinkflag = false;
     private boolean inverted;
-    //private boolean lowcase;
-    private boolean cursor = true;
+    private boolean cursorVisible = true;
 
 
     /**
@@ -123,7 +122,8 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
             line[pos+1].getFrom(line[pos]);
             pos--;
         }
-        line[currentCursorPos.x].face = ' ';
+        if (currentCursorPos.x < CHARS_PER_LINE)
+            line[currentCursorPos.x].face = ' ';
     }
 
     synchronized public void toLastPos() {
@@ -283,7 +283,7 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
      * @param addr memory address, must be >= 1024 and <= 1024+25*40
      * @return a point givin the x/y coordinates
      */
-    private Point elementfromAddress(int addr) throws Exception {
+    private Point elementFromAddress(int addr) throws Exception {
         Point p = new Point(addr % CHARS_PER_LINE, addr / CHARS_PER_LINE);
         if (p.y >= LINES_ON_SCREEN + 1)
             throw new Exception("Wrong screen address");
@@ -297,12 +297,12 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
      * @return the value
      */
     synchronized public int peekFace(int offset) throws Exception {
-        Point p = elementfromAddress(offset - charBaseAddress);
+        Point p = elementFromAddress(offset - charBaseAddress);
         return get(p.y)[p.x].face;
     }
 
     synchronized public int peekColor(int offset) throws Exception {
-        Point p = elementfromAddress(offset - COLOR_BASE_ADDRESS);
+        Point p = elementFromAddress(offset - COLOR_BASE_ADDRESS);
         return get(p.y)[p.x].colorIndex;
     }
 
@@ -313,17 +313,28 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
      * @param val    the new value
      */
     synchronized public void pokeFace(int offset, int val) throws Exception {
-        Point p = elementfromAddress(offset - charBaseAddress);
+        Point p = elementFromAddress(offset - charBaseAddress);
         get(p.y)[p.x].face = val;
     }
 
     synchronized public void pokeColor(int offset, int val) throws Exception {
-        Point p = elementfromAddress(offset - COLOR_BASE_ADDRESS);
+        Point p = elementFromAddress(offset - COLOR_BASE_ADDRESS);
         get(p.y)[p.x].colorIndex = val;
     }
 
     public void setCursorOnOff (boolean b) {
-        cursor = b;
+        cursorVisible = b;
+    }
+
+    private void cursorTick(Graphics g) {
+        if (cursorVisible) {
+            if (blinkflag) {
+                g.setColor(Color.GREEN);
+                g.fillRect(currentCursorPos.x * SCALE,
+                        currentCursorPos.y * SCALE, SCALE, SCALE);
+            }
+            blinkflag = !blinkflag;
+        }
     }
 
     public void render(Graphics g) {
@@ -343,14 +354,7 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
             }
             ypos += SCALE;
         }
-        if (cursor) {
-            if (blinkflag) {
-                g.setColor(Color.GREEN);
-                g.fillRect(currentCursorPos.x * SCALE,
-                        currentCursorPos.y * SCALE, SCALE, SCALE);
-            }
-            blinkflag = !blinkflag;
-        }
+        cursorTick(g);
     }
 
     public String getTxtCopy() {

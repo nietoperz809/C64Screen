@@ -145,7 +145,11 @@ class CommandLineDispatcher {
         } else if (split[0].equalsIgnoreCase("load")) {
             String msg = progStore.load(split[1]);
             m_screen.matrix.putString(msg);
-        } else {
+        } else if (split[0].equalsIgnoreCase("framerate")) {
+            int rate = Integer.parseInt(split[1]);
+            m_screen.setFrameRate (rate);
+        }
+        else {
             try {
                 progStore.insert(s);
             } catch (Exception unused) {

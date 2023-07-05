@@ -13,20 +13,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="insert - shift chars right&#10;del - shifts chars left">
-      <change afterPath="$PROJECT_DIR$/.idea/ant.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/misc/BuildInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/misc/build.number" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/misc/buildnum.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="little improvements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/C64Screen.iml" beforeDir="false" afterPath="$PROJECT_DIR$/C64Screen.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/misc/BuildInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/BuildInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/misc/build.number" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/build.number" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/C64Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64Screen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/CommandLineDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/CommandLineDispatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/ProgramStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ProgramStore.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -323,7 +317,31 @@
       <option name="project" value="LOCAL" />
       <updated>1688496123184</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="added buildinfo (ant task)">
+      <option name="closed" value="true" />
+      <created>1688517912855</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1688517912855</updated>
+    </task>
+    <task id="LOCAL-00027" summary="new jar">
+      <option name="closed" value="true" />
+      <created>1688517974412</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1688517974412</updated>
+    </task>
+    <task id="LOCAL-00028" summary="little improvements">
+      <option name="closed" value="true" />
+      <created>1688575433711</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1688575433711</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -359,9 +377,26 @@
     <MESSAGE value="chr$(160) now printed as 'normal' space" />
     <MESSAGE value="vk_home, vk_end now implemented" />
     <MESSAGE value="left mouse click moves cursor" />
-    <MESSAGE value="new jar" />
     <MESSAGE value="empty string returned if only cr pressed on input" />
     <MESSAGE value="insert - shift chars right&#10;del - shifts chars left" />
-    <option name="LAST_COMMIT_MESSAGE" value="insert - shift chars right&#10;del - shifts chars left" />
+    <MESSAGE value="added buildinfo (ant task)" />
+    <MESSAGE value="new jar" />
+    <MESSAGE value="little improvements" />
+    <option name="LAST_COMMIT_MESSAGE" value="little improvements" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint type="java-exception">
+          <properties class="java.lang.NumberFormatException" package="java.lang" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/terminal/ProgramStore.java</url>
+          <line>50</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

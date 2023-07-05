@@ -46,6 +46,8 @@ class ProgramStore {
      * @return line number
      */
     private int getLineNumber(String in) {
+        if (in.isEmpty())
+            return 0;  // no line number
         String[] split = in.split(" ");
         return Integer.parseInt(split[0]);
     }
@@ -80,7 +82,7 @@ class ProgramStore {
                 store.add(str);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e);
             return ERROR;
         }
         return OK;

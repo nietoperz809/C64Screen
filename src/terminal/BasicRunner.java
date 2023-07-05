@@ -2,6 +2,9 @@ package terminal;
 
 import com.sixtyfour.Basic;
 import com.sixtyfour.DelayTracer;
+import com.sixtyfour.basicshell.ShellMemoryListener;
+import com.sixtyfour.config.CompilerConfig;
+import com.sixtyfour.plugins.MemoryListener;
 
 /**
  * Proxy class to instantiate an run the BASIC system
@@ -11,6 +14,8 @@ class BasicRunner implements Runnable {
     private Basic olsenBasic;
     private final C64Screen screen;
     private Thread thread;
+    private static CompilerConfig config = new CompilerConfig();
+    private MemoryListener memListener;
 
     public void pause(boolean b) {
         olsenBasic.setPause(b);
@@ -18,17 +23,14 @@ class BasicRunner implements Runnable {
 
     public BasicRunner(String[] program, int speed, C64Screen shellFrame) {
         screen = shellFrame;
-        if (running) {
-            return;
-        }
         olsenBasic = new Basic(program);
         if (speed > 0) {
             DelayTracer t = new DelayTracer(speed);
             olsenBasic.setTracer(t);
         }
-        olsenBasic.getMachine().setMemoryListener(new PeekPokeHandler(shellFrame));
         olsenBasic.setOutputChannel(new ShellOutputChannel(shellFrame));
         olsenBasic.setInputProvider(new ShellInputProvider(shellFrame));
+        olsenBasic.getMachine().setMemoryListener(new PeekPokeHandler(shellFrame));
     }
 
     /**
@@ -42,10 +44,10 @@ class BasicRunner implements Runnable {
         try {
             Basic b = new Basic("0 " + in.toUpperCase());
             b.getMachine().setMemoryListener(new PeekPokeHandler(sf));
-            b.compile();
+            b.compile(config, false);
             b.setOutputChannel(new ShellOutputChannel(sf));
             b.setInputProvider(new ShellInputProvider(sf));
-            b.start();
+            b.start(config);
             return "";
         } catch (Exception ex) {
             return ex.getMessage().toUpperCase() + "\n";
@@ -85,7 +87,7 @@ class BasicRunner implements Runnable {
     public void run() {
         running = true;
         try {
-            olsenBasic.run();
+            olsenBasic.run(config);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {

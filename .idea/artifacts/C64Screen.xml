@@ -6,8 +6,7 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
       </element>
-      <element id="module-output" name="basicv2" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/basicv2-0.0.1-SNAPSHOT.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/basicv2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

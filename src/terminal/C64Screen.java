@@ -22,7 +22,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.sun.glass.events.KeyEvent.VK_BACKSPACE;
 import static java.awt.event.KeyEvent.*;
 import static terminal.C64VideoMatrix.CHARS_PER_LINE;
 import static terminal.C64VideoMatrix.LINES_ON_SCREEN;
@@ -49,8 +48,12 @@ public class C64Screen {
         JMenuBar menubar = new JMenuBar();
         JMenu menu = new JMenu("menu ...");
         JMenuItem helpmenu = new JMenuItem("help ,,,");
+        JMenuItem breakmenu = new JMenuItem("break");
         JCheckBoxMenuItem stopmenu = new JCheckBoxMenuItem("pause");
         JMenuItem copymenu = new JMenuItem("toClipboard");
+        breakmenu.addActionListener(e -> {
+            dispatcher.basicRunner.getOlsenBasic().runStop();
+        });
         copymenu.addActionListener(e -> {
             matrix.copyToClipboard();
         });
@@ -73,6 +76,7 @@ public class C64Screen {
         });
         menu.add(helpmenu);
         menu.add(stopmenu);
+        menu.add(breakmenu);
         menu.add(copymenu);
         menubar.add(menu);
         f.setJMenuBar(menubar);
@@ -163,7 +167,7 @@ public class C64Screen {
                         } catch (InterruptedException e1) {
                             e1.printStackTrace();
                         }
-                    } else if (c == VK_BACKSPACE) {
+                    } else if (c == VK_BACK_SPACE) {
                         //matrix.left();
                         return;
                     }

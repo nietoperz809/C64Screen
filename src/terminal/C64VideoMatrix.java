@@ -133,7 +133,7 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
         int s = 0;
         C64Character[] line = get(currentCursorPos.y);
         for(;s<CHARS_PER_LINE-1; s++) {
-            if (line[s].face == NO_CHARACTER || line[s].face == ' ')
+            if (line[s].face == NO_CHARACTER) // || line[s].face == ' ')
                 break;
         }
         currentCursorPos.x = s;

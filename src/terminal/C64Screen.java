@@ -1,6 +1,7 @@
 package terminal;
 
 
+import misc.BuildInfo;
 import misc.RingBuffer;
 
 import javax.swing.*;
@@ -43,6 +44,7 @@ public class C64Screen {
 
     private C64Screen() {
         JFrame f = new JFrame();
+        f.setTitle(BuildInfo.buildInfo);
         JMenuBar menubar = new JMenuBar();
         JMenu menu = new JMenu("menu ...");
         JMenuItem helpmenu = new JMenuItem("help ,,,");

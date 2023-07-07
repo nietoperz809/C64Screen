@@ -31,8 +31,7 @@ class CommandLineDispatcher {
             }
         }).start();
         // Dummy runner
-        basicRunner = new BasicRunner(progStore.toArray(), speed, m_screen);
-
+        basicRunner = new BasicRunner(new String[0], speed, m_screen);
     }
 
     private void dir (String filter) {

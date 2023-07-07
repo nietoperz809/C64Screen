@@ -40,7 +40,7 @@ class BasicRunner implements Runnable {
      */
     public static String runSingleLine(String in, C64Screen sf) {
         try {
-            Basic b = new Basic("0 " + in.toUpperCase());
+            Basic b = new Basic("0 let pi=3.14159265:" + in.toUpperCase());
             b.getMachine().setMemoryListener(new PeekPokeHandler(sf));
             b.compile(config, false);
             b.setOutputChannel(new ShellOutputChannel(sf));

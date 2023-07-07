@@ -13,16 +13,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="new JAR">
+    <list default="true" id="ddc2689d-2da1-4c76-bcdf-cafc27245b12" name="Changes" comment="little bugfix &amp; basicv2.jar with buildinfo">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/jar/C64Screen.jar" beforeDir="false" afterPath="$PROJECT_DIR$/jar/C64Screen.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/basicv2.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/basicv2.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/misc/BuildInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/BuildInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/misc/build.number" beforeDir="false" afterPath="$PROJECT_DIR$/src/misc/build.number" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/BasicRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/BasicRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/C64Screen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64Screen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/C64VideoMatrix.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/CharacterWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/CharacterWriter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/terminal/CommandLineDispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/CommandLineDispatcher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/ProgramStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/ProgramStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/terminal/SidRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/terminal/SidRunner.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,24 +43,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;1.8&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/peter.home/java/C64Screen/lib&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "jdk.selected.JAVA_MODULE": "1.8",
+    "last_opened_file_path": "C:/peter.home/java/C64Screen/lib",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "advanced.settings"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\peter.home\java\C64Screen\lib" />
@@ -367,7 +368,15 @@
       <option name="project" value="LOCAL" />
       <updated>1688587996666</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="little bugfix &amp; basicv2.jar with buildinfo">
+      <option name="closed" value="true" />
+      <created>1688722983198</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1688722983198</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -384,7 +393,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="added jarfile" />
     <MESSAGE value="added &quot;inverse print&quot;: poke 199,x" />
     <MESSAGE value="chr$(14),chr$(142) now work as expected &#10;(hope so)" />
     <MESSAGE value="chr$(14),chr$(142) now work as expected &#10;(hope so) &#10;- plus jar" />
@@ -409,7 +417,8 @@
     <MESSAGE value="bugfix" />
     <MESSAGE value="updated to newest olsenbasic &amp; JDK17 (Graal)" />
     <MESSAGE value="new JAR" />
-    <option name="LAST_COMMIT_MESSAGE" value="new JAR" />
+    <MESSAGE value="little bugfix &amp; basicv2.jar with buildinfo" />
+    <option name="LAST_COMMIT_MESSAGE" value="little bugfix &amp; basicv2.jar with buildinfo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -430,5 +439,9 @@
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

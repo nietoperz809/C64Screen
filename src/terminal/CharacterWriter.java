@@ -34,6 +34,7 @@ public class CharacterWriter implements CharacterROM {
         }
         setMaps('@', (char) 0);
         setMaps('^', (char) 30);
+        //setMaps('Π', (char) 126);
     }
 
     public static CharacterWriter getInstance() {

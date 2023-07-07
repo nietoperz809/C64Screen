@@ -17,8 +17,9 @@ class ProgramStore {
     public String[] toArray() {
         //noinspection unchecked
         TreeSet<String> clone = (TreeSet<String>) store.clone();  // avoid java.util.ConcurrentModificationException
-        String[] arr = new String[clone.size()];
-        int n = 0;
+        String[] arr = new String[clone.size()+1];
+        int n = 1;
+        arr[0] = "0 let pi = 3.14159265";
         for (String s : clone) {
             arr[n++] = s;
         }

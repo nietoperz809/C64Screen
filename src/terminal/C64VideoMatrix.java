@@ -326,7 +326,7 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
         cursorVisible = b;
     }
 
-    private void cursorTick(Graphics g) {
+    public void cursorTick(Graphics g) {
         if (cursorVisible) {
             if (blinkflag) {
                 g.setColor(Color.GREEN);
@@ -345,7 +345,6 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
             for (int x = 0; x < CHARS_PER_LINE; x++) {
                 C64Character c64c = get(y)[x];
                 int face = c64c.face & 0x00ff;
-                //if (face >= 1 && face <= 31) face = face + 128;
                 g.setColor(C64Colors.values()[c64c.colorIndex].getColor());
                 g.fillRect(xpos, ypos, SCALE, SCALE);
                 g.drawImage(writer.imageMap.get((char) face),
@@ -354,7 +353,7 @@ class C64VideoMatrix extends ArrayList<C64Character[]> {
             }
             ypos += SCALE;
         }
-        cursorTick(g);
+        //cursorTick(g);
     }
 
     public String getTxtCopy() {

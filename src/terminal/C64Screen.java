@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -40,7 +41,7 @@ public class C64Screen {
     private final CommandLineDispatcher dispatcher = new CommandLineDispatcher(this);
     private boolean isHires = false;
     private boolean isEnabled = true;
-    private ScheduledExecutorService scheduler;
+    private ScheduledExecutorService sched;
 
     private C64Screen() {
         JFrame f = new JFrame();
@@ -48,14 +49,18 @@ public class C64Screen {
         JMenuBar menubar = new JMenuBar();
         JMenu menu = new JMenu("menu ...");
         JMenuItem helpmenu = new JMenuItem("help ,,,");
+        JMenuItem bbuildmenu = new JMenuItem("buildinfo");
         JMenuItem breakmenu = new JMenuItem("break");
         JCheckBoxMenuItem stopmenu = new JCheckBoxMenuItem("pause");
         JMenuItem copymenu = new JMenuItem("toClipboard");
-        breakmenu.addActionListener(e -> {
-            dispatcher.basicRunner.getOlsenBasic().runStop();
-        });
-        copymenu.addActionListener(e -> {
-            matrix.copyToClipboard();
+        breakmenu.addActionListener(e -> dispatcher.basicRunner.getOlsenBasic().runStop());
+        copymenu.addActionListener(e -> matrix.copyToClipboard());
+        bbuildmenu.addActionListener(e -> {
+            String msg = "<html>"+ buildnum.BuildInfo.buildInfo + "<br>"
+                    + BuildInfo.buildInfo + "</html>";
+            JOptionPane.showMessageDialog(null, msg,
+                    "InfoBox", JOptionPane.INFORMATION_MESSAGE);
+
         });
         stopmenu.addActionListener(e -> {
             stopmenu.setState(stopmenu.getState());
@@ -75,6 +80,7 @@ public class C64Screen {
             JOptionPane.showMessageDialog(null, msg, "InfoBox", JOptionPane.INFORMATION_MESSAGE);
         });
         menu.add(helpmenu);
+        menu.add(bbuildmenu);
         menu.add(stopmenu);
         menu.add(breakmenu);
         menu.add(copymenu);
@@ -85,10 +91,11 @@ public class C64Screen {
         f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setSize(43 * 8 * 2, 30 * 8 * 2);
         f.setVisible(true);
+        f.setLocationRelativeTo(null);
         frame = f;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new C64Screen();
         SidRunner.start();
     }
@@ -102,7 +109,15 @@ public class C64Screen {
     }
 
     public void setFrameRate(int rate) {
-        panel.startScheduler(rate);
+        if (sched != null) {
+            sched.shutdown();
+            try {
+                sched.awaitTermination(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        sched = panel.startScheduler(rate);
     }
 
     class MyPanel extends JPanel {
@@ -222,7 +237,7 @@ public class C64Screen {
                 }
             });
 
-            startScheduler(500);
+            sched = startScheduler(500);
 
             new DropTarget(this, new DropTargetAdapter() {
                 @Override
@@ -247,12 +262,13 @@ public class C64Screen {
             });
         }
 
-        public void startScheduler(int periodMS) {
-            scheduler = Executors.newScheduledThreadPool(1);
+        public ScheduledExecutorService startScheduler(int periodMS) {
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             scheduler.scheduleAtFixedRate(this::repaint,
                     100,
                     periodMS,
                     TimeUnit.MILLISECONDS);
+            return scheduler;
         }
 
         @Override
@@ -260,9 +276,12 @@ public class C64Screen {
             if (isEnabled) {
                 if (isHires)
                     hires.render(g);
-                else
+                else {
                     matrix.render(g);
+                    matrix.cursorTick(g);
+                }
             }
+
         }
 
         @Override

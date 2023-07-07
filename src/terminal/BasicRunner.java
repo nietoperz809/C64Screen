@@ -2,7 +2,6 @@ package terminal;
 
 import com.sixtyfour.Basic;
 import com.sixtyfour.DelayTracer;
-import com.sixtyfour.basicshell.ShellMemoryListener;
 import com.sixtyfour.config.CompilerConfig;
 import com.sixtyfour.plugins.MemoryListener;
 
@@ -11,10 +10,9 @@ import com.sixtyfour.plugins.MemoryListener;
  */
 class BasicRunner implements Runnable {
     private static volatile boolean running = false;
-    private Basic olsenBasic;
+    private final Basic olsenBasic;
     private final C64Screen screen;
-    private Thread thread;
-    private static CompilerConfig config = new CompilerConfig();
+    private static final CompilerConfig config = new CompilerConfig();
     private MemoryListener memListener;
 
     public void pause(boolean b) {
@@ -64,7 +62,7 @@ class BasicRunner implements Runnable {
             System.out.println("already running ...");
             return;
         }
-        thread = new Thread(this);
+        Thread thread = new Thread(this);
         thread.start();
         screen.matrix.setCursorOnOff(false);
         if (!synchronous) {
